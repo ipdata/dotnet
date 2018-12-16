@@ -1,0 +1,58 @@
+jobs:
+- job: Linux
+  displayName: Linux
+
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  steps:
+  - bash: chmod +x ./build/cake/build.sh
+    displayName: Grant permissions
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=LibBuild
+    displayName: Build Library
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=LibTest
+    displayName: Test Library
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+       testResultsFormat: 'VSTest'
+       testResultsFiles: '**/*.trx'
+       mergeTestResults: true
+       testRunTitle: Linux
+
+- job: macOS
+  displayName: macOS
+  pool:
+    vmImage: 'xcode9-macos10.13'
+  steps:
+  - bash: chmod +x ./build/cake/build.sh
+    displayName: Grant permissions
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=LibBuild
+    displayName: Build Library
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=LibTest
+    displayName: Test Library
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+       testResultsFormat: 'VSTest'
+       testResultsFiles: '**/*.trx'
+       mergeTestResults: true
+       testRunTitle: macOS
+
+- job: Windows
+  displayName: Windows
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target LibBuild
+    displayName: Build Library
+  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target LibTest
+    displayName: Test  Library
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+       testResultsFormat: 'VSTest'
+       testResultsFiles: '**/*.trx'
+       mergeTestResults: true
+       testRunTitle: Windows
