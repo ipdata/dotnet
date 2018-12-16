@@ -17,12 +17,12 @@ namespace IpData
 
         public string ApiKey { get; private set; }
 
-        public string Language { get; private set; }
+        public string Culture { get; private set; }
 
         public IpDataClient(string apiKey) : this(apiKey, "en")
         { }
 
-        public IpDataClient(string apiKey, string language)
+        public IpDataClient(string apiKey, string culture)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
             {
@@ -31,15 +31,15 @@ namespace IpData
                     nameof(apiKey));
             }
 
-            if (string.IsNullOrWhiteSpace(language))
+            if (string.IsNullOrWhiteSpace(culture))
             {
                 throw new ArgumentException(
-                    $"The language {language} must be not empty or whitespace string",
-                    nameof(language));
+                    $"The culture {culture} must be not empty or whitespace string",
+                    nameof(culture));
             }
 
             ApiKey = apiKey;
-            Language = language;
+            Culture = culture;
 
             _httpClient.BaseAddress = ApiUrls.Base;
         }

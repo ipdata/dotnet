@@ -10,7 +10,7 @@ namespace IpData
     {
         string ApiKey { get; }
 
-        string Language { get; }
+        string Culture { get; }
 
         Task<IpInfo> Lookup();
 

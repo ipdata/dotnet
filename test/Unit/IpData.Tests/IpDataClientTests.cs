@@ -35,28 +35,28 @@ namespace IpData.Tests
         [Theory]
         [MemberData(nameof(TestData.EmptyOrWhitespaceString), MemberType = typeof(TestData))]
         public void IpDataClient_WhenCreatedWithInvalidLanguage_ThrowArgumentOutOfRangeException(
-            string language)
+            string culture)
         {
             // Arrange/Act
-            Action act = () => new IpDataClient("1", language);
+            Action act = () => new IpDataClient("1", culture);
 
             // Assert
             act.Should()
                .Throw<ArgumentException>()
-               .And.ParamName.Should().Be(nameof(language));
+               .And.ParamName.Should().Be(nameof(culture));
         }
 
         [Theory]
         [AutoMoqData]
         public void IpDataClient_WhenCreatedWithLanguage_ReturnedLanguage(
             string apiKey,
-            string language)
+            string culture)
         {
             // Arrange
-            var sut = new IpDataClient(apiKey, language);
+            var sut = new IpDataClient(apiKey, culture);
 
             // Act/Assert
-            sut.Language.Should().Be(language);
+            sut.Culture.Should().Be(culture);
         }
     }
 }

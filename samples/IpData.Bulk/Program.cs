@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 
-namespace IpData.Basic
+namespace IpData.Bulk
 {
     public static class Program
     {
         static async Task Main(string[] args)
         {
             var client = new IpDataClient("API_KEY");
-            var ipInfo = await client.Lookup("69.78.70.144");
+            var ipInfoList = await client.Lookup(new string[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" });
         }
     }
 }
