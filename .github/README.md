@@ -2,7 +2,7 @@
     <img src="https://image.ibb.co/iDQdUS/ipdatalogo.png" alt="Ip Data Logo" title="IpData" align="left" height="60" />
 </a>
 
-# IpData [![Build Status][AzureStatus]](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=1)
+# IpData [![Build Status][AzureStatus]](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=3?branchName=master)
 
 [ipdata.co](https://ipdata.co/) is a fast, reliable and clean service that allows you to look up the location of an IP Address and other data.
 
@@ -85,7 +85,7 @@ We use [SemVer] for versioning. For the versions available, see the tags on this
 This project is licensed under the MIT License - see the [LICENSE.md][LICENSE] file for details
 
 
-[AzureStatus]: https://dev.azure.com/alexkhildev/IpData/_apis/build/status/alexkhil.IpData
+[AzureStatus]: https://dev.azure.com/alexkhildev/IpData/_apis/build/status/gated?branchName=master
 [IpDataLogo]: https://image.ibb.co/iDQdUS/ipdatalogo.png
 [SemVer]: http://semver.org/
 [CONTRIBUTING]: https://github.com/alexkhil/IpData/blob/master/.github/CONTRIBUTING.md
