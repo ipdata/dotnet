@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using IpData.Exceptions.Factory;
 using IpData.Helpers;
 using IpData.Http.Serializer;
 using IpData.Models;
@@ -13,16 +15,12 @@ namespace IpData
     public class IpDataClient : IIpDataClient
     {
         private static readonly ISerializer _serializer = new JsonSerializer();
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly IHttpClient _httpClient = new HttpClientAdapter();
+        private static readonly IApiExceptionFactory _exceptionFactory = new ApiExceptionFactory();
 
         public string ApiKey { get; private set; }
 
-        public string Culture { get; private set; }
-
-        public IpDataClient(string apiKey) : this(apiKey, "en")
-        { }
-
-        public IpDataClient(string apiKey, string culture)
+        public IpDataClient(string apiKey)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
             {
@@ -31,17 +29,7 @@ namespace IpData
                     nameof(apiKey));
             }
 
-            if (string.IsNullOrWhiteSpace(culture))
-            {
-                throw new ArgumentException(
-                    $"The culture {culture} must be not empty or whitespace string",
-                    nameof(culture));
-            }
-
             ApiKey = apiKey;
-            Culture = culture;
-
-            _httpClient.BaseAddress = ApiUrls.Base;
         }
 
         public async Task<IpInfo> Lookup()
@@ -52,7 +40,23 @@ namespace IpData
             return _serializer.Deserialize<IpInfo>(json);
         }
 
+        public async Task<IpInfo> Lookup(CultureInfo culture)
+        {
+            var url = ApiUrls.Get(ApiKey);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequest(request).ConfigureAwait(false);
+            return _serializer.Deserialize<IpInfo>(json);
+        }
+
         public async Task<IpInfo> Lookup(string ip)
+        {
+            var url = ApiUrls.Get(ApiKey, ip);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequest(request).ConfigureAwait(false);
+            return _serializer.Deserialize<IpInfo>(json);
+        }
+
+        public async Task<IpInfo> Lookup(string ip, CultureInfo culture)
         {
             var url = ApiUrls.Get(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -91,7 +95,14 @@ namespace IpData
         private static async Task<string> SendRequest(HttpRequestMessage request)
         {
             var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
-            return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return content;
+            }
+
+            throw _exceptionFactory.Create(response.StatusCode, content);
         }
     }
 }
