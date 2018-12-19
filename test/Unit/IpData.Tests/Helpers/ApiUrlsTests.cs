@@ -1,5 +1,6 @@
 using FluentAssertions;
 using IpData.Helpers;
+using System.Globalization;
 using Xunit;
 
 namespace IpData.Tests.Helpers
@@ -8,13 +9,13 @@ namespace IpData.Tests.Helpers
     {
         [Theory]
         [AutoMoqData]
-        public void Get_WhenCalled_ReturnedUrl(string apiKey)
+        public void Get_WhenCalledWithInvariantCulture_ReturnedUrl(string apiKey)
         {
             // Arrange
             var expectedUrl = $"https://api.ipdata.co/?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey);
+            var url = ApiUrls.Get(apiKey, CultureInfo.InvariantCulture);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -22,13 +23,42 @@ namespace IpData.Tests.Helpers
 
         [Theory]
         [AutoMoqData]
-        public void Get_WhenCalledWithIp_ReturnedUrl(string apiKey, string ip)
+        public void Get_WhenCalledWithCulture_ReturnedUrl(string apiKey, CultureInfo culture)
+        {
+            // Arrange
+            var expectedUrl = $"https://api.ipdata.co/{culture}?api-key={apiKey}";
+
+            // Act
+            var url = ApiUrls.Get(apiKey, culture);
+
+            // Assert
+            url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Theory]
+        [AutoMoqData]
+        public void Get_WhenCalledWithIpAndInvariantCulture_ReturnedUrl(string apiKey, string ip)
         {
             // Arrange
             var expectedUrl = $"https://api.ipdata.co/{ip}?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, ip);
+            var url = ApiUrls.Get(apiKey, ip, CultureInfo.InvariantCulture);
+
+            // Assert
+            url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Theory]
+        [AutoMoqData]
+        public void Get_WhenCalledWithIpAndCulture_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var culture = CultureInfo.GetCultureInfo("zh-CN");
+            var expectedUrl = $"https://api.ipdata.co/{ip}/{culture}?api-key={apiKey}";
+
+            // Act
+            var url = ApiUrls.Get(apiKey, ip, culture);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);

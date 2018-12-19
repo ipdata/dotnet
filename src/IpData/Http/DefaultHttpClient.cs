@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace IpData
 {
-    internal class HttpClientAdapter : IHttpClient
+    internal class DefaultHttpClient : IHttpClient
     {
         private static readonly HttpClient _httpClient = new HttpClient();
 

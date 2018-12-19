@@ -7,6 +7,8 @@ namespace IpData.Bulk
         static async Task Main(string[] args)
         {
             var client = new IpDataClient("API_KEY");
+
+            // Get ip data for multiple ips
             var ipInfoList = await client.Lookup(new string[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" });
         }
     }

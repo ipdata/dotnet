@@ -9,6 +9,11 @@ namespace IpData.Exceptions
     {
         private static ISerializer _serializer = new JsonSerializer();
 
+        public ApiException()
+            : this(null)
+        {
+        }
+
         public ApiException(string responseContent)
             : this(0, responseContent, null)
         {

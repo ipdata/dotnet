@@ -5,6 +5,11 @@ namespace IpData.Exceptions
 {
     public class BadRequestException : ApiException
     {
+        public BadRequestException()
+            : this(null)
+        {
+        }
+
         public BadRequestException(string responseContent)
             : this(responseContent, null)
         {

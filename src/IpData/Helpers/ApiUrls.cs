@@ -2,6 +2,7 @@ using IpData.Helpers.Extensions;
 using IpData.Models;
 using Newtonsoft.Json;
 using System;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
@@ -13,14 +14,15 @@ namespace IpData.Helpers
     {
         public static Uri Base => new Uri($"https://api.ipdata.co");
 
-        public static Uri Get(string apiKey)
+        public static Uri Get(string apiKey, CultureInfo culture)
         {
-            return ApplyApiKey(Base, apiKey);
+            return ApplyApiKey(new Uri(Base, $"{culture}"), apiKey);
         }
 
-        public static Uri Get(string apiKey, string ip)
+        public static Uri Get(string apiKey, string ip, CultureInfo culture)
         {
-            return ApplyApiKey(new Uri(Base, ip), apiKey);
+            var relative = culture == CultureInfo.InvariantCulture ? ip : $"{ip}/{culture}";
+            return ApplyApiKey(new Uri(Base, relative), apiKey);
         }
 
         public static Uri Get(string apiKey, string ip, Expression<Func<IpInfo, object>> expression)

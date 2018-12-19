@@ -5,6 +5,11 @@ namespace IpData.Exceptions
 {
     public class UnauthorizedException : ApiException
     {
+        public UnauthorizedException() : this(null)
+        {
+
+        }
+
         public UnauthorizedException(string message)
             : this(message, null)
         {

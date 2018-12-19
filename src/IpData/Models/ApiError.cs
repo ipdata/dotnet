@@ -1,4 +1,6 @@
-﻿namespace IpData.Models
+﻿using Newtonsoft.Json;
+
+namespace IpData.Models
 {
     public sealed class ApiError
     {
@@ -11,6 +13,7 @@
             Message = message;
         }
 
-        public string Message { get; }
+        [JsonProperty("message")]
+        public string Message { get; set; }
     }
 }

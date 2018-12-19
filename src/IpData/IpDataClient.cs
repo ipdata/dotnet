@@ -15,7 +15,7 @@ namespace IpData
     public class IpDataClient : IIpDataClient
     {
         private static readonly ISerializer _serializer = new JsonSerializer();
-        private static readonly IHttpClient _httpClient = new HttpClientAdapter();
+        private static readonly IHttpClient _httpClient = new DefaultHttpClient();
         private static readonly IApiExceptionFactory _exceptionFactory = new ApiExceptionFactory();
 
         public string ApiKey { get; private set; }
@@ -32,33 +32,27 @@ namespace IpData
             ApiKey = apiKey;
         }
 
-        public async Task<IpInfo> Lookup()
+        public Task<IpInfo> Lookup()
         {
-            var url = ApiUrls.Get(ApiKey);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(request).ConfigureAwait(false);
-            return _serializer.Deserialize<IpInfo>(json);
+            return Lookup(CultureInfo.InvariantCulture);
         }
 
         public async Task<IpInfo> Lookup(CultureInfo culture)
         {
-            var url = ApiUrls.Get(ApiKey);
+            var url = ApiUrls.Get(ApiKey, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequest(request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
         }
 
-        public async Task<IpInfo> Lookup(string ip)
+        public Task<IpInfo> Lookup(string ip)
         {
-            var url = ApiUrls.Get(ApiKey, ip);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(request).ConfigureAwait(false);
-            return _serializer.Deserialize<IpInfo>(json);
+            return Lookup(ip, CultureInfo.InvariantCulture);
         }
 
         public async Task<IpInfo> Lookup(string ip, CultureInfo culture)
         {
-            var url = ApiUrls.Get(ApiKey, ip);
+            var url = ApiUrls.Get(ApiKey, ip, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequest(request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);

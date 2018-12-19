@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 
 namespace IpData.Basic
 {
@@ -7,7 +8,12 @@ namespace IpData.Basic
         static async Task Main(string[] args)
         {
             var client = new IpDataClient("API_KEY");
-            var ipInfo = await client.Lookup("69.78.70.144");
+
+            // Get ip data from my ip
+            var myIpInfo = await client.Lookup();
+
+            // Get localized ip data from my ip
+            var myIpInfoLocalized = await client.Lookup(CultureInfo.GetCultureInfo("zh-CN"));
         }
     }
 }

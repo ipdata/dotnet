@@ -5,6 +5,11 @@ namespace IpData.Exceptions
 {
     public class ForbiddenException : ApiException
     {
+        public ForbiddenException()
+            : this(null)
+        {
+        }
+
         public ForbiddenException(string responseContent)
             : this(responseContent, null)
         {
