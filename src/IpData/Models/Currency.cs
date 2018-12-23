@@ -4,19 +4,19 @@ namespace IpData.Models
 {
     public class Currency
     {
-        [JsonProperty("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        [JsonProperty("code")]
+        [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
         public string Code { get; set; }
 
-        [JsonProperty("symbol")]
+        [JsonProperty("symbol", NullValueHandling = NullValueHandling.Ignore)]
         public string Symbol { get; set; }
 
-        [JsonProperty("native")]
+        [JsonProperty("native", NullValueHandling = NullValueHandling.Ignore)]
         public string Native { get; set; }
 
-        [JsonProperty("plural")]
+        [JsonProperty("plural", NullValueHandling = NullValueHandling.Ignore)]
         public string Plural { get; set; }
     }
 }

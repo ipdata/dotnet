@@ -4,13 +4,13 @@ namespace IpData.Models
 {
     public class CarrierInfo
     {
-        [JsonProperty("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        [JsonProperty("mcc")]
+        [JsonProperty("mcc", NullValueHandling = NullValueHandling.Ignore)]
         public string Mcc { get; set; }
 
-        [JsonProperty("mnc")]
+        [JsonProperty("mnc", NullValueHandling = NullValueHandling.Ignore)]
         public string Mnc { get; set; }
     }
 

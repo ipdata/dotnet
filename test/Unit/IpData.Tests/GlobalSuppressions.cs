@@ -15,3 +15,8 @@ using System.Diagnostics.CodeAnalysis;
     SuppressMessage("Usage", "CA1806:Do not ignore method results",
     Justification = "<Pending>",
     Scope = "Module")]
+
+[assembly:
+    SuppressMessage("Globalization", "CA1304:Specify CultureInfo",
+    Justification = "<Pending>",
+    Scope = "Module")]

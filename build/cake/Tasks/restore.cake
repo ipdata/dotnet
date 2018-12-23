@@ -1,4 +1,4 @@
 Task("Restore")
-	.Does(() => {
-		DotNetCoreRestore(Paths.Solution.FullPath);
-	});
+    .Does(() => {
+        DotNetCoreRestore(Paths.Solution.FullPath);
+    });

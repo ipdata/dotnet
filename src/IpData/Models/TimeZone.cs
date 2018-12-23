@@ -5,19 +5,19 @@ namespace IpData.Models
 {
     public class TimeZone
     {
-        [JsonProperty("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        [JsonProperty("abbr")]
+        [JsonProperty("abbr", NullValueHandling = NullValueHandling.Ignore)]
         public string Abbr { get; set; }
 
-        [JsonProperty("offset")]
+        [JsonProperty("offset", NullValueHandling = NullValueHandling.Ignore)]
         public string Offset { get; set; }
 
-        [JsonProperty("is_dst")]
+        [JsonProperty("is_dst", NullValueHandling = NullValueHandling.Ignore)]
         public bool? IsDst { get; set; }
 
-        [JsonProperty("current_time")]
+        [JsonProperty("current_time", NullValueHandling = NullValueHandling.Ignore)]
         public DateTimeOffset? CurrentTime { get; set; }
     }
 }

@@ -25,7 +25,12 @@ namespace IpData
         public string ApiKey { get; private set; }
 
         public IpDataClient(string apiKey)
-            : this(apiKey, new DefaultHttpClient())
+            : this(apiKey, new HttpClientAdapter())
+        {
+        }
+
+        public IpDataClient(string apiKey, HttpClient httpClient)
+            : this(apiKey, new HttpClientAdapter(httpClient))
         {
         }
 
@@ -54,7 +59,7 @@ namespace IpData
         {
             var url = ApiUrls.Get(ApiKey, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
         }
 
@@ -67,7 +72,7 @@ namespace IpData
         {
             var url = ApiUrls.Get(ApiKey, ip, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
         }
 
@@ -75,7 +80,7 @@ namespace IpData
         {
             var url = ApiUrls.Get(ApiKey, ip, fieldSelector);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
         }
 
@@ -87,7 +92,7 @@ namespace IpData
                 Content = new StringContent(_serializer.Serialize(ips), Encoding.UTF8, "application/json")
             };
 
-            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IEnumerable<IpInfo>>(json);
         }
 
@@ -95,14 +100,19 @@ namespace IpData
         {
             var url = ApiUrls.Carrier(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<CarrierInfo>(json);
         }
 
-        private static async Task<string> SendRequest(IHttpClient httpClient, HttpRequestMessage request)
+        private static async Task<string> SendRequestAsync(IHttpClient httpClient, HttpRequestMessage request)
         {
             var response = await httpClient.SendAsync(request).ConfigureAwait(false);
-            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var content = string.Empty;
+
+            if (response.Content != null)
+            {
+                content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            }
 
             if (response.IsSuccessStatusCode)
             {

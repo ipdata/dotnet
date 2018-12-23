@@ -66,13 +66,27 @@ namespace IpData.Tests.Helpers
 
         [Theory]
         [AutoMoqData]
-        public void Get_WhenCalledExpression_ReturnedUrl(string apiKey, string ip)
+        public void Get_WhenCalledWithValueTypeProp_ReturnedUrl(string apiKey, string ip)
         {
             // Arrange
-            var expectedUrl = $"https://api.ipdata.co/{ip}/country_name?api-key={apiKey}";
+            var expectedUrl = $"https://api.ipdata.co/{ip}/count?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, ip, x => x.CountryName);
+            var url = ApiUrls.Get(apiKey, ip, x => x.Count);
+
+            // Assert
+            url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Theory]
+        [AutoMoqData]
+        public void Get_WhenCalledWithReferenceTypeProp_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var expectedUrl = $"https://api.ipdata.co/{ip}/continent_name?api-key={apiKey}";
+
+            // Act
+            var url = ApiUrls.Get(apiKey, ip, x => x.ContinentName);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);

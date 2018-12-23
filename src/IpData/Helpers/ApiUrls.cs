@@ -24,7 +24,7 @@ namespace IpData.Helpers
 
         public static Uri Get(string apiKey, string ip, Expression<Func<IpInfo, object>> expression)
         {
-            var field = GetField(expression);
+            var field = IpInfo.FieldName(expression);
             return ApplyApiKey(new Uri(Base, $"{ip}/{field}"), apiKey);
         }
 
@@ -41,17 +41,6 @@ namespace IpData.Helpers
         private static Uri ApplyApiKey(Uri url, string apiKey)
         {
             return url.AddParameter("api-key", apiKey);
-        }
-
-        private static string GetField(Expression<Func<IpInfo, object>> expression)
-        {
-            var body = expression.Body as MemberExpression;
-            var propName = body.Member.Name;
-            var attribute = typeof(IpInfo)
-                .GetProperty(propName)
-                .GetCustomAttributes(typeof(JsonPropertyAttribute), false)[0] as JsonPropertyAttribute;
-
-            return attribute.PropertyName;
         }
     }
 }
