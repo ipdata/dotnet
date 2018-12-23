@@ -5,6 +5,6 @@ namespace IpData.Exceptions.Factory
 {
     internal interface IApiExceptionFactory
     {
-        Exception Create(HttpStatusCode statusCode, string content);
+        ApiException Create(HttpStatusCode statusCode, string content);
     }
 }

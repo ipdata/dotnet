@@ -1,8 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <NeutralLanguage></NeutralLanguage>
+    <PackageTags>ip ipdata</PackageTags>
+    <Description>C# library to gather information for an ip using ipdata.co</Description>
+    <Authors>IpData Community</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/alexkhil/IpData</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/alexkhil/IpData</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl>https://image.ibb.co/iDQdUS/ipdatalogo.png</PackageIconUrl>
+    <ApplicationIcon>ipdata.ico</ApplicationIcon>
+    <Copyright>IpData Community</Copyright>
+    <Win32Resource />
   </PropertyGroup>
 
   <ItemGroup>

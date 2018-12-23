@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace IpData.Basic
@@ -11,9 +12,11 @@ namespace IpData.Basic
 
             // Get ip data from my ip
             var myIpInfo = await client.Lookup();
+            Console.WriteLine($"Country name for {myIpInfo.Ip} is {myIpInfo.CountryName}");
 
             // Get localized ip data from my ip
             var myIpInfoLocalized = await client.Lookup(CultureInfo.GetCultureInfo("zh-CN"));
+            Console.WriteLine($"Localized country name for {myIpInfoLocalized.Ip} is {myIpInfoLocalized.CountryName}");
         }
     }
 }

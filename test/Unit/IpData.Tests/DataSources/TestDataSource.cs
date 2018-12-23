@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace IpData.Tests
+namespace IpData.Tests.DataSources
 {
-    public static class TestData
+    public static class TestDataSource
     {
         public static IEnumerable<object[]> EmptyOrWhitespaceString()
         {

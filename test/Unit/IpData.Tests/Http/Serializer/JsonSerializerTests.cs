@@ -1,14 +1,15 @@
-﻿using IpData.Http.Serializer;
+﻿using FluentAssertions;
+using IpData.Http.Serializer;
 using IpData.Models;
+using IpData.Tests.DataSources;
 using Xunit;
-using FluentAssertions;
 
 namespace IpData.Tests.Http.Serializer
 {
     public class JsonSerializerTests
     {
         [Theory]
-        [MemberData(nameof(TestData.IpInfoData), MemberType = typeof(TestData))]
+        [MemberData(nameof(TestDataSource.IpInfoData), MemberType = typeof(TestDataSource))]
         public void Deserialize_WhenCalled_ReturnedIpInfo(string json)
         {
             // Arrange
@@ -36,7 +37,7 @@ namespace IpData.Tests.Http.Serializer
         }
 
         [Theory]
-        [MemberData(nameof(TestData.CarrierData), MemberType = typeof(TestData))]
+        [MemberData(nameof(TestDataSource.CarrierData), MemberType = typeof(TestDataSource))]
         public void Deserialize_WhenCalled_ReturnedCarrierInfo(string json)
         {
             // Arrange

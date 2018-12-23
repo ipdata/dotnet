@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace IpData
 {
-    interface IHttpClient
+    public interface IHttpClient
     {
         Task<HttpResponseMessage> SendAsync(HttpRequestMessage request);
     }

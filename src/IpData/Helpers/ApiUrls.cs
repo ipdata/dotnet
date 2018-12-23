@@ -1,12 +1,9 @@
-using IpData.Helpers.Extensions;
-using IpData.Models;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("IpData.Tests")]
+using IpData.Helpers.Extensions;
+using IpData.Models;
+using Newtonsoft.Json;
 
 namespace IpData.Helpers
 {

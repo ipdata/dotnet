@@ -1,13 +1,21 @@
-﻿using IpData.Http.Serializer;
-using IpData.Models;
-using System;
+﻿using System;
 using System.Net;
+using System.Runtime.Serialization;
+using IpData.Http.Serializer;
+using IpData.Models;
 
 namespace IpData.Exceptions
 {
+    [Serializable]
     public class ApiException : Exception
     {
         private static ISerializer _serializer = new JsonSerializer();
+
+        [NonSerialized]
+        private HttpStatusCode statusCode;
+
+        [NonSerialized]
+        private ApiError apiError;
 
         public ApiException()
             : this(null)
@@ -15,7 +23,7 @@ namespace IpData.Exceptions
         }
 
         public ApiException(string responseContent)
-            : this(0, responseContent, null)
+            : this(responseContent, null)
         {
         }
 
@@ -36,14 +44,26 @@ namespace IpData.Exceptions
             ApiError = apiError ?? throw new ArgumentNullException(nameof(apiError), "ApiError can't be null");
         }
 
+        protected ApiException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
+        {
+        }
+
         public override string Message
         {
             get { return ApiErrorMessage ?? "An error occurred with this API request"; }
         }
 
-        public HttpStatusCode StatusCode { get; private set; }
+        public HttpStatusCode StatusCode {
+            get { return statusCode; }
+            protected set { statusCode = value; }
+        }
 
-        public ApiError ApiError { get; protected set; }
+        public ApiError ApiError
+        {
+            get { return apiError; }
+            protected set { apiError = value; }
+        }
 
         protected string ApiErrorMessage
         {
@@ -65,7 +85,14 @@ namespace IpData.Exceptions
                 return new ApiError(responseContent);
             }
 
-            return _serializer.Deserialize<ApiError>(responseContent) ?? new ApiError(responseContent);
+            try
+            {
+                return _serializer.Deserialize<ApiError>(responseContent);
+            }
+            catch (Exception)
+            {
+                return new ApiError(responseContent);
+            }
         }
     }
 }

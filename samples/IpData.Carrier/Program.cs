@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace IpData.Carrier
 {
@@ -10,6 +11,7 @@ namespace IpData.Carrier
 
             // Get carrier info from ip
             var carrierInfo = await client.Carrier("69.78.70.144");
+            Console.WriteLine($"Carrier name: {carrierInfo.Name}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Newtonsoft.Json;
 
 namespace IpData.Models
@@ -61,7 +62,7 @@ namespace IpData.Models
         public string EmojiUnicode { get; set; }
 
         [JsonProperty("languages")]
-        public List<Language> Languages { get; set; }
+        public List<Language> Languages { get; private set; }
 
         [JsonProperty("currency")]
         public Currency Currency { get; set; }
@@ -74,5 +75,10 @@ namespace IpData.Models
 
         [JsonProperty("count")]
         public string Count { get; set; }
+
+        public IpInfo()
+        {
+            Languages = new List<Language>();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using IpData.Exceptions.Factory;
@@ -10,24 +11,36 @@ using IpData.Helpers;
 using IpData.Http.Serializer;
 using IpData.Models;
 
+[assembly: InternalsVisibleTo("IpData.Tests")]
+
 namespace IpData
 {
     public class IpDataClient : IIpDataClient
     {
         private static readonly ISerializer _serializer = new JsonSerializer();
-        private static readonly IHttpClient _httpClient = new DefaultHttpClient();
         private static readonly IApiExceptionFactory _exceptionFactory = new ApiExceptionFactory();
+
+        private readonly IHttpClient _httpClient;
 
         public string ApiKey { get; private set; }
 
         public IpDataClient(string apiKey)
+            : this(apiKey, new DefaultHttpClient())
+        {
+        }
+
+        public IpDataClient(string apiKey, IHttpClient httpClient)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
             {
                 throw new ArgumentException(
-                    $"The apiKey {apiKey} must be not empty or whitespace string",
+                    $"The {nameof(apiKey)} {apiKey} must be not empty or whitespace string",
                     nameof(apiKey));
             }
+
+            _httpClient = httpClient ?? throw new ArgumentNullException(
+                nameof(httpClient),
+                $"The {nameof(httpClient)} can't be null");
 
             ApiKey = apiKey;
         }
@@ -41,7 +54,7 @@ namespace IpData
         {
             var url = ApiUrls.Get(ApiKey, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(request).ConfigureAwait(false);
+            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
         }
 
@@ -54,7 +67,7 @@ namespace IpData
         {
             var url = ApiUrls.Get(ApiKey, ip, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(request).ConfigureAwait(false);
+            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
         }
 
@@ -62,7 +75,7 @@ namespace IpData
         {
             var url = ApiUrls.Get(ApiKey, ip, fieldSelector);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(request).ConfigureAwait(false);
+            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
         }
 
@@ -74,7 +87,7 @@ namespace IpData
                 Content = new StringContent(_serializer.Serialize(ips), Encoding.UTF8, "application/json")
             };
 
-            var json = await SendRequest(request).ConfigureAwait(false);
+            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IEnumerable<IpInfo>>(json);
         }
 
@@ -82,13 +95,13 @@ namespace IpData
         {
             var url = ApiUrls.Carrier(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequest(request).ConfigureAwait(false);
+            var json = await SendRequest(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<CarrierInfo>(json);
         }
 
-        private static async Task<string> SendRequest(HttpRequestMessage request)
+        private static async Task<string> SendRequest(IHttpClient httpClient, HttpRequestMessage request)
         {
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
