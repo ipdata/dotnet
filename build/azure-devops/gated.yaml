@@ -55,14 +55,14 @@ jobs:
   - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests
     displayName: Run Unit Tests
   - task: PublishTestResults@2
-    displayName: Publish Unit Tests Result
+    displayName: Publish Unit Tests Results
     inputs:
        testResultsFormat: VSTest
        testResultsFiles: 'actifacts/UnitTests.trx'
        mergeTestResults: true
        testRunTitle: Linux
   - task: PublishCodeCoverageResults@1
+  displayName: Publish Code Coverage Results
     inputs:
       codecoverageTool: cobertura
-      summaryFileLocation: actifacts/coverage.cobertura.xml
-      reportDirectory: actifacts
+      summaryFileLocation: 'actifacts/coverage.cobertura.xml'
