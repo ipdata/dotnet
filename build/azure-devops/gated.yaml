@@ -37,7 +37,6 @@ jobs:
     displayName: Run Unit Tests
 
 - job: 'Code inspection'
-  displayName: 'Code inspection'
   dependsOn:
   - Linux
   - macOS
