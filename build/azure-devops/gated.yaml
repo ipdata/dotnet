@@ -10,7 +10,7 @@ jobs:
     displayName: Grant permissions
   - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Build
     displayName: Run Build Solution
-  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Test
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests
     displayName: Run Unit Tests
 
 - job: macOS
@@ -22,7 +22,7 @@ jobs:
     displayName: Grant permissions
   - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Build
     displayName: Run Build Solution
-  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Test
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests
     displayName: Run Unit Tests
 
 - job: Windows
@@ -33,7 +33,7 @@ jobs:
   steps:
   - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Build
     displayName: Run Build Solution
-  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Test
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests
     displayName: Run Unit Tests
 
 - job: 'CodeInspection'
@@ -52,7 +52,7 @@ jobs:
     displayName: Grant permissions
   - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Build
     displayName: Run Build Solution
-  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Test
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests
     displayName: Run Unit Tests
   - task: PublishTestResults@2
     displayName: Publish Unit Tests Result
