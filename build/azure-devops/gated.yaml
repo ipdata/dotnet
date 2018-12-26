@@ -36,7 +36,8 @@ jobs:
   - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Test
     displayName: Run Unit Tests
 
-- job: 'Code inspection'
+- job: 'CodeInspection'
+  displayName: 'Code inspection'
   dependsOn:
   - Linux
   - macOS
