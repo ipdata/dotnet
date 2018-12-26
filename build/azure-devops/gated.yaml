@@ -58,11 +58,11 @@ jobs:
     displayName: Publish Unit Tests Results
     inputs:
        testResultsFormat: VSTest
-       testResultsFiles: 'actifacts/UnitTests.trx'
+       testResultsFiles: 'artifacts/UnitTests.trx'
        mergeTestResults: true
        testRunTitle: Linux
   - task: PublishCodeCoverageResults@1
     displayName: Publish Code Coverage Results
     inputs:
       codecoverageTool: cobertura
-      summaryFileLocation: 'actifacts/coverage.cobertura.xml'
+      summaryFileLocation: './artifacts/coverage.cobertura.xml'

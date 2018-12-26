@@ -5,5 +5,5 @@ public static class Paths
     public static FilePath MiniCover => "../../tools/IpData.Minicover/IpData.Minicover.csproj";
     public static FilePath UnitTestProject => "../../test/Unit/IpData.Tests/IpData.Tests.csproj";
 
-    public static DirectoryPath Artifacts => "../../actifacts";
+    public static DirectoryPath Artifacts => "../../artifacts";
 }
