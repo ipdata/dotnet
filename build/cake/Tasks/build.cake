@@ -1,5 +1,5 @@
-Task("LibBuild")
-    .IsDependentOn("Restore")
+Task("Build")
+    .IsDependentOn("Restore-NuGet-Packages")
     .Does(() => {
         var dotNetCoreBuildSettings = new DotNetCoreBuildSettings {
             Configuration = configuration,

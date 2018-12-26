@@ -4,9 +4,10 @@
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 
-#load Tasks/restore.cake
-#load Tasks/lib-build.cake
-#load Tasks/lib-test.cake
+#load Tasks/clean.cake
+#load Tasks/restore-nuget-packages.cake
+#load Tasks/build.cake
+#load Tasks/run-unit-tests.cake
 #load Tasks/default.cake
 
 ///////////////////////////////////////////////////////////////////////////////

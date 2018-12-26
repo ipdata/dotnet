@@ -323,8 +323,9 @@ ASALocalRun/
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
 
-tools/*
 !tools/packages.config
 build/cake/tools/Cake/*
 build/cake/tools/nuget.exe
 build/cake/tools/packages.config.md5sum
+build/cake/tools/Addins/
+actifacts/

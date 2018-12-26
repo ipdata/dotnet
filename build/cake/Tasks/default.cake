@@ -1,4 +1,4 @@
 Task("Default")
-    .IsDependentOn("LibBuild")
-    .IsDependentOn("LibTest")
+    .IsDependentOn("Build")
+    .IsDependentOn("Run-Unit-Tests")
     .Does(() => {});

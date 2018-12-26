@@ -13,10 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{CFFA9471
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{C0FF3B0D-BE20-4F54-ACD3-D8B45CAD5B57}"
 	ProjectSection(SolutionItems) = preProject
+		build\cake\Tasks\build.cake = build\cake\Tasks\build.cake
+		build\cake\Tasks\clean.cake = build\cake\Tasks\clean.cake
 		build\cake\Tasks\default.cake = build\cake\Tasks\default.cake
-		build\cake\Tasks\lib-build.cake = build\cake\Tasks\lib-build.cake
-		build\cake\Tasks\lib-test.cake = build\cake\Tasks\lib-test.cake
-		build\cake\Tasks\restore.cake = build\cake\Tasks\restore.cake
+		build\cake\Tasks\restore-nuget-packages.cake = build\cake\Tasks\restore-nuget-packages.cake
+		build\cake\Tasks\run-unit-tests.cake = build\cake\Tasks\run-unit-tests.cake
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cake", "cake", "{5CF04261-17B9-44F2-AD3F-C19C92796442}"
@@ -65,9 +66,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{4C55C81D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpData.Basic", "samples\IpData.Basic\IpData.Basic.csproj", "{87E97B3D-B9C7-4E58-BFC1-4F2B7995A08B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IpData.Bulk", "samples\IpData.Bulk\IpData.Bulk.csproj", "{DF3EDF24-F8D1-4A52-ADED-3F7F7FD788FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpData.Bulk", "samples\IpData.Bulk\IpData.Bulk.csproj", "{DF3EDF24-F8D1-4A52-ADED-3F7F7FD788FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IpData.Carrier", "samples\IpData.Carrier\IpData.Carrier.csproj", "{664E2B83-E43C-4E18-926C-43C88A2B712A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpData.Carrier", "samples\IpData.Carrier\IpData.Carrier.csproj", "{664E2B83-E43C-4E18-926C-43C88A2B712A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
