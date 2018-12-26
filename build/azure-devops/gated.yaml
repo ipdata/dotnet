@@ -62,7 +62,7 @@ jobs:
        mergeTestResults: true
        testRunTitle: Linux
   - task: PublishCodeCoverageResults@1
-  displayName: Publish Code Coverage Results
+    displayName: Publish Code Coverage Results
     inputs:
       codecoverageTool: cobertura
       summaryFileLocation: 'actifacts/coverage.cobertura.xml'
