@@ -58,7 +58,7 @@ jobs:
     displayName: Publish Unit Tests Results
     inputs:
        testResultsFormat: VSTest
-       testResultsFiles: 'artifacts/UnitTests.trx'
+       testResultsFiles: '**/*.trx'
        mergeTestResults: true
        testRunTitle: Linux
   - task: PublishCodeCoverageResults@1
@@ -66,3 +66,4 @@ jobs:
     inputs:
       codecoverageTool: cobertura
       summaryFileLocation: $(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml
+      reportDirectory: $(System.DefaultWorkingDirectory)/**/artifacts
