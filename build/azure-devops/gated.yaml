@@ -65,4 +65,4 @@ jobs:
     displayName: Publish Code Coverage Results
     inputs:
       codecoverageTool: cobertura
-      summaryFileLocation: './artifacts/coverage.cobertura.xml'
+      summaryFileLocation: $(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml
