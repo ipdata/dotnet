@@ -1,11 +1,8 @@
 Task("Publish-Coverage")
     .Does(() =>
     {
-        Codecov(new CodecovSettings
+        CoverallsIo($"{Paths.Artifacts.FullPath}/coverage.opencover.xml", new CoverallsIoSettings()
         {
-            Files = new[] { $"{Paths.Artifacts.FullPath}/coverage.opencover.xml" },
-            Token = codeCovKey,
-            Verbose = false,
-            Flags = "unittests"
+            RepoToken = CoverallsToken
         });
     });

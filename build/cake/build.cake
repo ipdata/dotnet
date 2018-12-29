@@ -1,5 +1,5 @@
-#tool nuget:?package=Codecov
-#addin nuget:?package=Cake.Codecov
+#addin Cake.Coveralls
+#tool coveralls.io
 
 #load Utils/paths.cake
 
@@ -10,7 +10,7 @@
 var target = Argument<string>("Target", "Default");
 var configuration = Argument<string>("Configuration", "Release");
 var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
-var codeCovKey = Argument<string>("Codecov", "UPLOAD_KEY");
+var CoverallsToken = Argument<string>("Coveralls", "REPO_TOKEN");
 
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
