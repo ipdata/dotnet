@@ -67,5 +67,5 @@ jobs:
       codecoverageTool: cobertura
       summaryFileLocation: $(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml
       reportDirectory: $(System.DefaultWorkingDirectory)/**/artifacts
-  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests --Codecov="fad35db7-c65c-4260-a12d-3100471842ca"'
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests --Codecov="fad35db7-c65c-4260-a12d-3100471842ca"
     displayName: Publish Code Coverage Results To Codecov
