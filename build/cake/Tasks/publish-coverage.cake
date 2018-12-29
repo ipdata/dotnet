@@ -1,7 +1,8 @@
 Task("Publish-Coverage")
     .Does(() =>
     {
-        CoverallsIo($"{Paths.Artifacts.FullPath}/coverage.opencover.xml", new CoverallsIoSettings()
+        var dir = MakeAbsolute(Directory("Paths.Artifacts.FullPath");
+        CoverallsIo($"{dir.FullPath}/coverage.opencover.xml", new CoverallsIoSettings()
         {
             RepoToken = CoverallsToken
         });
