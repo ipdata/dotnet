@@ -1,4 +1,16 @@
+#tool nuget:?package=Codecov
+#addin nuget:?package=Cake.Codecov
+
 #load Utils/paths.cake
+
+///////////////////////////////////////////////////////////////////////////////
+// ARGUMENTS
+///////////////////////////////////////////////////////////////////////////////
+
+var target = Argument<string>("Target", "Default");
+var configuration = Argument<string>("Configuration", "Release");
+var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
+var codeCovKey = Argument<string>("Codecov", "UPLOAD_KEY");
 
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
@@ -8,15 +20,8 @@
 #load Tasks/restore-nuget-packages.cake
 #load Tasks/build.cake
 #load Tasks/run-unit-tests.cake
+#load Tasks/publish-coverage.cake
 #load Tasks/default.cake
-
-///////////////////////////////////////////////////////////////////////////////
-// ARGUMENTS
-///////////////////////////////////////////////////////////////////////////////
-
-var target = Argument<string>("Target", "Default");
-var configuration = Argument<string>("Configuration", "Release");
-var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
 
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP

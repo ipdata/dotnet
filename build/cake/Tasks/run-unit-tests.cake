@@ -11,7 +11,7 @@ Task("Run-Unit-Tests")
             ArgumentCustomization = args =>
             {
                 args.Append("--logger trx;LogFileName=UnitTests.trx");
-                args.Append("/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura");
+                args.Append("/p:CollectCoverage=true /p:CoverletOutputFormat=opencover%2Ccobertura");
                 args.Append($"/p:CoverletOutput=\"../{Paths.Artifacts.FullPath}/\"");
                 args.Append("/p:Include=\"[IpData]*\"");
                 return args;

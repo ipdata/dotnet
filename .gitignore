@@ -329,3 +329,4 @@ build/cake/tools/nuget.exe
 build/cake/tools/packages.config.md5sum
 build/cake/tools/Addins/
 actifacts/
+build/cake/tools/
