@@ -1,5 +1,6 @@
 using FluentAssertions;
 using IpData.Helpers;
+using System;
 using System.Globalization;
 using Xunit;
 
@@ -90,6 +91,19 @@ namespace IpData.Tests.Helpers
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Theory]
+        [AutoMoqData]
+        public void Get_WhenCalledWithInvalidProp_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            Func<Uri> act = () => ApiUrls.Get(apiKey, ip, x => new { prop = "name" });
+
+            // Act/Assert
+            act.Should()
+                .Throw<InvalidOperationException>()
+                .Where(e => e.Message.Contains("Invalid expression"));
         }
 
         [Theory]

@@ -16,7 +16,7 @@ namespace IpData.Helpers.Extensions
                     var operand = body.Operand as MemberExpression;
                     return operand.Member.Name;
                 default:
-                    return string.Empty;
+                    throw new InvalidOperationException("Invalid expression");
             }
         }
     }
