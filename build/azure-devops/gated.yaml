@@ -65,5 +65,5 @@ jobs:
       codecoverageTool: cobertura
       summaryFileLocation: $(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml
       reportDirectory: $(System.DefaultWorkingDirectory)/**/artifacts
-  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Publish-Coverage -ScriptArgs '-Coveralls="$(Coveralls.Token)"'
+  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Publish-Coverage -ScriptArgs '-Coveralls="$(Coveralls.Token)" -CoverallsPath="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"'
     displayName: Publish Code Coverage Results To Coveralls
