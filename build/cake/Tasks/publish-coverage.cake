@@ -3,7 +3,7 @@ Task("Publish-Coverage")
     {
         var path = new FilePath($"../{Paths.Artifacts.FullPath}/coverage.opencover.xml");
         Information(path);
-        CoverallsIo(path, new CoverallsIoSettings()
+        CoverallsIo(path.FullPath, new CoverallsIoSettings()
         {
             RepoToken = CoverallsToken
         });
