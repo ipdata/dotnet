@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Runtime.Serialization;
 using IpData.Http.Serializer;
@@ -44,6 +45,7 @@ namespace IpData.Exceptions
             ApiError = apiError ?? throw new ArgumentNullException(nameof(apiError), "ApiError can't be null");
         }
 
+        [ExcludeFromCodeCoverage]
         protected ApiException(SerializationInfo serializationInfo, StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {

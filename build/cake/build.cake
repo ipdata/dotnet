@@ -1,5 +1,5 @@
 #addin Cake.Coveralls
-#tool coveralls.io
+#tool coveralls.net
 
 #load Utils/paths.cake
 

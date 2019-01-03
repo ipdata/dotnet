@@ -1,8 +1,9 @@
 Task("Publish-Coverage")
     .Does(() =>
     {
-        CoverallsIo(CoverallsPath, new CoverallsIoSettings()
+        CoverallsNet(CoverallsPath, CoverallsNetReportType.OpenCover, new CoverallsIoSettings()
         {
-            RepoToken = CoverallsToken
+            RepoToken = CoverallsToken,
+            CommitBranch = EnvironmentVariable("Build.SourceBranchName") ?? "test"
         });
     });
