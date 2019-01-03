@@ -2,7 +2,7 @@
     <img src="https://image.ibb.co/iDQdUS/ipdatalogo.png" alt="Ip Data Logo" title="IpData" align="left" height="60" />
 </a>
 
-# IpData [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IpData/blob/master/LICENSE) [![Build Status][AzureStatus]](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=3?branchName=master) [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg)](https://coveralls.io/github/alexkhil/IpData)
+# IpData [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IpData/blob/master/LICENSE) [![Build Status][AzureStatus]](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=3?branchName=master) [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=%28no+branch%29)](https://coveralls.io/github/alexkhil/IpData?branch=%28no+branch%29)
 
 [ipdata.co](https://ipdata.co/) is a fast, reliable and clean service that allows you to look up the location of an IP Address and other data.
 
