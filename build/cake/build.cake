@@ -10,10 +10,10 @@
 var target = Argument<string>("Target", "Default");
 var configuration = Argument<string>("Configuration", "Release");
 var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
-var CoverallsToken = Argument<string>("Coveralls", "REPO_TOKEN");
+var CoverallsToken = Argument<string>("coveralls", "REPO_TOKEN");
 
 var coverageFile = new FilePath($"../{Paths.Artifacts.FullPath}/coverage.opencover.xml");
-var CoverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
+var CoverallsPath = Argument<string>("coveralls_path", coverageFile.FullPath);
 
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
