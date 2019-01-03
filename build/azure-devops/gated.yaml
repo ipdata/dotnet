@@ -48,9 +48,11 @@ jobs:
     vmImage: 'vs2017-win2016'
 
   steps:
-  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Build
+  - bash: chmod +x ./build/cake/build.sh
+    displayName: Grant permissions
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Build
     displayName: Run Build Solution
-  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Run-Unit-Tests
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target=Run-Unit-Tests
     displayName: Run Unit Tests
   - task: PublishTestResults@2
     displayName: Publish Unit Tests Results
@@ -65,5 +67,5 @@ jobs:
       codecoverageTool: cobertura
       summaryFileLocation: $(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml
       reportDirectory: $(System.DefaultWorkingDirectory)/**/artifacts
-  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Publish-Coverage -ScriptArgs '-Coveralls="$(Coveralls.Token)"','--CoverallsPath="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"'
+  - bash: ./build/cake/build.sh -s build/cake/build.cake --target Publish-Coverage --coveralls=$(Coveralls.Token) --coverallsPath=$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml
     displayName: Publish Code Coverage Results To Coveralls
