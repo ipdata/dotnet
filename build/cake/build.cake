@@ -1,6 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// ADDINS
+///////////////////////////////////////////////////////////////////////////////
 #addin Cake.Coveralls
+
+///////////////////////////////////////////////////////////////////////////////
+// TOOLS
+///////////////////////////////////////////////////////////////////////////////
 #tool coveralls.io
 
+///////////////////////////////////////////////////////////////////////////////
+// OTHER SCRIPTS
+///////////////////////////////////////////////////////////////////////////////
 #load Utils/paths.cake
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -11,6 +21,7 @@ var target = Argument<string>("Target", "Default");
 var configuration = Argument<string>("Configuration", "Release");
 var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
 var CoverallsToken = Argument<string>("Coveralls", "REPO_TOKEN");
+var NuGetApiKey = Argument<string>("NuGetApiKey", "NUGET_API_KEY");
 
 var coverageFile = new FilePath($"../{Paths.Artifacts.FullPath}/coverage.opencover.xml");
 var CoverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
@@ -20,7 +31,9 @@ var CoverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
 ///////////////////////////////////////////////////////////////////////////////
 
 #load Tasks/clean.cake
+#load Tasks/create-nuget-package.cake
 #load Tasks/restore-nuget-packages.cake
+#load Tasks/publish-nuget-package.cake
 #load Tasks/build.cake
 #load Tasks/run-unit-tests.cake
 #load Tasks/publish-coverage.cake

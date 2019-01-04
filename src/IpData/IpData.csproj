@@ -17,6 +17,10 @@
     <ApplicationIcon>ipdata.ico</ApplicationIcon>
     <Copyright>IpData Community</Copyright>
     <Win32Resource />
+    <PackageReleaseNotes>IpData client basic implementation</PackageReleaseNotes>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <ItemGroup>

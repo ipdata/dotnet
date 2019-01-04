@@ -15,8 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{C0FF3B0D
 	ProjectSection(SolutionItems) = preProject
 		build\cake\Tasks\build.cake = build\cake\Tasks\build.cake
 		build\cake\Tasks\clean.cake = build\cake\Tasks\clean.cake
+		build\cake\Tasks\create-nuget-package.cake = build\cake\Tasks\create-nuget-package.cake
 		build\cake\Tasks\default.cake = build\cake\Tasks\default.cake
 		build\cake\Tasks\publish-coverage.cake = build\cake\Tasks\publish-coverage.cake
+		build\cake\Tasks\publish-nuget-package.cake = build\cake\Tasks\publish-nuget-package.cake
 		build\cake\Tasks\restore-nuget-packages.cake = build\cake\Tasks\restore-nuget-packages.cake
 		build\cake\Tasks\run-unit-tests.cake = build\cake\Tasks\run-unit-tests.cake
 	EndProjectSection

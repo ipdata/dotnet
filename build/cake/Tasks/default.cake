@@ -1,3 +1,3 @@
 Task("Default")
-    .IsDependentOn("Run-Unit-Tests")
+    .IsDependentOn("Build")
     .Does(() => {});
