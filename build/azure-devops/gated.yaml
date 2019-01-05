@@ -19,7 +19,6 @@ jobs:
     vmImage: ubuntu-16.04
 
   steps:
-  - bash: printenv | more
   - bash: chmod +x ./build/cake/build.sh
     displayName: Grant permissions
 
@@ -49,7 +48,6 @@ jobs:
     vmImage: vs2017-win2016
 
   steps:
-  - powershell: Get-ChildItem Env:* | Sort Name
   - powershell: ./build/cake/build.ps1
       -Script build/cake/build.cake
       -Target Run-Unit-Tests
