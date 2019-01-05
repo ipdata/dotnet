@@ -5,6 +5,7 @@ Task("Publish-NuGet-Package")
         var packages = GetFiles("../../artifacts/IpData.*.nupkg");
 
         NuGetPush(packages, new NuGetPushSettings {
-          ApiKey = NuGetApiKey
+            Source = "https://api.nuget.org/v3/index.json",
+            ApiKey = NuGetApiKey
         });
     });
