@@ -13,33 +13,68 @@
 
 ## Table of Content
 
-- [Getting Started](#getting-started)
-  - [Installing](#installing)
+- [Installing](#installing)
+- [Usage](#usage)
+  - [Basic Lookup](#basic-lookup)
+  - [Bulk Lookup](#bulk-lookup)
+  - [Carrier Lookup](#carrier-lookup)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [License](#license)
 
-## Getting Started
+## Installing
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+NuGet package install using package manager:
 
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
-```
-Give the example
+```bash
+Install-Package IpData -Version 1.0.0
 ```
 
-And repeat
+NuGet package install using .NET CLI:
 
-```
-until finished
+```bash
+dotnet add package IpData --version 1.0.0
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+## Usage
+
+### Basic Lookup
+
+```C#
+var client = new IpDataClient("API_KEY");
+
+// Get ip data from my ip
+var myIpInfo = await client.Lookup();
+Console.WriteLine($"Country name for {myIpInfo.Ip} is {myIpInfo.CountryName}");
+
+// Get localized ip data from my ip
+var myIpInfoLocalized = await client.Lookup(CultureInfo.GetCultureInfo("zh-CN"));
+Console.WriteLine($"Localized country name for {myIpInfoLocalized.Ip} is {myIpInfoLocalized.CountryName}");
+```
+
+### Bulk Lookup
+
+From ipdata.co docs:
+> Note that bulk lookups are only available to paid users and are currently limited to a 100 at a time. Reach out to support if you need to lookup larger batches.
+
+```C#
+var client = new IpDataClient("API_KEY");
+
+var ipInfoList = await client.Lookup(new string[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" });
+foreach (var ipInfo in ipInfoList)
+{
+    Console.WriteLine($"Country name for {ipInfo.Ip} is {ipInfo.CountryName}");
+}
+```
+
+### Carrier Lookup
+
+```C#
+var client = new IpDataClient("API_KEY");
+
+var carrierInfo = await client.Carrier("69.78.70.144");
+Console.WriteLine($"Carrier name: {carrierInfo.Name}");
+```
 
 ## Contributing
 
