@@ -8,6 +8,8 @@ Task("Publish-Coverage")
         CoverallsNet(CoverallsPath, CoverallsNetReportType.OpenCover, new CoverallsNetSettings
         {
             CommitId = CommitId,
+            CommitAuthor = "test",
+            CommitEmail = "test@test.com",
             CommitBranch = CommitBranch,
             CommitMessage = CommitMessage,
             RepoToken = CoverallsToken
