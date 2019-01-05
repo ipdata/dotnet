@@ -12,7 +12,7 @@ Task("Publish-Coverage")
             CommitEmail = "test@test.com",
             CommitBranch = CommitBranch,
             CommitMessage = CommitMessage,
-            RepoToken = CoverallsToken
+            RepoToken = CoverallsToken,
             BaseFilePath = Paths.Artifacts,
             UseRelativePaths = true
         });
