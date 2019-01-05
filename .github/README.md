@@ -6,10 +6,10 @@
 
 [ipdata.co](https://ipdata.co/) is a fast, reliable and clean service that allows you to look up the location of an IP Address and other data.
 
-| Branch | Status (Linux\Windows\macOS) | Coverage |
+| Branch | Platform | Status | Coverage |
 | ------ | ------ | ------ |
-| **Master** | [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=4?branchName=master) | [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=%28no+branch%29)](https://coveralls.io/github/alexkhil/IpData?branch=%28no+branch%29) |
-| **Develop** | [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/gated?branchName=develop)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=3?branchName=develop) | [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=develop)](https://coveralls.io/github/alexkhil/IpData?branch=develop) |
+| **Master** | Linux\Windows\macOS | [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=4?branchName=master) | [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=%28no+branch%29)](https://coveralls.io/github/alexkhil/IpData?branch=%28no+branch%29) |
+| **Develop** | Linux\Windows\macOS | [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/gated?branchName=develop)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=3?branchName=develop) | [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=develop)](https://coveralls.io/github/alexkhil/IpData?branch=develop) |
 
 ## Table of Content
 
