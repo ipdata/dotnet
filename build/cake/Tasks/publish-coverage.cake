@@ -4,7 +4,7 @@ Task("Publish-Coverage")
     {
         CoverallsNet(CoverallsPath, CoverallsNetReportType.OpenCover, new CoverallsNetSettings()
         {
-            CommitBranch = "master"
+            CommitBranch = "master",
             RepoToken = CoverallsToken
         });
     });
