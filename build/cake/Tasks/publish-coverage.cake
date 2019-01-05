@@ -2,18 +2,8 @@ Task("Publish-Coverage")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
-        Information($"CommitId: {CommitId}");
-        Information($"Branch: {CommitBranch}");
-        Information($"Message: {CommitMessage}");
-        CoverallsNet("../../artifacts/coverage.opencover.xml", CoverallsNetReportType.OpenCover, new CoverallsNetSettings
+        CoverallsIo(CoverallsPath, new CoverallsIoSettings
         {
-            CommitId = CommitId,
-            CommitAuthor = "test",
-            CommitEmail = "test@test.com",
-            CommitBranch = CommitBranch,
-            CommitMessage = CommitMessage,
-            RepoToken = CoverallsToken,
-            BaseFilePath = Paths.Artifacts,
-            UseRelativePaths = true
+            RepoToken = CoverallsToken
         });
     });

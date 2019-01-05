@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // TOOLS
 ///////////////////////////////////////////////////////////////////////////////
-#tool nuget:?package=coveralls.net&version=0.7.0
+#tool coveralls.io
 
 ///////////////////////////////////////////////////////////////////////////////
 // OTHER SCRIPTS
@@ -22,9 +22,6 @@ var configuration = Argument<string>("Configuration", "Release");
 var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
 var CoverallsToken = Argument<string>("Coveralls", "REPO_TOKEN");
 var NuGetApiKey = Argument<string>("NugetApiKey", "NUGET_API_KEY");
-var CommitBranch = Argument<string>("CommitBranch", "BRANCH");
-var CommitId = Argument<string>("CommitId", "COMMIT_ID");
-var CommitMessage = Argument<string>("CommitMessage", "COMMIT_Message");
 
 var coverageFile = new FilePath($"../{Paths.Artifacts.FullPath}/coverage.opencover.xml");
 var CoverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
