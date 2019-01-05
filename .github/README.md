@@ -15,12 +15,6 @@
 
 - [Getting Started](#getting-started)
   - [Installing](#installing)
-- [Usage](#usage)
-  - [Basic usage](#basic-usage)
-  - [Specify api key](#specify-api-key)
-  - [Specify language](#specify-language)
-- [Running the tests](#running-the-tests)
-- [Built With](#built-with)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [License](#license)
@@ -46,27 +40,6 @@ until finished
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
-
-## Usage
-
-
-### Basic usage
-
-
-### Specify api key
-
-
-### Specify language
-
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-
-## Built With
-
-* [Cake](https://cakebuild.net/) - Build automation system
 
 ## Contributing
 
