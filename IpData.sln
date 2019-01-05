@@ -45,7 +45,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "azure-devops", "azure-devops", "{3A111F6A-56C3-4952-B45F-5CDA714D059F}"
 	ProjectSection(SolutionItems) = preProject
 		build\azure-devops\gated.yaml = build\azure-devops\gated.yaml
-		build\azure-devops\outer-loop-build.yaml = build\azure-devops\outer-loop-build.yaml
+		build\azure-devops\outer-loop.yaml = build\azure-devops\outer-loop.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{3B7FCB46-B3B6-41EF-9495-3FA4D027E3FC}"
