@@ -21,10 +21,10 @@ var target = Argument<string>("Target", "Default");
 var configuration = Argument<string>("Configuration", "Release");
 var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
 var CoverallsToken = Argument<string>("Coveralls", "REPO_TOKEN");
-var NuGetApiKey = Argument<string>("nuget_apiKey", "NUGET_API_KEY");
+var NuGetApiKey = Argument<string>("NugetApiKey", "NUGET_API_KEY");
 
 var coverageFile = new FilePath($"../{Paths.Artifacts.FullPath}/coverage.opencover.xml");
-var CoverallsPath = Argument<string>("coveralls_path", coverageFile.FullPath);
+var CoverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
 
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
