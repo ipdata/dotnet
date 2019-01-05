@@ -24,7 +24,7 @@ jobs:
       \--target=Publish-NuGet-Package
       \--coveralls="$(Coveralls.Token)"
       \--coveralls_path="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"
-      \--nuget_apiKey=$(NuGet.Test)"
+      \--nuget_apiKey="$(NuGet.Test)"
     displayName: Publish NuGet Package
 
   - task: PublishTestResults@2
