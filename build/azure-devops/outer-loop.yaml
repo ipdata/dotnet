@@ -25,6 +25,9 @@ jobs:
       -ScriptArgs '-Coveralls="$(Coveralls.Token)"',
                   '-CoverallsPath="$(System.DefaultWorkingDirectory)\artifacts\coverage.opencover.xml"',
                   '-NugetApiKey="test"'
+                  '-CommitId=$(Build.SourceVersion)'
+                  '-CommitBranch=$(Build.SourceBranchName)'
+                  '-CommitMessage=$(Build.SourceVersionMessage)'
     displayName: Publish NuGet Package
 
   - task: PublishTestResults@2
