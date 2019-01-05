@@ -19,8 +19,13 @@ jobs:
     vmImage: ubuntu-16.04
 
   steps:
-  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Run-Unit-Tests
-    displayName: Run Cake Target 'Run-Unit-Tests'
+  - powershell: ./build/cake/build.ps1
+      -Script build/cake/build.cake
+      -Target Publish-NuGet-Package
+      -ScriptArgs '-Coveralls="$(Coveralls.Token)"',
+                  '-CoverallsPath="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"',
+                  '-NuGetApiKey="$(NuGet.Test)"'
+    displayName: Publish NuGet Package
 
   - task: PublishTestResults@2
     displayName: Publish Unit Tests Results To Azure DevOps
@@ -36,14 +41,3 @@ jobs:
       codecoverageTool: cobertura
       summaryFileLocation: $(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml
       reportDirectory: $(System.DefaultWorkingDirectory)/**/artifacts
-
-  - powershell:
-      -| ./build/cake/build.ps1
-      -Script build/cake/build.cake
-      -Target Publish-Coverage
-      -ScriptArgs '-Coveralls="$(Coveralls.Token)"',
-                  '-CoverallsPath="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"'
-    displayName: Publish Code Coverage Results To Coveralls
-
-  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Publish-NuGet-Package -ScriptArgs ''
-    displayName: Publish NuGet Package

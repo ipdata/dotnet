@@ -25,7 +25,7 @@ jobs:
   - bash: ./build/cake/build.sh
       \-s build/cake/build.cake
       \--target=Run-Unit-Tests
-    displayName: Run Cake Target 'Run-Unit-Tests'
+    displayName: Run Unit Tests
 
 - job: macOS
   displayName: macOS
@@ -39,7 +39,7 @@ jobs:
   - bash: ./build/cake/build.sh
       \-s build/cake/build.cake
       \--target=Run-Unit-Tests
-    displayName: Run Cake Target 'Run-Unit-Tests'
+    displayName: Run Unit Tests
 
 - job: Windows
   displayName: Windows
@@ -51,4 +51,4 @@ jobs:
   - powershell: ./build/cake/build.ps1
       -Script build/cake/build.cake
       -Target Run-Unit-Tests
-    displayName: Run Cake Target 'Run-Unit-Tests'
+    displayName: Run Unit Tests
