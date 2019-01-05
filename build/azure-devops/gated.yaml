@@ -48,5 +48,8 @@ jobs:
     vmImage: vs2017-win2016
 
   steps:
-  - powershell: ./build/cake/build.ps1 -Script build/cake/build.cake -Target Run-Unit-Tests
+  - powershell:
+      -| ./build/cake/build.ps1
+      -Script build/cake/build.cake
+      -Target Run-Unit-Tests
     displayName: Run Cake Target 'Run-Unit-Tests'
