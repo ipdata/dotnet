@@ -1,5 +1,7 @@
 trigger:
   branches:
+    include:
+    - *
     exclude:
     - master
   paths:
