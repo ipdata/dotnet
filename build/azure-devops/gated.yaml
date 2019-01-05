@@ -49,7 +49,7 @@ jobs:
     vmImage: vs2017-win2016
 
   steps:
-  - powershell: Get-Item -Path Env:* | Get-Member
+  - powershell: Get-ChildItem Env: | Sort Name
   - powershell: ./build/cake/build.ps1
       -Script build/cake/build.cake
       -Target Run-Unit-Tests
