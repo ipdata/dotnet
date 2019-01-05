@@ -1,7 +1,8 @@
 trigger:
   branches:
     include:
-    - *
+    - develop
+    - features/*
     exclude:
     - master
   paths:
