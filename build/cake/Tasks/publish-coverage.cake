@@ -2,8 +2,9 @@ Task("Publish-Coverage")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
-        CoverallsIo(CoverallsPath, new CoverallsIoSettings()
+        CoverallsNet(CoverallsPath, CoverallsNetReportType.OpenCover, new CoverallsNetSettings()
         {
+            CommitBranch = "master"
             RepoToken = CoverallsToken
         });
     });
