@@ -22,9 +22,7 @@ jobs:
   - bash: ./build/cake/build.ps1
       -Script build/cake/build.cake
       -Target Publish-NuGet-Package
-      -ScriptArgs '-Coveralls="$(Coveralls.Token)"',
-                  '-CoverallsPath="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"',
-                  '-NugetApiKey="test"'
+      -ScriptArgs '-Coveralls="$(Coveralls.Token)"','-CoverallsPath="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"','-NugetApiKey="test"'
     displayName: Publish NuGet Package
 
   - task: PublishTestResults@2
