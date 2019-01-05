@@ -5,7 +5,7 @@ Task("Publish-Coverage")
         Information($"CommitId: {CommitId}");
         Information($"Branch: {CommitBranch}");
         Information($"Message: {CommitMessage}");
-        CoverallsNet(CoverallsPath, CoverallsNetReportType.OpenCover, new CoverallsNetSettings
+        CoverallsNet("coverage.opencover.xml", CoverallsNetReportType.OpenCover, new CoverallsNetSettings
         {
             CommitId = CommitId,
             CommitAuthor = "test",
@@ -13,5 +13,6 @@ Task("Publish-Coverage")
             CommitBranch = CommitBranch,
             CommitMessage = CommitMessage,
             RepoToken = CoverallsToken
+            BaseFilePath = Paths.Artifacts
         });
     });
