@@ -19,12 +19,12 @@ jobs:
     vmImage: ubuntu-16.04
 
   steps:
-  - powershell: ./build/cake/build.ps1
-      -Script build/cake/build.cake
-      -Target Publish-NuGet-Package
-      -ScriptArgs '-Coveralls="$(Coveralls.Token)"',
-                  '-CoverallsPath="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"',
-                  '-NuGetApiKey="$(NuGet.Test)"'
+  - bash: ./build/cake/build.sh
+      \-s build/cake/build.cake
+      \--target=Publish-NuGet-Package
+      \--coveralls="$(Coveralls.Token)"
+      \--coveralls_path="$(System.DefaultWorkingDirectory)/artifacts/coverage.opencover.xml"
+      \--nuget_apiKey=$(NuGet.Test)"
     displayName: Publish NuGet Package
 
   - task: PublishTestResults@2
