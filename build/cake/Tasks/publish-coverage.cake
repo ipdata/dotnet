@@ -13,6 +13,7 @@ Task("Publish-Coverage")
             CommitBranch = CommitBranch,
             CommitMessage = CommitMessage,
             RepoToken = CoverallsToken
-            BaseFilePath = Paths.Artifacts
+            BaseFilePath = Paths.Artifacts,
+            UseRelativePaths = true
         });
     });
