@@ -76,12 +76,11 @@ namespace IpData
             return _serializer.Deserialize<IpInfo>(json);
         }
 
-        public async Task<IpInfo> Lookup(string ip, Expression<Func<IpInfo, object>> fieldSelector)
+        public Task<string> Lookup(string ip, Expression<Func<IpInfo, object>> fieldSelector)
         {
             var url = ApiUrls.Get(ApiKey, ip, fieldSelector);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
-            return _serializer.Deserialize<IpInfo>(json);
+            return SendRequestAsync(_httpClient, request);
         }
 
         public async Task<IEnumerable<IpInfo>> Lookup(IReadOnlyCollection<string> ips)

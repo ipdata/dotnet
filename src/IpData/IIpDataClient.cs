@@ -23,6 +23,6 @@ namespace IpData
 
         Task<IpInfo> Lookup(string ip, CultureInfo culture);
 
-        Task<IpInfo> Lookup(string ip, Expression<Func<IpInfo, object>> fieldSelector);
+        Task<string> Lookup(string ip, Expression<Func<IpInfo, object>> fieldSelector);
     }
 }
