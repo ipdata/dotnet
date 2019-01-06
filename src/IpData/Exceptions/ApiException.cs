@@ -51,22 +51,26 @@ namespace IpData.Exceptions
         {
         }
 
+        /// <summary>Gets a message that describes the current exception.</summary>
         public override string Message
         {
             get { return ApiErrorMessage ?? "An error occurred with this API request"; }
         }
 
+        /// <summary>Gets or sets the status code.</summary>
         public HttpStatusCode StatusCode {
             get { return statusCode; }
             protected set { statusCode = value; }
         }
 
+        /// <summary>Gets or sets the <see cref="Models.ApiError"> object.</summary>
         public ApiError ApiError
         {
             get { return apiError; }
             protected set { apiError = value; }
         }
 
+        /// <summary>Gets the API error message.</summary>
         protected string ApiErrorMessage
         {
             get
@@ -80,6 +84,10 @@ namespace IpData.Exceptions
             }
         }
 
+
+        /// <summary>Gets the API error from exception message.</summary>
+        /// <param name="responseContent">Content of the response.</param>
+        /// <returns>The <see cref="Models.ApiError"/> object</returns>
         private static ApiError GetApiErrorFromExceptionMessage(string responseContent)
         {
             if (string.IsNullOrEmpty(responseContent))
