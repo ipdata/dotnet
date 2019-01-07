@@ -3,8 +3,8 @@
   <metadata>
     <id>IpData</id>
     <version>1.0.0</version>
-    <authors>IpData Community</authors>
-    <owners>IpData Community</owners>
+    <authors>IpData Contributors</authors>
+    <owners>IpData Contributors</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <projectUrl>https://github.com/alexkhil/IpData</projectUrl>

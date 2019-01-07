@@ -6,6 +6,7 @@ Task("Create-NuGet-Package")
         {
             OutputDirectory = Paths.Artifacts,
             IncludeReferencedProjects = true,
+            Symbols = true,
             Properties = new Dictionary<string, string>
             {
                 { "Configuration", configuration }
