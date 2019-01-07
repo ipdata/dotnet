@@ -9,7 +9,7 @@ Task("Publish-NuGet-Package")
             ApiKey = NuGetApiKey
         });
     })
-    .ReportError(ex =>
+    .OnError(ex =>
     {
         Information(ex.Message);
     });
