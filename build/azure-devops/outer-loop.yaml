@@ -10,6 +10,7 @@ trigger:
     - .github/*
     - .gitignore
     - LICENSE
+    - .editorconfig
 
 jobs:
 - job: Windows
