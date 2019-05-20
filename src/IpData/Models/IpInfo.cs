@@ -22,7 +22,7 @@ namespace IpData.Models
         public string Region { get; set; }
 
         [JsonProperty("region_code", NullValueHandling = NullValueHandling.Ignore)]
-        public int? RegionCode { get; set; }
+        public string RegionCode { get; set; }
 
         [JsonProperty("country_name", NullValueHandling = NullValueHandling.Ignore)]
         public string CountryName { get; set; }

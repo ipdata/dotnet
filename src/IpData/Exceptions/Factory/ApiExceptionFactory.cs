@@ -6,22 +6,17 @@ namespace IpData.Exceptions.Factory
 {
     internal class ApiExceptionFactory : IApiExceptionFactory
     {
-        private static readonly Dictionary<HttpStatusCode, Func<string, ApiException>> _httpExceptionMap = new Dictionary<HttpStatusCode, Func<string, ApiException>>
+        private static readonly Dictionary<HttpStatusCode, Func<string, ApiException>> httpExceptionMap = new Dictionary<HttpStatusCode, Func<string, ApiException>>
         {
             { HttpStatusCode.BadRequest, CreateBadRequestException },
             { HttpStatusCode.Unauthorized, CreateUnauthorizedException },
             { HttpStatusCode.Forbidden, CreateForbiddenException }
         };
 
-        public ApiException Create(HttpStatusCode statusCode, string content)
-        {
-            if (_httpExceptionMap.TryGetValue(statusCode, out var exception))
-            {
-                return exception(content);
-            }
-
-            return new ApiException(content);
-        }
+        public ApiException Create(HttpStatusCode statusCode, string content) =>
+            httpExceptionMap.TryGetValue(statusCode, out var exception)
+            ? exception(content)
+            : new ApiException(content);
 
         private static ApiException CreateBadRequestException(string content)
         {

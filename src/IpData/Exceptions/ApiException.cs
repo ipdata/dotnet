@@ -10,7 +10,7 @@ namespace IpData.Exceptions
     [Serializable]
     public class ApiException : Exception
     {
-        private static ISerializer _serializer = new JsonSerializer();
+        private static readonly ISerializer serializer = new JsonSerializer();
 
         [NonSerialized]
         private HttpStatusCode statusCode;
@@ -52,37 +52,25 @@ namespace IpData.Exceptions
         }
 
         /// <summary>Gets a message that describes the current exception.</summary>
-        public override string Message
-        {
-            get { return ApiErrorMessage ?? "An error occurred with this API request"; }
-        }
+        public override string Message => ApiErrorMessage ?? "An error occurred with this API request";
 
         /// <summary>Gets or sets the status code.</summary>
-        public HttpStatusCode StatusCode {
-            get { return statusCode; }
-            protected set { statusCode = value; }
+        public HttpStatusCode StatusCode
+        {
+            get => statusCode;
+            protected set => statusCode = value;
         }
 
         /// <summary>Gets or sets the <see cref="Models.ApiError"> object.</summary>
         public ApiError ApiError
         {
-            get { return apiError; }
-            protected set { apiError = value; }
+            get => apiError;
+            protected set => apiError = value;
         }
 
         /// <summary>Gets the API error message.</summary>
-        protected string ApiErrorMessage
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(ApiError?.Message))
-                {
-                    return null;
-                }
-
-                return ApiError.Message;
-            }
-        }
+        protected string ApiErrorMessage =>
+            string.IsNullOrWhiteSpace(ApiError?.Message) ? null : ApiError.Message;
 
 
         /// <summary>Gets the API error from exception message.</summary>
@@ -97,12 +85,14 @@ namespace IpData.Exceptions
 
             try
             {
-                return _serializer.Deserialize<ApiError>(responseContent);
+                return serializer.Deserialize<ApiError>(responseContent);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception)
             {
                 return new ApiError(responseContent);
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
     }
 }
