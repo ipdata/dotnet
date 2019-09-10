@@ -2,14 +2,9 @@
     <img src="https://image.ibb.co/iDQdUS/ipdatalogo.png" alt="Ip Data Logo" title="IpData" align="left" height="60" />
 </a>
 
-# IpData [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IpData/blob/master/LICENSE) [![IpData](https://img.shields.io/nuget/v/IpData.svg)](https://www.nuget.org/packages/IpData/)
+# IpData [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IpData/blob/master/LICENSE) [![IpData](https://img.shields.io/nuget/v/IpData.svg)](https://www.nuget.org/packages/IpData/) [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=4?branchName=master) [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=%28no+branch%29)](https://coveralls.io/github/alexkhil/IpData?branch=%28no+branch%29)
 
 [ipdata.co](https://ipdata.co/) is a fast, reliable and clean service that allows you to look up the location of an IP Address and other data.
-
-| Branch | Platform | Status | Coverage |
-| ------ | ------ | ------ | ------ |
-| **Master** | Linux\Windows\macOS | [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=4?branchName=master) | [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=%28no+branch%29)](https://coveralls.io/github/alexkhil/IpData?branch=%28no+branch%29) |
-| **Develop** | Linux\Windows\macOS | [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/gated?branchName=develop)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=3?branchName=develop) | [![Coverage Status](https://coveralls.io/repos/github/alexkhil/IpData/badge.svg?branch=develop)](https://coveralls.io/github/alexkhil/IpData?branch=develop) |
 
 ## Table of Content
 
