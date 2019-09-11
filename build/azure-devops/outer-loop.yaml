@@ -22,14 +22,13 @@ jobs:
   steps:
   - powershell: ./build/cake/build.ps1
       -Script build/cake/build.cake
-      -Target Publish-NuGet-Package
+      -Target Publish-Coverage
       -ScriptArgs '-Coveralls="$(Coveralls.Token)"',
-                  '-CoverallsPath="$(System.DefaultWorkingDirectory)\artifacts\coverage.opencover.xml"',
-                  '-NugetApiKey="$(NuGet.ApiKey)"'
-    displayName: Publish NuGet Package
+                  '-CoverallsPath="$(System.DefaultWorkingDirectory)\artifacts\coverage.opencover.xml"'
+    displayName: Publish Unit Tests Results to Coveralls
 
   - task: PublishTestResults@2
-    displayName: Publish Unit Tests Results To Azure DevOps
+    displayName: Publish Unit Tests Results
     inputs:
        testResultsFormat: VSTest
        testResultsFiles: '**/*.trx'
@@ -37,8 +36,9 @@ jobs:
        testRunTitle: Linux
 
   - task: PublishCodeCoverageResults@1
-    displayName: Publish Code Coverage Results To Azure DevOps
+    displayName: Publish Code Coverage Results
     inputs:
-      codecoverageTool: cobertura
-      summaryFileLocation: $(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml
-      reportDirectory: $(System.DefaultWorkingDirectory)/**/artifacts
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/artifacts/coverage.cobertura.xml'
+      pathToSources: '$(System.DefaultWorkingDirectory)/src/IpData'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/artifacts'
