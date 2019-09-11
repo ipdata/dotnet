@@ -1,14 +1,3 @@
-pr:
-  branches:
-    include:
-    - develop
-    - features/*
-  paths:
-    exclude:
-    - .github/*
-    - samples/*
-    - .gitignore
-
 jobs:
 - job: Linux
   displayName: 'Run unit tests'
