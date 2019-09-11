@@ -1,20 +1,6 @@
-trigger:
-  branches:
-    include:
-    - master
-    exclude:
-    - develop
-    - features/*
-  paths:
-    exclude:
-    - .github/*
-    - .gitignore
-    - LICENSE
-    - .editorconfig
-
 jobs:
 - job: Windows
-  displayName: Windows
+  displayName: Build master
 
   pool:
     vmImage: vs2017-win2016
