@@ -1,6 +1,6 @@
 jobs:
 - job: Windows
-  displayName: Build master
+  displayName: 'Build master'
 
   pool:
     vmImage: vs2017-win2016
