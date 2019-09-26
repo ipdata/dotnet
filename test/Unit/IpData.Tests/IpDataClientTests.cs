@@ -28,8 +28,7 @@ namespace IpData.Tests
                .Where(e => e.Message.Contains($"The {nameof(apiKey)} {apiKey} must be not empty or whitespace string"));
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void IpDataClient_WhenCreatedWithApiKey_ShouldCreateClient(
             string apiKey)
         {
@@ -40,8 +39,7 @@ namespace IpData.Tests
             sut.ApiKey.Should().Be(apiKey);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void IpDataClient_WhenCreatedWithInvalidIHttpClient_ThrowArgumentNullException(
             string apiKey)
         {
@@ -55,8 +53,7 @@ namespace IpData.Tests
                .Where(e => e.Message.Contains("The httpClient can't be null"));
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void IpDataClient_WhenCreatedWithInvalidHttpClient_ThrowArgumentNullException(
             string apiKey)
         {
@@ -70,8 +67,7 @@ namespace IpData.Tests
                .Where(e => e.Message.Contains("The httpClient can't be null"));
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void IpDataClient_WhenCreatedWithApiKeyAndHttpClient_ShouldCreateClient(
             IHttpClient httpClient,
             string apiKey)
@@ -83,8 +79,7 @@ namespace IpData.Tests
             act.Should().NotThrow();
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalled_ShouldThrowBadRequestException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -103,8 +98,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalled_ShouldThrowForbiddenException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -123,8 +117,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalled_ShouldThrowUnauthorizedException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -143,8 +136,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalled_ShouldThrowApiException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -163,8 +155,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIp_ShouldThrowBadRequestException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -183,8 +174,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIp_ShouldThrowForbiddenException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -203,8 +193,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIp_ShouldThrowUnauthorizedException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -223,8 +212,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIp_ShouldThrowApiException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -243,8 +231,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIpList_ShouldThrowBadRequestException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -264,8 +251,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIpList_ShouldThrowForbiddenException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -285,8 +271,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIpList_ShouldThrowUnauthorizedException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -306,8 +291,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithIpList_ShouldThrowApiException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -327,8 +311,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithSelector_ShouldThrowBadRequestException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -347,8 +330,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithSelector_ShouldThrowForbiddenException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -367,8 +349,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithSelector_ShouldThrowUnauthorizedException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -387,8 +368,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Lookup_WhenCalledWithSelector_ShouldThrowApiException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -407,8 +387,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Carrier_WhenCalledWithIp_ShouldThrowBadRequestException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -427,8 +406,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Carrier_WhenCalledWithIp_ShouldThrowForbiddenException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -447,8 +425,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Carrier_WhenCalledWithIp_ShouldThrowUnauthorizedException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -467,8 +444,7 @@ namespace IpData.Tests
                 .ConfigureAwait(false);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public async Task Carrier_WhenCalledWithIp_ShouldThrowApiException(
             [Frozen] Mock<IHttpClient> httpClient,
             string apiKey)
@@ -480,6 +456,310 @@ namespace IpData.Tests
 
             var sut = new IpDataClient(apiKey, httpClient.Object);
             Func<Task> act = async () => { await sut.Carrier("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ApiException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Asn_WhenCalledWithIp_ShouldThrowBadRequestException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Asn("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<BadRequestException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Asn_WhenCalledWithIp_ShouldThrowForbiddenException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Forbidden));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Asn("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ForbiddenException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Asn_WhenCalledWithIp_ShouldThrowUnauthorizedException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Asn("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<UnauthorizedException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Asn_WhenCalledWithIp_ShouldThrowApiException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(0));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Asn("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ApiException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task TimeZone_WhenCalledWithIp_ShouldThrowBadRequestException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.TimeZone("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<BadRequestException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task TimeZone_WhenCalledWithIp_ShouldThrowForbiddenException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Forbidden));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.TimeZone("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ForbiddenException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task TimeZone_WhenCalledWithIp_ShouldThrowUnauthorizedException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.TimeZone("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<UnauthorizedException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task TimeZone_WhenCalledWithIp_ShouldThrowApiException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(0));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.TimeZone("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ApiException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Currency_WhenCalledWithIp_ShouldThrowBadRequestException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Currency("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<BadRequestException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Currency_WhenCalledWithIp_ShouldThrowForbiddenException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Forbidden));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Currency("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ForbiddenException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Currency_WhenCalledWithIp_ShouldThrowUnauthorizedException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Currency("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<UnauthorizedException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Currency_WhenCalledWithIp_ShouldThrowApiException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(0));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Currency("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ApiException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Threat_WhenCalledWithIp_ShouldThrowBadRequestException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Threat("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<BadRequestException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Threat_WhenCalledWithIp_ShouldThrowForbiddenException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Forbidden));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Threat("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<ForbiddenException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Threat_WhenCalledWithIp_ShouldThrowUnauthorizedException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Threat("1.1.1.1").ConfigureAwait(false); };
+
+            // Act/Assert
+            await act.Should()
+                .ThrowAsync<UnauthorizedException>()
+                .ConfigureAwait(false);
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Threat_WhenCalledWithIp_ShouldThrowApiException(
+            [Frozen] Mock<IHttpClient> httpClient,
+            string apiKey)
+        {
+            // Arrange
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .ReturnsAsync(new HttpResponseMessage(0));
+
+            var sut = new IpDataClient(apiKey, httpClient.Object);
+            Func<Task> act = async () => { await sut.Threat("1.1.1.1").ConfigureAwait(false); };
 
             // Act/Assert
             await act.Should()

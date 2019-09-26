@@ -13,11 +13,11 @@ namespace IpData
         /// <summary>The IpData ApiKey.</summary>
         string ApiKey { get; }
 
-        /// <summary>Fetch carrier for ip.</summary>
+        /// <summary>Fetch carrier for IP.</summary>
         /// <param name="ip">The IPv4 address.</param>
         /// <returns>The carrier info <see cref="CarrierInfo"/>.</returns>
         /// <exception cref="Exceptions.BadRequestException">
-        /// Thrown when ip address is private or invalid.
+        /// Thrown when IP address is private or invalid.
         /// </exception>
         /// <exception cref="Exceptions.ForbiddenException">
         /// Thrown when you have exceeded your daily plan quota.
@@ -30,10 +30,78 @@ namespace IpData
         /// </exception>
         Task<CarrierInfo> Carrier(string ip);
 
-        /// <summary>Fetch ip info for your ip.</summary>
-        /// <returns>The ip info <see cref="IpInfo">.</returns>
+        /// <summary>Fetch ASN for IP.</summary>
+        /// <param name="ip">The IPv4 address.</param>
+        /// <returns>The ASN info <see cref="AsnInfo"/>.</returns>
         /// <exception cref="Exceptions.BadRequestException">
-        /// Thrown when ip address is private or invalid.
+        /// Thrown when IP address is private or invalid.
+        /// </exception>
+        /// <exception cref="Exceptions.ForbiddenException">
+        /// Thrown when you have exceeded your daily plan quota.
+        /// </exception>
+        /// <exception cref="Exceptions.UnauthorizedException">
+        /// Thrown when API key is not provided.
+        /// </exception>
+        /// <exception cref="Exceptions.ApiException">
+        /// Thrown when unexpected case occurred.
+        /// </exception>
+        Task<AsnInfo> Asn(string ip);
+
+        /// <summary>Fetch timezone for IP.</summary>
+        /// <param name="ip">The IPv4 address.</param>
+        /// <returns>The timezone info <see cref="Models.TimeZone"/>.</returns>
+        /// <exception cref="Exceptions.BadRequestException">
+        /// Thrown when IP address is private or invalid.
+        /// </exception>
+        /// <exception cref="Exceptions.ForbiddenException">
+        /// Thrown when you have exceeded your daily plan quota.
+        /// </exception>
+        /// <exception cref="Exceptions.UnauthorizedException">
+        /// Thrown when API key is not provided.
+        /// </exception>
+        /// <exception cref="Exceptions.ApiException">
+        /// Thrown when unexpected case occurred.
+        /// </exception>
+        Task<Models.TimeZone> TimeZone(string ip);
+
+        /// <summary>Fetch currency for IP.</summary>
+        /// <param name="ip">The IPv4 address.</param>
+        /// <returns>The currency info <see cref="Models.Currency"/>.</returns>
+        /// <exception cref="Exceptions.BadRequestException">
+        /// Thrown when IP address is private or invalid.
+        /// </exception>
+        /// <exception cref="Exceptions.ForbiddenException">
+        /// Thrown when you have exceeded your daily plan quota.
+        /// </exception>
+        /// <exception cref="Exceptions.UnauthorizedException">
+        /// Thrown when API key is not provided.
+        /// </exception>
+        /// <exception cref="Exceptions.ApiException">
+        /// Thrown when unexpected case occurred.
+        /// </exception>
+        Task<Currency> Currency(string ip);
+
+        /// <summary>Fetch threat for IP.</summary>
+        /// <param name="ip">The IPv4 address.</param>
+        /// <returns>The threat info <see cref="Models.Threat"/>.</returns>
+        /// <exception cref="Exceptions.BadRequestException">
+        /// Thrown when IP address is private or invalid.
+        /// </exception>
+        /// <exception cref="Exceptions.ForbiddenException">
+        /// Thrown when you have exceeded your daily plan quota.
+        /// </exception>
+        /// <exception cref="Exceptions.UnauthorizedException">
+        /// Thrown when API key is not provided.
+        /// </exception>
+        /// <exception cref="Exceptions.ApiException">
+        /// Thrown when unexpected case occurred.
+        /// </exception>
+        Task<Threat> Threat(string ip);
+
+        /// <summary>Fetch IP info for your IP.</summary>
+        /// <returns>The IP info <see cref="IpInfo">.</returns>
+        /// <exception cref="Exceptions.BadRequestException">
+        /// Thrown when IP address is private or invalid.
         /// </exception>
         /// <exception cref="Exceptions.ForbiddenException">
         /// Thrown when you have exceeded your daily plan quota.
@@ -46,11 +114,11 @@ namespace IpData
         /// </exception>
         Task<IpInfo> Lookup();
 
-        /// <summary>Fetch localized ip info for your ip</summary>
+        /// <summary>Fetch localized IP info for your IP.</summary>
         /// <param name="culture">The culture info.</param>
-        /// <returns>Localized ip info <see cref="IpInfo"/></returns>
+        /// <returns>Localized IP info <see cref="IpInfo"/></returns>
         /// <exception cref="Exceptions.BadRequestException">
-        /// Thrown when ip address is private or invalid.
+        /// Thrown when IP address is private or invalid.
         /// </exception>
         /// <exception cref="Exceptions.ForbiddenException">
         /// Thrown when you have exceeded your daily plan quota.
@@ -68,11 +136,11 @@ namespace IpData
         /// </example>
         Task<IpInfo> Lookup(CultureInfo culture);
 
-        /// <summary>Fetch ip info for few ips.</summary>
+        /// <summary>Fetch IP info for few IPs.</summary>
         /// <param name="ips">The list of IPv4 addresses.</param>
-        /// <returns>The list of ip info <see cref="IpInfo"/>.</returns>
+        /// <returns>The list of IP info <see cref="IpInfo"/>.</returns>
         /// <exception cref="Exceptions.BadRequestException">
-        /// Thrown when ip address is private or invalid.
+        /// Thrown when IP address is private or invalid.
         /// </exception>
         /// <exception cref="Exceptions.ForbiddenException">
         /// Thrown when you have exceeded your daily plan quota.
@@ -85,11 +153,11 @@ namespace IpData
         /// </exception>
         Task<IEnumerable<IpInfo>> Lookup(IReadOnlyCollection<string> ips);
 
-        /// <summary>Fetch ip info for IPv4 address.</summary>
+        /// <summary>Fetch IP info for IPv4 address.</summary>
         /// <param name="ip">The IPv4 Address.</param>
-        /// <returns>The ip info for IPv4 address.</returns>
+        /// <returns>The IP info for IPv4 address.</returns>
         /// <exception cref="Exceptions.BadRequestException">
-        /// Thrown when ip address is private or invalid.
+        /// Thrown when IP address is private or invalid.
         /// </exception>
         /// <exception cref="Exceptions.ForbiddenException">
         /// Thrown when you have exceeded your daily plan quota.
@@ -102,12 +170,12 @@ namespace IpData
         /// </exception>
         Task<IpInfo> Lookup(string ip);
 
-        /// <summary>Fetch localized ip info for IPv4 address.</summary>
+        /// <summary>Fetch localized IP info for IPv4 address.</summary>
         /// <param name="ip">The IPv4 address.</param>
         /// <param name="culture">The culture info.</param>
-        /// <returns>Localized ip info <see cref="IpInfo"/>.</returns>
+        /// <returns>Localized IP info <see cref="IpInfo"/>.</returns>
         /// <exception cref="Exceptions.BadRequestException">
-        /// Thrown when ip address is private or invalid.
+        /// Thrown when IP address is private or invalid.
         /// </exception>
         /// <exception cref="Exceptions.ForbiddenException">
         /// Thrown when you have exceeded your daily plan quota.
@@ -125,12 +193,12 @@ namespace IpData
         /// </example>
         Task<IpInfo> Lookup(string ip, CultureInfo culture);
 
-        /// <summary>Fetch single ip info filed from IPv4 address.</summary>
+        /// <summary>Fetch single IP info filed from IPv4 address.</summary>
         /// <param name="ip">The IPv4 address.</param>
         /// <param name="fieldSelector">The field selector for field to return.</param>
-        /// <returns>The single ip info field value.</returns>
+        /// <returns>The single IP info field value.</returns>
         /// <exception cref="Exceptions.BadRequestException">
-        /// Thrown when ip address is private or invalid.
+        /// Thrown when IP address is private or invalid.
         /// </exception>
         /// <exception cref="Exceptions.ForbiddenException">
         /// Thrown when you have exceeded your daily plan quota.

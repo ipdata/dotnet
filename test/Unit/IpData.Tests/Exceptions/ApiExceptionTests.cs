@@ -37,8 +37,7 @@ namespace IpData.Tests.Exceptions
             sut.Message.Should().Be("An error occurred with this API request");
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void ApiExceptionException_WhenCreateWithContent_ShouldReturnApiErrorWithMessage(string content)
         {
             // Act
@@ -48,8 +47,7 @@ namespace IpData.Tests.Exceptions
             sut.ApiError.Message.Should().Be(content);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void ApiExceptionException_WhenCreateWithContent_ShouldBeMessage(string content)
         {
             // Act
@@ -59,8 +57,7 @@ namespace IpData.Tests.Exceptions
             sut.Message.Should().Be(content);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void ApiExceptionException_WhenCreateWithValidJsonContent_ShouldDeserializeApiError(string message)
         {
             // Act
@@ -71,8 +68,7 @@ namespace IpData.Tests.Exceptions
             sut.ApiError.Message.Should().Be(message);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void ApiExceptionException_WhenCreateWithValidJsonContent_ShouldBeDeserializedMessage(string message)
         {
             // Act

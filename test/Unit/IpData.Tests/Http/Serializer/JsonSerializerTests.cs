@@ -8,29 +8,24 @@ namespace IpData.Tests.Http.Serializer
 {
     public class JsonSerializerTests
     {
+        private readonly JsonSerializer _sut = new JsonSerializer();
+
         [Theory]
         [MemberData(nameof(TestDataSource.IpInfoData), MemberType = typeof(TestDataSource))]
         public void Deserialize_WhenCalled_ReturnedIpInfo(string json)
         {
-            // Arrange
-            var serializer = new JsonSerializer();
-
             // Act
-            var actual = serializer.Deserialize<IpInfo>(json);
+            var actual = _sut.Deserialize<IpInfo>(json);
 
             // Assert
             actual.Should().NotBeNull();
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void SerializeIpInfo_WhenCalled_ReturnedString(IpInfo ipInfo)
         {
-            // Arrange
-            var serializer = new JsonSerializer();
-
             // Act
-            var actual = serializer.Serialize(ipInfo);
+            var actual = _sut.Serialize(ipInfo);
 
             // Assert
             actual.Should().NotBeEmpty();
@@ -40,25 +35,18 @@ namespace IpData.Tests.Http.Serializer
         [MemberData(nameof(TestDataSource.CarrierData), MemberType = typeof(TestDataSource))]
         public void Deserialize_WhenCalled_ReturnedCarrierInfo(string json)
         {
-            // Arrange
-            var serializer = new JsonSerializer();
-
             // Act
-            var actual = serializer.Deserialize<CarrierInfo>(json);
+            var actual = _sut.Deserialize<CarrierInfo>(json);
 
             // Assert
             actual.Should().NotBeNull();
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void SerializeCarrierInfo_WhenCalled_ReturnedString(CarrierInfo carrierInfo)
         {
-            // Arrange
-            var serializer = new JsonSerializer();
-
             // Act
-            var actual = serializer.Serialize(carrierInfo);
+            var actual = _sut.Serialize(carrierInfo);
 
             // Assert
             actual.Should().NotBeEmpty();

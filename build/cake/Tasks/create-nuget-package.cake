@@ -1,5 +1,5 @@
 Task("Create-NuGet-Package")
-    .IsDependentOn("Publish-Coverage")
+    .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
         var settings = new NuGetPackSettings

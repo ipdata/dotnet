@@ -6,11 +6,11 @@
     <authors>IpData Contributors</authors>
     <owners>IpData Contributors</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/alexkhil/IpData</projectUrl>
     <iconUrl>https://image.ibb.co/iDQdUS/ipdatalogo.png</iconUrl>
-    <description>C# library to gather information for an ip using ipdata.co</description>
-    <releaseNotes>IpData client basic implementation</releaseNotes>
+    <description>C# library to gather information for an IP using ipdata.co</description>
+    <releaseNotes>Release notes are at https://github.com/alexkhil/IpData/releases </releaseNotes>
     <copyright>IpData Community</copyright>
     <tags>ip ipdata csharp</tags>
     <repository type="git" url="https://github.com/alexkhil/IpData" />

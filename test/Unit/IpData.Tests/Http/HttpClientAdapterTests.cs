@@ -7,8 +7,7 @@ namespace IpData.Tests.Http
 {
     public class HttpClientAdapterTests
     {
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void SendAsync_WhenCalled_ShouldReturnHttpResponseMessage(
             HttpRequestMessage requestMessage)
         {

@@ -6,7 +6,7 @@ Task("Publish-NuGet-Package")
 
         NuGetPush(packages, new NuGetPushSettings {
             Source = "https://api.nuget.org/v3/index.json",
-            ApiKey = NuGetApiKey
+            ApiKey = nugetApiKey
         });
     })
     .OnError(ex =>

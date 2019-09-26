@@ -20,11 +20,11 @@
 var target = Argument<string>("Target", "Default");
 var configuration = Argument<string>("Configuration", "Release");
 var packageOutputPath = Argument<DirectoryPath>("PackageOutputPath", "packages");
-var CoverallsToken = Argument<string>("Coveralls", "REPO_TOKEN");
-var NuGetApiKey = Argument<string>("NugetApiKey", "NUGET_API_KEY");
-
+var nugetApiKey = Argument<string>("NugetApiKey", "NUGET_API_KEY");
 var coverageFile = new FilePath($"../{Paths.Artifacts.FullPath}/coverage.opencover.xml");
-var CoverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
+
+var coverallsToken = Argument<string>("Coveralls", "REPO_TOKEN");
+var coverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
 
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
@@ -40,21 +40,7 @@ var CoverallsPath = Argument<string>("CoverallsPath", coverageFile.FullPath);
 #load Tasks/default.cake
 
 ///////////////////////////////////////////////////////////////////////////////
-// SETUP
+// RUN 
 ///////////////////////////////////////////////////////////////////////////////
-
-// Setup(ctx =>
-// {
-//    Information("Executed BEFORE the first task.");
-// });
-
-///////////////////////////////////////////////////////////////////////////////
-// TEARDOWN
-///////////////////////////////////////////////////////////////////////////////
-
-// Teardown(ctx =>
-// {
-//   Information("Executed AFTER the last task.");
-// });
 
 RunTarget(target);

@@ -27,8 +27,7 @@ namespace IpData.Tests.Exceptions
             sut.ApiError.Should().NotBeNull();
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void UnauthorizedException_WhenCreateWithContent_ShouldReturnApiErrorWithMessage(string content)
         {
             // Act
@@ -38,8 +37,7 @@ namespace IpData.Tests.Exceptions
             sut.ApiError.Message.Should().Be(content);
         }
 
-        [Theory]
-        [AutoMoqData]
+        [Theory, AutoMoqData]
         public void UnauthorizedException_WhenCreateWithContent_ShouldBeMessage(string content)
         {
             // Act
