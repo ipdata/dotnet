@@ -2,8 +2,8 @@ Task("Publish-Coverage")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
-        CoverallsIo(CoverallsPath, new CoverallsIoSettings
+        CoverallsIo(coverallsPath, new CoverallsIoSettings
         {
-            RepoToken = CoverallsToken
+            RepoToken = coverallsToken
         });
     });

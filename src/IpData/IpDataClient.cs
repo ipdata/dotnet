@@ -125,10 +125,46 @@ namespace IpData
             return _serializer.Deserialize<CarrierInfo>(json);
         }
 
+        /// <inheritdoc />
+        public async Task<AsnInfo> Asn(string ip)
+        {
+            var url = ApiUrls.Asn(ApiKey, ip);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
+            return _serializer.Deserialize<AsnInfo>(json);
+        }
+
+        /// <inheritdoc />
+        public async Task<Models.TimeZone> TimeZone(string ip)
+        {
+            var url = ApiUrls.TimeZone(ApiKey, ip);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
+            return _serializer.Deserialize<Models.TimeZone>(json);
+        }
+
+        /// <inheritdoc />
+        public async Task<Currency> Currency(string ip)
+        {
+            var url = ApiUrls.Currency(ApiKey, ip);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
+            return _serializer.Deserialize<Currency>(json);
+        }
+
+        /// <inheritdoc />
+        public async Task<Threat> Threat(string ip)
+        {
+            var url = ApiUrls.Threat(ApiKey, ip);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
+            return _serializer.Deserialize<Threat>(json);
+        }
+
         /// <summary>Sends the request asynchronous.</summary>
         /// <param name="httpClient">The HTTP client.</param>
         /// <param name="request">The request.</param>
-        /// <returns>The http request body.</returns>
+        /// <returns>The HTTP request body.</returns>
         private static async Task<string> SendRequestAsync(IHttpClient httpClient, HttpRequestMessage request)
         {
             var response = await httpClient.SendAsync(request).ConfigureAwait(false);

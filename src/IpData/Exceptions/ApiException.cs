@@ -10,7 +10,7 @@ namespace IpData.Exceptions
     [Serializable]
     public class ApiException : Exception
     {
-        private static readonly ISerializer serializer = new JsonSerializer();
+        private static readonly ISerializer _serializer = new JsonSerializer();
 
         [NonSerialized]
         private HttpStatusCode statusCode;
@@ -85,7 +85,7 @@ namespace IpData.Exceptions
 
             try
             {
-                return serializer.Deserialize<ApiError>(responseContent);
+                return _serializer.Deserialize<ApiError>(responseContent);
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception)

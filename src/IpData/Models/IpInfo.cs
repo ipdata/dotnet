@@ -43,7 +43,7 @@ namespace IpData.Models
         public double? Longitude { get; set; }
 
         [JsonProperty("asn", NullValueHandling = NullValueHandling.Ignore)]
-        public string Asn { get; set; }
+        public AsnInfo Asn { get; set; }
 
         [JsonProperty("organisation", NullValueHandling = NullValueHandling.Ignore)]
         public string Organisation { get; set; }
@@ -64,7 +64,7 @@ namespace IpData.Models
         public string EmojiUnicode { get; set; }
 
         [JsonProperty("languages")]
-        public List<Language> Languages { get; private set; }
+        public List<Language> Languages { get; private set; } = new List<Language>();
 
         [JsonProperty("currency")]
         public Currency Currency { get; set; }
@@ -77,11 +77,6 @@ namespace IpData.Models
 
         [JsonProperty("count")]
         public int Count { get; set; }
-
-        public IpInfo()
-        {
-            Languages = new List<Language>();
-        }
 
         internal static string FieldName(Expression<Func<IpInfo, object>> expression)
         {

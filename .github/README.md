@@ -8,16 +8,20 @@
 
 ## Table of Content
 
-- [Installing](#installing)
-- [Usage](#usage)
-  - [Basic Lookup](#basic-lookup)
-  - [Bulk Lookup](#bulk-lookup)
-  - [Carrier Lookup](#carrier-lookup)
+- [Install](#install)
+- [Lookup](#lookup)
+  - [Basic](#basic)
+  - [Bulk](#bulk)
+  - [Carrier](#carrier)
+  - [Asn](#asn)
+  - [Timezone](#timezone)
+  - [Currency](#currency)
+  - [Threat](#threat)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [License](#license)
 
-## Installing
+## Install
 
 NuGet package install using package manager:
 
@@ -31,42 +35,42 @@ NuGet package install using .NET CLI:
 dotnet add package IpData --version 1.1.0
 ```
 
-## Usage
+## Lookup
 
 All usage examples you can find on `samples` folder.
 
-### Basic Lookup
+### Basic
 
-```C#
+```csharp
 var client = new IpDataClient("API_KEY");
 
-// Get ip data from my ip
+// Get IP data from my IP
 var myIpInfo = await client.Lookup();
 Console.WriteLine($"Country name for {myIpInfo.Ip} is {myIpInfo.CountryName}");
 
-// Get localized ip data from my ip
+// Get localized IP data from my IP
 var myIpInfoLocalized = await client.Lookup(CultureInfo.GetCultureInfo("zh-CN"));
 Console.WriteLine($"Localized country name for {myIpInfoLocalized.Ip} is {myIpInfoLocalized.CountryName}");
 
-// Get ip data from ip
+// Get IP data from IP
 var ipInfo = await client.Lookup("8.8.8.8");
 Console.WriteLine($"Country name for {ipInfo.Ip} is {ipInfo.CountryName}");
 
-// Get localized ip data from ip
+// Get localized IP data from IP
 var ipInfoLocalized = await client.Lookup("8.8.8.8", CultureInfo.GetCultureInfo("zh-CN"));
 Console.WriteLine($"Localized country name for {myIpInfoLocalized.Ip} is {ipInfoLocalized.CountryName}");
 
-// Get single field from ip
+// Get single field from IP
 var countryName = await client.Lookup("8.8.8.8", x => x.CountryName);
 Console.WriteLine($"Country name for 8.8.8.8 is {countryName}");
 ```
 
-### Bulk Lookup
+### Bulk
 
 From ipdata.co docs:
 > Note that bulk lookups are only available to paid users and are currently limited to a 100 at a time. Reach out to support if you need to lookup larger batches.
 
-```C#
+```csharp
 var client = new IpDataClient("API_KEY");
 
 var ipInfoList = await client.Lookup(new string[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" });
@@ -76,13 +80,49 @@ foreach (var ipInfo in ipInfoList)
 }
 ```
 
-### Carrier Lookup
+### Carrier
 
-```C#
+```csharp
 var client = new IpDataClient("API_KEY");
 
 var carrierInfo = await client.Carrier("69.78.70.144");
 Console.WriteLine($"Carrier name: {carrierInfo.Name}");
+```
+
+### ASN
+
+```csharp
+var client = new IpDataClient("API_KEY");
+
+var asnInfo = await client.Asn("69.78.70.144");
+Console.WriteLine($"ASN name: {asnInfo.Name}");
+```
+
+### Timezone
+
+```csharp
+var client = new IpDataClient("API_KEY");
+
+var timezoneInfo = await client.TimeZone("69.78.70.144");
+Console.WriteLine($"TimeZone name: {timezoneInfo.Name}");
+```
+
+### Currency
+
+```csharp
+var client = new IpDataClient("API_KEY");
+
+var currencyInfo = await client.Currency("69.78.70.144");
+Console.WriteLine($"Currency name: {currencyInfo.Name}");
+```
+
+### Threat
+
+```csharp
+var client = new IpDataClient("API_KEY");
+
+var threatInfo = await client.Threat("69.78.70.144");
+Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
 ```
 
 ## Contributing

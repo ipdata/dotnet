@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq.Expressions;
 using IpData.Helpers.Extensions;
 using IpData.Models;
-using Newtonsoft.Json;
 
 namespace IpData.Helpers
 {
@@ -11,10 +10,8 @@ namespace IpData.Helpers
     {
         public static Uri Base => new Uri($"https://api.ipdata.co");
 
-        public static Uri Get(string apiKey, CultureInfo culture)
-        {
-            return ApplyApiKey(new Uri(Base, $"{culture}"), apiKey);
-        }
+        public static Uri Get(string apiKey, CultureInfo culture) =>
+            ApplyApiKey(new Uri(Base, $"{culture}"), apiKey);
 
         public static Uri Get(string apiKey, string ip, CultureInfo culture)
         {
@@ -28,19 +25,25 @@ namespace IpData.Helpers
             return ApplyApiKey(new Uri(Base, $"{ip}/{field}"), apiKey);
         }
 
-        public static Uri Bulk(string apiKey)
-        {
-            return ApplyApiKey(new Uri(Base, "bulk"), apiKey);
-        }
+        public static Uri Bulk(string apiKey) =>
+            ApplyApiKey(new Uri(Base, "bulk"), apiKey);
 
-        public static Uri Carrier(string apiKey, string ip)
-        {
-            return ApplyApiKey(new Uri(Base, $"{ip}/carrier"), apiKey);
-        }
+        public static Uri Carrier(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(Base, $"{ip}/carrier"), apiKey);
 
-        private static Uri ApplyApiKey(Uri url, string apiKey)
-        {
-            return url.AddParameter("api-key", apiKey);
-        }
+        public static Uri Asn(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(Base, $"asn/{ip}"), apiKey);
+
+        public static Uri TimeZone(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(Base, $"{ip}/time_zone"), apiKey);
+
+        public static Uri Currency(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(Base, $"{ip}/currency"), apiKey);
+
+        public static Uri Threat(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(Base, $"{ip}/threat"), apiKey);
+
+        private static Uri ApplyApiKey(Uri url, string apiKey) =>
+            url.AddParameter("api-key", apiKey);
     }
 }
