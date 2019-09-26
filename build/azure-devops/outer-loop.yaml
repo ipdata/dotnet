@@ -9,8 +9,6 @@ jobs:
   - powershell: ./build/cake/build.ps1
       -Script build/cake/build.cake
       -Target Outer-Loop
-      -ScriptArgs '-Coveralls="$(Coveralls.Token)"',
-                  '-CoverallsPath="$(System.DefaultWorkingDirectory)\artifacts\coverage.opencover.xml"'
     displayName: 'Run Outer Loop'
 
   - task: PublishTestResults@2
