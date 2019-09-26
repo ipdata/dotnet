@@ -16,10 +16,12 @@
     <ApplicationIcon>ipdata.ico</ApplicationIcon>
     <Copyright>IpData Community</Copyright>
     <Win32Resource />
-    <PackageReleaseNotes>IpData client basic implementation</PackageReleaseNotes>
+    <PackageReleaseNotes>Release notes are at https://github.com/alexkhil/IpData/releases</PackageReleaseNotes>
     <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
