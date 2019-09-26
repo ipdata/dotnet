@@ -17,7 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{C0FF3B0D
 		build\cake\Tasks\clean.cake = build\cake\Tasks\clean.cake
 		build\cake\Tasks\create-nuget-package.cake = build\cake\Tasks\create-nuget-package.cake
 		build\cake\Tasks\default.cake = build\cake\Tasks\default.cake
-		build\cake\Tasks\publish-coverage.cake = build\cake\Tasks\publish-coverage.cake
 		build\cake\Tasks\publish-nuget-package.cake = build\cake\Tasks\publish-nuget-package.cake
 		build\cake\Tasks\restore-nuget-packages.cake = build\cake\Tasks\restore-nuget-packages.cake
 		build\cake\Tasks\run-unit-tests.cake = build\cake\Tasks\run-unit-tests.cake
@@ -74,7 +73,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IpData.Lookup", "samples\IpData.Lookup\IpData.Lookup.csproj", "{3546F4B5-7D43-4332-914A-6A657D95CEB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpData.Lookup", "samples\IpData.Lookup\IpData.Lookup.csproj", "{3546F4B5-7D43-4332-914A-6A657D95CEB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
