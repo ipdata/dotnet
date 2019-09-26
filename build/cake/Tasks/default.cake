@@ -11,8 +11,7 @@ Task("Outer-Loop")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore-NuGet-Packages")
     .IsDependentOn("Build")
-    .IsDependentOn("Run-Unit-Tests")
-    .IsDependentOn("Publish-Coverage");
+    .IsDependentOn("Run-Unit-Tests");
 
 Task("Release")
     .IsDependentOn("Clean")
