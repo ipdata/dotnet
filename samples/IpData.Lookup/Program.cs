@@ -11,7 +11,7 @@ namespace IpData.Lookup
             var client = new IpDataClient("ea1d25cb36a3c66b3fdd02c33129e508106835d8a102b8ed65d8eb82");
 
             // Get IP data from my IP
-            var myIpInfo = await client.Lookup("1.1.1.1");
+            var myIpInfo = await client.Lookup();
             Console.WriteLine($"Country name for {myIpInfo.Ip} is {myIpInfo.CountryName}");
 
             // Get localized IP data from my IP
@@ -29,6 +29,10 @@ namespace IpData.Lookup
             // Get single field from IP
             var countryName = await client.Lookup("8.8.8.8", x => x.CountryName);
             Console.WriteLine($"Country name for 8.8.8.8 is {countryName}");
+            
+            // Get multiple fields from IP
+            var geolocation = await client.Lookup("8.8.8.8", x => x.Latitude, x => x.Longitude);
+            Console.WriteLine($"Geolocation for 8.8.8.8 is lat: {geolocation.Latitude} long: {geolocation.Longitude}");
 
             // Get carrier info from IP
             var carrierInfo = await client.Carrier("69.78.70.144");
@@ -51,7 +55,7 @@ namespace IpData.Lookup
             Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
 
             // Get IP data for multiple IPs
-            var ipInfoList = await client.Lookup(new string[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" });
+            var ipInfoList = await client.Lookup(new[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" });
             foreach (var info in ipInfoList)
             {
                 Console.WriteLine($"Country name for {info.Ip} is {info.CountryName}");

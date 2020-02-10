@@ -83,10 +83,10 @@ namespace IpData.Models
             var propName = expression.PropertyName();
             var attribute = typeof(IpInfo)
                 .GetProperty(propName)
-                .GetCustomAttributes(typeof(JsonPropertyAttribute), false)
+                ?.GetCustomAttributes(typeof(JsonPropertyAttribute), false)
                 .Single() as JsonPropertyAttribute;
 
-            return attribute.PropertyName;
+            return attribute?.PropertyName ?? string.Empty;
         }
     }
 }

@@ -18,19 +18,10 @@ namespace IpData.Exceptions.Factory
             ? exception(content)
             : new ApiException(content);
 
-        private static ApiException CreateBadRequestException(string content)
-        {
-            return new BadRequestException(content);
-        }
+        private static ApiException CreateBadRequestException(string content) => new BadRequestException(content);
 
-        private static ApiException CreateUnauthorizedException(string content)
-        {
-            return new UnauthorizedException(content);
-        }
+        private static ApiException CreateUnauthorizedException(string content) => new UnauthorizedException(content);
 
-        private static ApiException CreateForbiddenException(string content)
-        {
-            return new ForbiddenException(content);
-        }
+        private static ApiException CreateForbiddenException(string content) => new ForbiddenException(content);
     }
 }
