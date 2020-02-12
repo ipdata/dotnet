@@ -1,6 +1,7 @@
 using FluentAssertions;
 using IpData.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Xunit;
 
@@ -75,7 +76,7 @@ namespace IpData.Tests.Helpers
         }
 
         [Theory, AutoMoqData]
-        public void Get_WhenCalledWithReferenceTypeProp_ReturnedUrl(string apiKey, string ip)
+        public void Get_WhenCalledWithSingleField_ReturnedUrl(string apiKey, string ip)
         {
             // Arrange
             var expectedUrl = $"https://api.ipdata.co/{ip}/continent_name?api-key={apiKey}";
@@ -85,6 +86,19 @@ namespace IpData.Tests.Helpers
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+        
+        [Theory, AutoMoqData]
+        public void Get_WhenCalledWithMultipleFields_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var expectedUrl = new Uri($"https://api.ipdata.co/{ip}?fields=country_name%2ccity&api-key={apiKey}");
+
+            // Act
+            var url = ApiUrls.Get(apiKey, ip, x => x.CountryName, x => x.City);
+
+            // Assert
+            url.Should().BeEquivalentTo(expectedUrl);
         }
 
         [Theory, AutoMoqData]
