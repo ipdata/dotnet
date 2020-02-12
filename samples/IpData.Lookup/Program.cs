@@ -8,7 +8,7 @@ namespace IpData.Lookup
     {
         public static async Task Main()
         {
-            var client = new IpDataClient("ea1d25cb36a3c66b3fdd02c33129e508106835d8a102b8ed65d8eb82");
+            var client = new IpDataClient("API_KEY");
 
             // Get IP data from my IP
             var myIpInfo = await client.Lookup();
