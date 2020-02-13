@@ -27,7 +27,7 @@ namespace IpData
         private readonly IHttpClient _httpClient;
 
         /// <inheritdoc />
-        public string ApiKey { get; private set; }
+        public string ApiKey { get; }
 
         /// <summary>Initializes a new instance of the <see cref="IpDataClient"/> class.</summary>
         /// <param name="apiKey">The API key.</param>
@@ -66,10 +66,8 @@ namespace IpData
         }
 
         /// <inheritdoc />
-        public Task<IpInfo> Lookup()
-        {
-            return Lookup(CultureInfo.InvariantCulture);
-        }
+        public Task<IpInfo> Lookup() =>
+            Lookup(CultureInfo.InvariantCulture);
 
         /// <inheritdoc />
         public async Task<IpInfo> Lookup(CultureInfo culture)
@@ -81,10 +79,8 @@ namespace IpData
         }
 
         /// <inheritdoc />
-        public Task<IpInfo> Lookup(string ip)
-        {
-            return Lookup(ip, CultureInfo.InvariantCulture);
-        }
+        public Task<IpInfo> Lookup(string ip) =>
+            Lookup(ip, CultureInfo.InvariantCulture);
 
         /// <inheritdoc />
         public async Task<IpInfo> Lookup(string ip, CultureInfo culture)
@@ -101,6 +97,15 @@ namespace IpData
             var url = ApiUrls.Get(ApiKey, ip, fieldSelector);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             return SendRequestAsync(_httpClient, request);
+        }
+        
+        /// <inheritdoc />
+        public async Task<IpInfo> Lookup(string ip, params Expression<Func<IpInfo, object>>[] fieldSelectors)
+        {
+            var url = ApiUrls.Get(ApiKey, ip, fieldSelectors);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
+            return _serializer.Deserialize<IpInfo>(json);
         }
 
         /// <inheritdoc />

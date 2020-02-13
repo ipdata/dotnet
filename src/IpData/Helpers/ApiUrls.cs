@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using IpData.Helpers.Extensions;
 using IpData.Models;
@@ -8,14 +10,14 @@ namespace IpData.Helpers
 {
     internal static class ApiUrls
     {
-        public static Uri Base => new Uri($"https://api.ipdata.co");
+        private static Uri Base => new Uri("https://api.ipdata.co");
 
         public static Uri Get(string apiKey, CultureInfo culture) =>
             ApplyApiKey(new Uri(Base, $"{culture}"), apiKey);
 
         public static Uri Get(string apiKey, string ip, CultureInfo culture)
         {
-            var relative = culture == CultureInfo.InvariantCulture ? ip : $"{ip}/{culture}";
+            var relative = Equals(culture, CultureInfo.InvariantCulture) ? ip : $"{ip}/{culture}";
             return ApplyApiKey(new Uri(Base, relative), apiKey);
         }
 
@@ -23,6 +25,12 @@ namespace IpData.Helpers
         {
             var field = IpInfo.FieldName(expression);
             return ApplyApiKey(new Uri(Base, $"{ip}/{field}"), apiKey);
+        }
+        
+        public static Uri Get(string apiKey, string ip, params Expression<Func<IpInfo, object>>[] expressions)
+        {
+            var fields = string.Join(",", expressions.Select(IpInfo.FieldName));
+            return ApplyApiKey(new Uri(Base, $"{ip}").AddParameter(nameof(fields), fields), apiKey);
         }
 
         public static Uri Bulk(string apiKey) =>

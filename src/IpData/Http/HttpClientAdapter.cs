@@ -20,9 +20,7 @@ namespace IpData
                 $"The {nameof(httpClient)} can't be null");
         }
 
-        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
-        {
-            return _httpClient.SendAsync(request);
-        }
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request) =>
+            _httpClient.SendAsync(request);
     }
 }

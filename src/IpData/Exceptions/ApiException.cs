@@ -13,10 +13,10 @@ namespace IpData.Exceptions
         private static readonly ISerializer _serializer = new JsonSerializer();
 
         [NonSerialized]
-        private HttpStatusCode statusCode;
+        private HttpStatusCode _statusCode;
 
         [NonSerialized]
-        private ApiError apiError;
+        private ApiError _apiError;
 
         public ApiException()
             : this(null)
@@ -57,22 +57,21 @@ namespace IpData.Exceptions
         /// <summary>Gets or sets the status code.</summary>
         public HttpStatusCode StatusCode
         {
-            get => statusCode;
-            protected set => statusCode = value;
+            get => _statusCode;
+            protected set => _statusCode = value;
         }
 
         /// <summary>Gets or sets the <see cref="Models.ApiError"> object.</summary>
         public ApiError ApiError
         {
-            get => apiError;
-            protected set => apiError = value;
+            get => _apiError;
+            protected set => _apiError = value;
         }
 
         /// <summary>Gets the API error message.</summary>
         protected string ApiErrorMessage =>
             string.IsNullOrWhiteSpace(ApiError?.Message) ? null : ApiError.Message;
-
-
+        
         /// <summary>Gets the API error from exception message.</summary>
         /// <param name="responseContent">Content of the response.</param>
         /// <returns>The <see cref="Models.ApiError"/> object</returns>

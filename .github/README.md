@@ -26,13 +26,13 @@
 NuGet package install using package manager:
 
 ```bash
-Install-Package IpData -Version 2.0.0
+Install-Package IpData -Version 2.0.1
 ```
 
 NuGet package install using .NET CLI:
 
 ```bash
-dotnet add package IpData --version 2.0.0
+dotnet add package IpData --version 2.0.1
 ```
 
 ## Lookup
@@ -63,6 +63,10 @@ Console.WriteLine($"Localized country name for {myIpInfoLocalized.Ip} is {ipInfo
 // Get single field from IP
 var countryName = await client.Lookup("8.8.8.8", x => x.CountryName);
 Console.WriteLine($"Country name for 8.8.8.8 is {countryName}");
+
+// Get multiple fields from IP
+var geolocation = await client.Lookup("8.8.8.8", x => x.Latitude, x => x.Longitude);
+Console.WriteLine($"Geolocation for 8.8.8.8 is lat: {geolocation.Latitude} long: {geolocation.Longitude}");
 ```
 
 ### Bulk
