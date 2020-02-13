@@ -26,13 +26,13 @@
 NuGet package install using package manager:
 
 ```bash
-Install-Package IpData -Version 2.0.0
+Install-Package IpData -Version 2.0.1
 ```
 
 NuGet package install using .NET CLI:
 
 ```bash
-dotnet add package IpData --version 2.0.0
+dotnet add package IpData --version 2.0.1
 ```
 
 ## Lookup
