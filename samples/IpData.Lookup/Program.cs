@@ -18,10 +18,6 @@ namespace IpData.Lookup
             var ipInfo = await client.Lookup("8.8.8.8");
             Console.WriteLine($"Country name for {ipInfo.Ip} is {ipInfo.CountryName}");
 
-            // Get localized IP data from IP
-            var ipInfoLocalized = await client.Lookup("8.8.8.8", CultureInfo.GetCultureInfo("zh-CN"));
-            Console.WriteLine($"Localized country name for {myIpInfoLocalized.Ip} is {ipInfoLocalized.CountryName}");
-
             // Get single field from IP
             var countryName = await client.Lookup("8.8.8.8", x => x.CountryName);
             Console.WriteLine($"Country name for 8.8.8.8 is {countryName}");
