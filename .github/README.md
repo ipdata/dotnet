@@ -48,10 +48,6 @@ var client = new IpDataClient("API_KEY");
 var myIpInfo = await client.Lookup();
 Console.WriteLine($"Country name for {myIpInfo.Ip} is {myIpInfo.CountryName}");
 
-// Get localized IP data from my IP
-var myIpInfoLocalized = await client.Lookup(CultureInfo.GetCultureInfo("zh-CN"));
-Console.WriteLine($"Localized country name for {myIpInfoLocalized.Ip} is {myIpInfoLocalized.CountryName}");
-
 // Get IP data from IP
 var ipInfo = await client.Lookup("8.8.8.8");
 Console.WriteLine($"Country name for {ipInfo.Ip} is {ipInfo.CountryName}");
