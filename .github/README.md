@@ -1,6 +1,3 @@
-<a href="https://ipdata.co/">
-    <img src="https://image.ibb.co/iDQdUS/ipdatalogo.png" alt="Ip Data Logo" title="IpData" align="left" height="60" />
-</a>
 
 # IpData [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IpData/blob/master/LICENSE) [![IpData](https://img.shields.io/nuget/v/IpData.svg)](https://www.nuget.org/packages/IpData/) [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=4?branchName=master) [![Coverage Status](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)
 
