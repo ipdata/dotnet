@@ -1,5 +1,6 @@
 
-# ipdata [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IpData/blob/master/LICENSE) [![IpData](https://img.shields.io/nuget/v/IpData.svg)](https://www.nuget.org/packages/IpData/) [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=4?branchName=master) [![Coverage Status](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)
+# ipdata 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IpData/blob/master/LICENSE) [![IpData](https://img.shields.io/nuget/v/IpData.svg)](https://www.nuget.org/packages/IpData/) [![Build Status](https://dev.azure.com/alexkhildev/IpData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IpData/_build/latest?definitionId=4?branchName=master) [![Coverage Status](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)
 
 [ipdata.co](https://ipdata.co/) is a fast, reliable and clean service that allows you to look up the location of an IP Address and other data.
 
