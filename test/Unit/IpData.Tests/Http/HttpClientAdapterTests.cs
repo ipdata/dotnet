@@ -28,10 +28,8 @@ namespace IpData.Tests.Http
             Action act = () => new HttpClientAdapter(null);
 
             // Assert
-            act.Should()
-               .Throw<ArgumentNullException>()
-               .Where(e => e.ParamName == "httpClient")
-               .Where(e => e.Message.Contains("The httpClient can't be null"));
+            act.Should().Throw<ArgumentNullException>()
+                .Which.Message.Should().NotBeNullOrEmpty();
         }
     }
 }

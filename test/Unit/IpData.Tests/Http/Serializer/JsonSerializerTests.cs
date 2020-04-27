@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using IpData.Http.Serializer;
 using IpData.Models;
-using IpData.Tests.DataSources;
+using IpData.Tests.Infrastructure;
 using Xunit;
 
 namespace IpData.Tests.Http.Serializer
@@ -11,7 +11,7 @@ namespace IpData.Tests.Http.Serializer
         private readonly JsonSerializer _sut = new JsonSerializer();
 
         [Theory]
-        [MemberData(nameof(TestDataSource.IpInfoData), MemberType = typeof(TestDataSource))]
+        [JsonFile("IpInfo.json")]
         public void Deserialize_WhenCalled_ReturnedIpInfo(string json)
         {
             // Act
@@ -32,7 +32,7 @@ namespace IpData.Tests.Http.Serializer
         }
 
         [Theory]
-        [MemberData(nameof(TestDataSource.CarrierData), MemberType = typeof(TestDataSource))]
+        [JsonFile("CarrierData.json")]
         public void Deserialize_WhenCalled_ReturnedCarrierInfo(string json)
         {
             // Act

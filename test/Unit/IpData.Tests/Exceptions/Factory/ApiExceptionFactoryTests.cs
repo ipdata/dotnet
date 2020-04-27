@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using FluentAssertions;
 using IpData.Exceptions;
 using IpData.Exceptions.Factory;
@@ -8,56 +9,21 @@ namespace IpData.Tests.Exceptions.Factory
 {
     public class ApiExceptionFactoryTests
     {
-        [Fact]
-        public void Create_WhenCalledWithBadRequest_ShouldReturnBadRequestException()
+        [Theory]
+        [InlineData(HttpStatusCode.InternalServerError, typeof(ApiException))]
+        [InlineData(HttpStatusCode.Unauthorized, typeof(UnauthorizedException))]
+        [InlineData(HttpStatusCode.BadRequest, typeof(BadRequestException))]
+        [InlineData(HttpStatusCode.Forbidden, typeof(ForbiddenException))]
+        public void Create_WhenCalledWithStatusCode_ShouldThrowExpectedException(HttpStatusCode statusCode, Type expected)
         {
             // Arrange
             var sut = new ApiExceptionFactory();
 
             // Act
-            var actual = sut.Create(HttpStatusCode.BadRequest, string.Empty);
+            var actual = sut.Create(statusCode, string.Empty);
 
             // Assert
-            actual.Should().BeOfType<BadRequestException>();
-        }
-
-        [Fact]
-        public void Create_WhenCalledWithUnauthorized_ShouldReturnUnauthorizedException()
-        {
-            // Arrange
-            var sut = new ApiExceptionFactory();
-
-            // Act
-            var actual = sut.Create(HttpStatusCode.Unauthorized, string.Empty);
-
-            // Assert
-            actual.Should().BeOfType<UnauthorizedException>();
-        }
-
-        [Fact]
-        public void Create_WhenCalledWithForbidden_ShouldReturnForbiddenException()
-        {
-            // Arrange
-            var sut = new ApiExceptionFactory();
-
-            // Act
-            var actual = sut.Create(HttpStatusCode.Forbidden, string.Empty);
-
-            // Assert
-            actual.Should().BeOfType<ForbiddenException>();
-        }
-
-        [Fact]
-        public void Create_WhenCalled_ShouldReturnApiException()
-        {
-            // Arrange
-            var sut = new ApiExceptionFactory();
-
-            // Act
-            var actual = sut.Create(HttpStatusCode.InternalServerError, string.Empty);
-
-            // Assert
-            actual.Should().BeOfType<ApiException>();
+            actual.Should().BeOfType(expected);
         }
     }
 }

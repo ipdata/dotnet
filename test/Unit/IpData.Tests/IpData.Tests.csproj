@@ -32,4 +32,13 @@
     <ProjectReference Include="..\..\..\src\IpData\IpData.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="CarrierData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IpInfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

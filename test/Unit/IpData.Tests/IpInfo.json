@@ -1,0 +1,59 @@
+{
+  "ip":"166.215.40.3",
+  "is_eu":false,
+  "city":null,
+  "region":null,
+  "region_code":null,
+  "country_name":"United States",
+  "country_code":"US",
+  "continent_name":"North America",
+  "continent_code":"NA",
+  "latitude":37.751,
+  "longitude":-97.822,
+  "postal":null,
+  "calling_code":"1",
+  "flag":"https://ipdata.co/flags/us.png",
+  "emoji_flag":"🇺🇸",
+  "emoji_unicode":"U+1F1FA U+1F1F8",
+  "asn":{
+    "asn":"AS20057",
+    "name":"AT&T Mobility LLC",
+    "domain":"att.com",
+    "route":"166.215.0.0/17",
+    "type":"isp"
+  },
+  "carrier":{
+    "name":"AT&T",
+    "mcc":"310",
+    "mnc":"016"
+  },
+  "languages":[
+    {
+      "name":"English",
+      "native":"English"
+    }
+  ],
+  "currency":{
+    "name":"US Dollar",
+    "code":"USD",
+    "symbol":"$",
+    "native":"$",
+    "plural":"US dollars"
+  },
+  "time_zone":{
+    "name":"America/Chicago",
+    "abbr":"CDT",
+    "offset":"-0500",
+    "is_dst":true,
+    "current_time":"2020-04-27T18:09:31.359643-05:00"
+  },
+  "threat":{
+    "is_tor":false,
+    "is_proxy":false,
+    "is_anonymous":false,
+    "is_known_attacker":false,
+    "is_known_abuser":false,
+    "is_threat":false,
+    "is_bogon":false
+  }
+}

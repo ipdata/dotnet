@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using IpData.Exceptions;
 using Xunit;
 
@@ -8,75 +9,47 @@ namespace IpData.Tests.Exceptions
     public class ApiExceptionTests
     {
         [Fact]
-        public void ApiException_WhenCreate_ShouldReturnStatusCode()
+        public void ApiException_WhenCreate_ShouldSetDefaultValues()
         {
             // Act
             var sut = new ApiException();
 
             // Assert
-            sut.StatusCode.Should().Be(0);
-        }
-
-        [Fact]
-        public void ApiExceptionException_WhenCreateWithoutParams_ShouldReturnApiError()
-        {
-            // Act
-            var sut = new ApiException();
-
-            // Assert
-            sut.ApiError.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void ApiExceptionException_WhenCreateWithoutParams_ShouldBeDefaultMessage()
-        {
-            // Act
-            var sut = new ApiException();
-
-            // Assert
-            sut.Message.Should().Be("An error occurred with this API request");
+            using (new AssertionScope())
+            {
+                sut.StatusCode.Should().Be(0);
+                sut.ApiError.Should().NotBeNull();
+                sut.Message.Should().NotBeEmpty();
+            }
         }
 
         [Theory, AutoMoqData]
-        public void ApiExceptionException_WhenCreateWithContent_ShouldReturnApiErrorWithMessage(string content)
+        public void ApiExceptionException_WhenCreateWithContent_ShouldSetMessage(string content)
         {
             // Act
             var sut = new ApiException(content);
 
             // Assert
-            sut.ApiError.Message.Should().Be(content);
+            using (new AssertionScope())
+            {
+                sut.ApiError.Message.Should().Be(content);
+                sut.Message.Should().Be(content);   
+            }
         }
 
         [Theory, AutoMoqData]
-        public void ApiExceptionException_WhenCreateWithContent_ShouldBeMessage(string content)
-        {
-            // Act
-            var sut = new ApiException(content);
-
-            // Assert
-            sut.Message.Should().Be(content);
-        }
-
-        [Theory, AutoMoqData]
-        public void ApiExceptionException_WhenCreateWithValidJsonContent_ShouldDeserializeApiError(string message)
+        public void ApiExceptionException_WhenCreateWithValidJsonContent_ShouldDeserializeToMessage(string message)
         {
             // Act
             var json = $"{{\"message\":\"{message}\"}}";
             var sut = new ApiException(json);
 
             // Assert
-            sut.ApiError.Message.Should().Be(message);
-        }
-
-        [Theory, AutoMoqData]
-        public void ApiExceptionException_WhenCreateWithValidJsonContent_ShouldBeDeserializedMessage(string message)
-        {
-            // Act
-            var json = $"{{\"message\":\"{message}\"}}";
-            var sut = new ApiException(json);
-
-            // Assert
-            sut.Message.Should().Be(message);
+            using (new AssertionScope())
+            {
+                sut.ApiError.Message.Should().Be(message);
+                sut.Message.Should().Be(message);   
+            }
         }
     }
 }
