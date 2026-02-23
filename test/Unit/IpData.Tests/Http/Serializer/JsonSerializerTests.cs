@@ -51,5 +51,26 @@ namespace IpData.Tests.Http.Serializer
             // Assert
             actual.Should().NotBeEmpty();
         }
+
+        [Theory]
+        [MemberData(nameof(TestDataSource.CompanyData), MemberType = typeof(TestDataSource))]
+        public void Deserialize_WhenCalled_ReturnedCompanyInfo(string json)
+        {
+            // Act
+            var actual = _sut.Deserialize<CompanyInfo>(json);
+
+            // Assert
+            actual.Should().NotBeNull();
+        }
+
+        [Theory, AutoMoqData]
+        public void SerializeCompanyInfo_WhenCalled_ReturnedString(CompanyInfo companyInfo)
+        {
+            // Act
+            var actual = _sut.Serialize(companyInfo);
+
+            // Assert
+            actual.Should().NotBeEmpty();
+        }
     }
 }

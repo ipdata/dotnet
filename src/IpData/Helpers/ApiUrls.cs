@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,48 +7,58 @@ using IpData.Models;
 
 namespace IpData.Helpers
 {
-    internal static class ApiUrls
+    internal class ApiUrls
     {
-        private static Uri Base => new Uri("https://api.ipdata.co");
+        internal static readonly Uri DefaultBaseUrl = new Uri("https://api.ipdata.co");
 
-        public static Uri Get(string apiKey, CultureInfo culture) =>
-            ApplyApiKey(new Uri(Base, $"{culture}"), apiKey);
+        private readonly Uri _base;
 
-        public static Uri Get(string apiKey, string ip, CultureInfo culture)
+        public ApiUrls(Uri baseUrl = null)
+        {
+            _base = baseUrl ?? DefaultBaseUrl;
+        }
+
+        public Uri Get(string apiKey, CultureInfo culture) =>
+            ApplyApiKey(new Uri(_base, $"{culture}"), apiKey);
+
+        public Uri Get(string apiKey, string ip, CultureInfo culture)
         {
             var relative = Equals(culture, CultureInfo.InvariantCulture) ? ip : $"{ip}/{culture}";
-            return ApplyApiKey(new Uri(Base, relative), apiKey);
+            return ApplyApiKey(new Uri(_base, relative), apiKey);
         }
 
-        public static Uri Get(string apiKey, string ip, Expression<Func<IpInfo, object>> expression)
+        public Uri Get(string apiKey, string ip, Expression<Func<IpInfo, object>> expression)
         {
             var field = IpInfo.FieldName(expression);
-            return ApplyApiKey(new Uri(Base, $"{ip}/{field}"), apiKey);
+            return ApplyApiKey(new Uri(_base, $"{ip}/{field}"), apiKey);
         }
-        
-        public static Uri Get(string apiKey, string ip, params Expression<Func<IpInfo, object>>[] expressions)
+
+        public Uri Get(string apiKey, string ip, params Expression<Func<IpInfo, object>>[] expressions)
         {
             var fields = string.Join(",", expressions.Select(IpInfo.FieldName));
-            return ApplyApiKey(new Uri(Base, $"{ip}").AddParameter(nameof(fields), fields), apiKey);
+            return ApplyApiKey(new Uri(_base, $"{ip}").AddParameter(nameof(fields), fields), apiKey);
         }
 
-        public static Uri Bulk(string apiKey) =>
-            ApplyApiKey(new Uri(Base, "bulk"), apiKey);
+        public Uri Bulk(string apiKey) =>
+            ApplyApiKey(new Uri(_base, "bulk"), apiKey);
 
-        public static Uri Carrier(string apiKey, string ip) =>
-            ApplyApiKey(new Uri(Base, $"{ip}/carrier"), apiKey);
+        public Uri Carrier(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(_base, $"{ip}/carrier"), apiKey);
 
-        public static Uri Asn(string apiKey, string ip) =>
-            ApplyApiKey(new Uri(Base, $"asn/{ip}"), apiKey);
+        public Uri Asn(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(_base, $"asn/{ip}"), apiKey);
 
-        public static Uri TimeZone(string apiKey, string ip) =>
-            ApplyApiKey(new Uri(Base, $"{ip}/time_zone"), apiKey);
+        public Uri TimeZone(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(_base, $"{ip}/time_zone"), apiKey);
 
-        public static Uri Currency(string apiKey, string ip) =>
-            ApplyApiKey(new Uri(Base, $"{ip}/currency"), apiKey);
+        public Uri Currency(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(_base, $"{ip}/currency"), apiKey);
 
-        public static Uri Threat(string apiKey, string ip) =>
-            ApplyApiKey(new Uri(Base, $"{ip}/threat"), apiKey);
+        public Uri Threat(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(_base, $"{ip}/threat"), apiKey);
+
+        public Uri Company(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(_base, $"{ip}/company"), apiKey);
 
         private static Uri ApplyApiKey(Uri url, string apiKey) =>
             url.AddParameter("api-key", apiKey);

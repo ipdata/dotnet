@@ -9,5 +9,8 @@ namespace IpData.Models
 
         [JsonProperty("native", NullValueHandling = NullValueHandling.Ignore)]
         public string Native { get; set; }
+
+        [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
+        public string Code { get; set; }
     }
 }

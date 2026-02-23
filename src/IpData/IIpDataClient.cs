@@ -13,6 +13,23 @@ namespace IpData
         /// <summary>The IpData ApiKey.</summary>
         string ApiKey { get; }
 
+        /// <summary>Fetch company for IP.</summary>
+        /// <param name="ip">The IPv4 address.</param>
+        /// <returns>The company info <see cref="CompanyInfo"/>.</returns>
+        /// <exception cref="Exceptions.BadRequestException">
+        /// Thrown when IP address is private or invalid.
+        /// </exception>
+        /// <exception cref="Exceptions.ForbiddenException">
+        /// Thrown when you have exceeded your daily plan quota.
+        /// </exception>
+        /// <exception cref="Exceptions.UnauthorizedException">
+        /// Thrown when API key is not provided.
+        /// </exception>
+        /// <exception cref="Exceptions.ApiException">
+        /// Thrown when unexpected case occurred.
+        /// </exception>
+        Task<CompanyInfo> Company(string ip);
+
         /// <summary>Fetch carrier for IP.</summary>
         /// <param name="ip">The IPv4 address.</param>
         /// <returns>The carrier info <see cref="CarrierInfo"/>.</returns>

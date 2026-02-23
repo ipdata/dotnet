@@ -75,6 +75,18 @@ namespace IpData.Models
         [JsonProperty("threat")]
         public Threat Threat { get; set; }
 
+        [JsonProperty("region_type", NullValueHandling = NullValueHandling.Ignore)]
+        public string RegionType { get; set; }
+
+        [JsonProperty("carrier", NullValueHandling = NullValueHandling.Ignore)]
+        public CarrierInfo Carrier { get; set; }
+
+        [JsonProperty("company", NullValueHandling = NullValueHandling.Ignore)]
+        public CompanyInfo Company { get; set; }
+
+        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Status { get; set; }
+
         [JsonProperty("count")]
         public int Count { get; set; }
 

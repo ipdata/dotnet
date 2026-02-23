@@ -26,13 +26,16 @@ namespace IpData
         /// <summary>The HTTP client</summary>
         private readonly IHttpClient _httpClient;
 
+        /// <summary>The API URL builder</summary>
+        private readonly ApiUrls _apiUrls;
+
         /// <inheritdoc />
         public string ApiKey { get; }
 
         /// <summary>Initializes a new instance of the <see cref="IpDataClient"/> class.</summary>
         /// <param name="apiKey">The API key.</param>
         public IpDataClient(string apiKey)
-            : this(apiKey, new HttpClientAdapter())
+            : this(apiKey, new HttpClientAdapter(), null)
         {
         }
 
@@ -40,16 +43,33 @@ namespace IpData
         /// <param name="apiKey">The API key.</param>
         /// <param name="httpClient">The HTTP client.</param>
         public IpDataClient(string apiKey, HttpClient httpClient)
-            : this(apiKey, new HttpClientAdapter(httpClient))
+            : this(apiKey, new HttpClientAdapter(httpClient), null)
         {
         }
 
         /// <summary>Initializes a new instance of the <see cref="IpDataClient"/> class.</summary>
         /// <param name="apiKey">The API key.</param>
         /// <param name="httpClient">The HTTP client.</param>
+        public IpDataClient(string apiKey, IHttpClient httpClient)
+            : this(apiKey, httpClient, null)
+        {
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="IpDataClient"/> class with a custom base URL.</summary>
+        /// <param name="apiKey">The API key.</param>
+        /// <param name="baseUrl">The base URL (e.g. https://eu-api.ipdata.co for the EU endpoint).</param>
+        public IpDataClient(string apiKey, Uri baseUrl)
+            : this(apiKey, new HttpClientAdapter(), baseUrl)
+        {
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="IpDataClient"/> class.</summary>
+        /// <param name="apiKey">The API key.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        /// <param name="baseUrl">The base URL. Defaults to https://api.ipdata.co when null.</param>
         /// <exception cref="ArgumentException">The {nameof(apiKey)} {apiKey} - apiKey</exception>
         /// <exception cref="ArgumentNullException">httpClient - The {nameof(httpClient)}</exception>
-        public IpDataClient(string apiKey, IHttpClient httpClient)
+        public IpDataClient(string apiKey, IHttpClient httpClient, Uri baseUrl)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
             {
@@ -63,6 +83,7 @@ namespace IpData
                 $"The {nameof(httpClient)} can't be null");
 
             ApiKey = apiKey;
+            _apiUrls = new ApiUrls(baseUrl);
         }
 
         /// <inheritdoc />
@@ -72,7 +93,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<IpInfo> Lookup(CultureInfo culture)
         {
-            var url = ApiUrls.Get(ApiKey, culture);
+            var url = _apiUrls.Get(ApiKey, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
@@ -85,7 +106,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<IpInfo> Lookup(string ip, CultureInfo culture)
         {
-            var url = ApiUrls.Get(ApiKey, ip, culture);
+            var url = _apiUrls.Get(ApiKey, ip, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
@@ -94,7 +115,7 @@ namespace IpData
         /// <inheritdoc />
         public Task<string> Lookup(string ip, Expression<Func<IpInfo, object>> fieldSelector)
         {
-            var url = ApiUrls.Get(ApiKey, ip, fieldSelector);
+            var url = _apiUrls.Get(ApiKey, ip, fieldSelector);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             return SendRequestAsync(_httpClient, request);
         }
@@ -102,7 +123,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<IpInfo> Lookup(string ip, params Expression<Func<IpInfo, object>>[] fieldSelectors)
         {
-            var url = ApiUrls.Get(ApiKey, ip, fieldSelectors);
+            var url = _apiUrls.Get(ApiKey, ip, fieldSelectors);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IpInfo>(json);
@@ -111,7 +132,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<IEnumerable<IpInfo>> Lookup(IReadOnlyCollection<string> ips)
         {
-            var url = ApiUrls.Bulk(ApiKey);
+            var url = _apiUrls.Bulk(ApiKey);
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
                 Content = new StringContent(_serializer.Serialize(ips), Encoding.UTF8, "application/json")
@@ -122,9 +143,18 @@ namespace IpData
         }
 
         /// <inheritdoc />
+        public async Task<CompanyInfo> Company(string ip)
+        {
+            var url = _apiUrls.Company(ApiKey, ip);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
+            return _serializer.Deserialize<CompanyInfo>(json);
+        }
+
+        /// <inheritdoc />
         public async Task<CarrierInfo> Carrier(string ip)
         {
-            var url = ApiUrls.Carrier(ApiKey, ip);
+            var url = _apiUrls.Carrier(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<CarrierInfo>(json);
@@ -133,7 +163,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<AsnInfo> Asn(string ip)
         {
-            var url = ApiUrls.Asn(ApiKey, ip);
+            var url = _apiUrls.Asn(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<AsnInfo>(json);
@@ -142,7 +172,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<Models.TimeZone> TimeZone(string ip)
         {
-            var url = ApiUrls.TimeZone(ApiKey, ip);
+            var url = _apiUrls.TimeZone(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<Models.TimeZone>(json);
@@ -151,7 +181,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<Currency> Currency(string ip)
         {
-            var url = ApiUrls.Currency(ApiKey, ip);
+            var url = _apiUrls.Currency(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<Currency>(json);
@@ -160,7 +190,7 @@ namespace IpData
         /// <inheritdoc />
         public async Task<Threat> Threat(string ip)
         {
-            var url = ApiUrls.Threat(ApiKey, ip);
+            var url = _apiUrls.Threat(ApiKey, ip);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<Threat>(json);
