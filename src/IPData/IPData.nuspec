@@ -16,7 +16,7 @@
     <repository type="git" url="https://github.com/ipdata/dotnet" />
     <dependencies>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="Newtonsoft.Json" version="12.0.2" exclude="Build,Analyzers" />
+        <dependency id="System.Text.Json" version="4.7.2" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>

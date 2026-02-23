@@ -1,93 +1,93 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.Json.Serialization;
 using IPData.Helpers.Extensions;
-using Newtonsoft.Json;
 
 namespace IPData.Models
 {
     public class IPLookupResult
     {
-        [JsonProperty("ip", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("ip")]
         public string Ip { get; set; }
 
-        [JsonProperty("is_eu", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("is_eu")]
         public bool? IsEu { get; set; }
 
-        [JsonProperty("city", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("city")]
         public string City { get; set; }
 
-        [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("region")]
         public string Region { get; set; }
 
-        [JsonProperty("region_code", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("region_code")]
         public string RegionCode { get; set; }
 
-        [JsonProperty("country_name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("country_name")]
         public string CountryName { get; set; }
 
-        [JsonProperty("country_code", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("country_code")]
         public string CountryCode { get; set; }
 
-        [JsonProperty("continent_name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("continent_name")]
         public string ContinentName { get; set; }
 
-        [JsonProperty("continent_code", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("continent_code")]
         public string ContinentCode { get; set; }
 
-        [JsonProperty("latitude", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("latitude")]
         public double? Latitude { get; set; }
 
-        [JsonProperty("longitude", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("longitude")]
         public double? Longitude { get; set; }
 
-        [JsonProperty("asn", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("asn")]
         public AsnInfo Asn { get; set; }
 
-        [JsonProperty("organisation", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("organisation")]
         public string Organisation { get; set; }
 
-        [JsonProperty("postal", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("postal")]
         public string Postal { get; set; }
 
-        [JsonProperty("calling_code", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("calling_code")]
         public string CallingCode { get; set; }
 
-        [JsonProperty("flag", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("flag")]
         public Uri Flag { get; set; }
 
-        [JsonProperty("emoji_flag", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("emoji_flag")]
         public string EmojiFlag { get; set; }
 
-        [JsonProperty("emoji_unicode", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("emoji_unicode")]
         public string EmojiUnicode { get; set; }
 
-        [JsonProperty("languages")]
+        [JsonPropertyName("languages")]
         public List<Language> Languages { get; private set; } = new List<Language>();
 
-        [JsonProperty("currency")]
+        [JsonPropertyName("currency")]
         public Currency Currency { get; set; }
 
-        [JsonProperty("time_zone")]
+        [JsonPropertyName("time_zone")]
         public TimeZone TimeZone { get; set; }
 
-        [JsonProperty("threat")]
+        [JsonPropertyName("threat")]
         public Threat Threat { get; set; }
 
-        [JsonProperty("region_type", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("region_type")]
         public string RegionType { get; set; }
 
-        [JsonProperty("carrier", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("carrier")]
         public CarrierInfo Carrier { get; set; }
 
-        [JsonProperty("company", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("company")]
         public CompanyInfo Company { get; set; }
 
-        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("status")]
         public int? Status { get; set; }
 
-        [JsonProperty("count")]
+        [JsonPropertyName("count")]
         public int Count { get; set; }
 
         internal static string FieldName(Expression<Func<IPLookupResult, object>> expression)
@@ -95,10 +95,10 @@ namespace IPData.Models
             var propName = expression.PropertyName();
             var attribute = typeof(IPLookupResult)
                 .GetProperty(propName)
-                ?.GetCustomAttributes(typeof(JsonPropertyAttribute), false)
-                .Single() as JsonPropertyAttribute;
+                ?.GetCustomAttributes(typeof(JsonPropertyNameAttribute), false)
+                .Single() as JsonPropertyNameAttribute;
 
-            return attribute?.PropertyName ?? string.Empty;
+            return attribute?.Name ?? string.Empty;
         }
     }
 }

@@ -1,22 +1,22 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace IPData.Models
 {
     public class AsnInfo
     {
-        [JsonProperty("asn", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("asn")]
         public string Asn { get; set; }
 
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("domain", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("domain")]
         public string Domain { get; set; }
 
-        [JsonProperty("route", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("route")]
         public string Route { get; set; }
 
-        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
     }
 }

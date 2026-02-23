@@ -1,23 +1,23 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
+using System.Text.Json.Serialization;
 
 namespace IPData.Models
 {
     public class TimeZone
     {
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("abbr", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("abbr")]
         public string Abbr { get; set; }
 
-        [JsonProperty("offset", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("offset")]
         public string Offset { get; set; }
 
-        [JsonProperty("is_dst", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("is_dst")]
         public bool? IsDst { get; set; }
 
-        [JsonProperty("current_time", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("current_time")]
         public DateTimeOffset? CurrentTime { get; set; }
     }
 }

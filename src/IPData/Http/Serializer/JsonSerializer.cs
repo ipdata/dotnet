@@ -1,29 +1,22 @@
-using System.Globalization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json;
 
 namespace IPData.Http.Serializer
 {
     internal class JsonSerializer : ISerializer
     {
-        private static readonly JsonSerializerSettings _settings = new JsonSerializerSettings
+        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            }
+            IgnoreNullValues = true
         };
 
         public T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json, _settings);
+            return System.Text.Json.JsonSerializer.Deserialize<T>(json, _options);
         }
 
         public string Serialize(object item)
         {
-            return JsonConvert.SerializeObject(item, _settings);
+            return System.Text.Json.JsonSerializer.Serialize(item, _options);
         }
     }
 }
