@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <PackageTags>ip ipdata</PackageTags>
+    <Description>C# library to gather information for an IP using ipdata.co</Description>
+    <Authors>IPData Community</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/alexkhil/IPData</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/alexkhil/IPData</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl>https://image.ibb.co/iDQdUS/ipdatalogo.png</PackageIconUrl>
+    <ApplicationIcon>ipdata.ico</ApplicationIcon>
+    <Copyright>IPData Community</Copyright>
+    <Win32Resource />
+    <PackageReleaseNotes>Release notes are at https://github.com/alexkhil/IPData/releases</PackageReleaseNotes>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <Version>3.0.0</Version>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+</Project>

@@ -4,7 +4,7 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
 
-namespace IpData.Tests
+namespace IPData.Tests
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class AutoMoqDataAttribute : AutoDataAttribute
