@@ -190,5 +190,18 @@ namespace IpData.Tests.Helpers
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
         }
+
+        [Theory, AutoMoqData]
+        public void Company_WhenCalled_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var expectedUrl = $"https://api.ipdata.co/{ip}/company?api-key={apiKey}";
+
+            // Act
+            var url = ApiUrls.Company(apiKey, ip);
+
+            // Assert
+            url.AbsoluteUri.Should().Be(expectedUrl);
+        }
     }
 }

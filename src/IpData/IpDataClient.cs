@@ -122,6 +122,15 @@ namespace IpData
         }
 
         /// <inheritdoc />
+        public async Task<CompanyInfo> Company(string ip)
+        {
+            var url = ApiUrls.Company(ApiKey, ip);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
+            return _serializer.Deserialize<CompanyInfo>(json);
+        }
+
+        /// <inheritdoc />
         public async Task<CarrierInfo> Carrier(string ip)
         {
             var url = ApiUrls.Carrier(ApiKey, ip);

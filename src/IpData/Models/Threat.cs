@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace IpData.Models
 {
@@ -24,5 +25,14 @@ namespace IpData.Models
 
         [JsonProperty("is_bogon", NullValueHandling = NullValueHandling.Ignore)]
         public bool? IsBogon { get; set; }
+
+        [JsonProperty("is_icloud_relay", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? IsIcloudRelay { get; set; }
+
+        [JsonProperty("is_datacenter", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? IsDatacenter { get; set; }
+
+        [JsonProperty("blocklists")]
+        public List<BlocklistInfo> Blocklists { get; private set; } = new List<BlocklistInfo>();
     }
 }

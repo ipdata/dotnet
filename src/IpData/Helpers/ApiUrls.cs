@@ -51,6 +51,9 @@ namespace IpData.Helpers
         public static Uri Threat(string apiKey, string ip) =>
             ApplyApiKey(new Uri(Base, $"{ip}/threat"), apiKey);
 
+        public static Uri Company(string apiKey, string ip) =>
+            ApplyApiKey(new Uri(Base, $"{ip}/company"), apiKey);
+
         private static Uri ApplyApiKey(Uri url, string apiKey) =>
             url.AddParameter("api-key", apiKey);
     }
