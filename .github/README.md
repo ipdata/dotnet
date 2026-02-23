@@ -1,6 +1,6 @@
 
 # ipdata
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IPData/blob/master/LICENSE) [![IPData](https://img.shields.io/nuget/v/IPData.svg)](https://www.nuget.org/packages/IPData/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/ipdata/dotnet/blob/master/LICENSE) [![IPData](https://img.shields.io/nuget/v/IPData.svg)](https://www.nuget.org/packages/IPData/)
 
 > **v3.0.0 Breaking Changes** — All public types have been renamed to follow .NET naming conventions for two-letter acronyms. See the [Migration Guide](#migrating-from-v2-to-v3) for details.
 
@@ -197,8 +197,8 @@ We use [SemVer] for versioning. For the versions available, see the tags on this
 This project is licensed under the MIT License - see the [LICENSE.md][LICENSE] file for details
 
 
-[AzureStatus]: https://dev.azure.com/alexkhildev/IPData/_apis/build/status/gated?branchName=master
+[AzureStatus]: https://dev.azure.com/ipdata/dotnet/_apis/build/status/gated?branchName=master
 [IPDataLogo]: https://image.ibb.co/iDQdUS/ipdatalogo.png
 [SemVer]: http://semver.org/
-[CONTRIBUTING]: https://github.com/alexkhil/IPData/blob/master/.github/CONTRIBUTING.md
-[LICENSE]: https://github.com/alexkhil/IPData/blob/master/LICENSE
+[CONTRIBUTING]: https://github.com/ipdata/dotnet/blob/master/.github/CONTRIBUTING.md
+[LICENSE]: https://github.com/ipdata/dotnet/blob/master/LICENSE
