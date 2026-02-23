@@ -87,33 +87,33 @@ namespace IPData
         }
 
         /// <inheritdoc />
-        public Task<IPInfo> Lookup() =>
+        public Task<IPLookupResult> Lookup() =>
             Lookup(CultureInfo.InvariantCulture);
 
         /// <inheritdoc />
-        public async Task<IPInfo> Lookup(CultureInfo culture)
+        public async Task<IPLookupResult> Lookup(CultureInfo culture)
         {
             var url = _apiUrls.Get(ApiKey, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
-            return _serializer.Deserialize<IPInfo>(json);
+            return _serializer.Deserialize<IPLookupResult>(json);
         }
 
         /// <inheritdoc />
-        public Task<IPInfo> Lookup(string ip) =>
+        public Task<IPLookupResult> Lookup(string ip) =>
             Lookup(ip, CultureInfo.InvariantCulture);
 
         /// <inheritdoc />
-        public async Task<IPInfo> Lookup(string ip, CultureInfo culture)
+        public async Task<IPLookupResult> Lookup(string ip, CultureInfo culture)
         {
             var url = _apiUrls.Get(ApiKey, ip, culture);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
-            return _serializer.Deserialize<IPInfo>(json);
+            return _serializer.Deserialize<IPLookupResult>(json);
         }
 
         /// <inheritdoc />
-        public Task<string> Lookup(string ip, Expression<Func<IPInfo, object>> fieldSelector)
+        public Task<string> Lookup(string ip, Expression<Func<IPLookupResult, object>> fieldSelector)
         {
             var url = _apiUrls.Get(ApiKey, ip, fieldSelector);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -121,16 +121,16 @@ namespace IPData
         }
         
         /// <inheritdoc />
-        public async Task<IPInfo> Lookup(string ip, params Expression<Func<IPInfo, object>>[] fieldSelectors)
+        public async Task<IPLookupResult> Lookup(string ip, params Expression<Func<IPLookupResult, object>>[] fieldSelectors)
         {
             var url = _apiUrls.Get(ApiKey, ip, fieldSelectors);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
-            return _serializer.Deserialize<IPInfo>(json);
+            return _serializer.Deserialize<IPLookupResult>(json);
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<IPInfo>> Lookup(IReadOnlyCollection<string> ips)
+        public async Task<IEnumerable<IPLookupResult>> Lookup(IReadOnlyCollection<string> ips)
         {
             var url = _apiUrls.Bulk(ApiKey);
             var request = new HttpRequestMessage(HttpMethod.Post, url)
@@ -139,7 +139,7 @@ namespace IPData
             };
 
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
-            return _serializer.Deserialize<IEnumerable<IPInfo>>(json);
+            return _serializer.Deserialize<IEnumerable<IPLookupResult>>(json);
         }
 
         /// <inheritdoc />

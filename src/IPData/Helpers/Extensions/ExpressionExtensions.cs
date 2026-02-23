@@ -6,7 +6,7 @@ namespace IPData.Helpers.Extensions
 {
     internal static class ExpressionExtensions
     {
-        public static string PropertyName(this Expression<Func<IPInfo, object>> expression)
+        public static string PropertyName(this Expression<Func<IPLookupResult, object>> expression)
         {
             switch (expression.Body)
             {

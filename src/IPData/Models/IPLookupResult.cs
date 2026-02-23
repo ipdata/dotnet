@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace IPData.Models
 {
-    public class IPInfo
+    public class IPLookupResult
     {
         [JsonProperty("ip", NullValueHandling = NullValueHandling.Ignore)]
         public string Ip { get; set; }
@@ -90,10 +90,10 @@ namespace IPData.Models
         [JsonProperty("count")]
         public int Count { get; set; }
 
-        internal static string FieldName(Expression<Func<IPInfo, object>> expression)
+        internal static string FieldName(Expression<Func<IPLookupResult, object>> expression)
         {
             var propName = expression.PropertyName();
-            var attribute = typeof(IPInfo)
+            var attribute = typeof(IPLookupResult)
                 .GetProperty(propName)
                 ?.GetCustomAttributes(typeof(JsonPropertyAttribute), false)
                 .Single() as JsonPropertyAttribute;

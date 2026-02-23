@@ -48,8 +48,8 @@ All usage examples you can find on `samples` folder.
 var client = new IPDataClient("API_KEY");
 
 // Get IP data from my IP
-var myIPInfo = await client.Lookup();
-Console.WriteLine($"Country name for {myIPInfo.Ip} is {myIPInfo.CountryName}");
+var myIp = await client.Lookup();
+Console.WriteLine($"Country name for {myIp.Ip} is {myIp.CountryName}");
 
 // Get IP data from IP
 var ipInfo = await client.Lookup("8.8.8.8");
@@ -153,7 +153,7 @@ v3.0.0 renames all public types to follow [.NET naming conventions](https://lear
 |---|---|
 | `IpDataClient` | `IPDataClient` |
 | `IIpDataClient` | `IIPDataClient` |
-| `IpInfo` | `IPInfo` |
+| `IpInfo` | `IPLookupResult` |
 
 ### Namespace change
 

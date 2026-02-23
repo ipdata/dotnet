@@ -116,7 +116,7 @@ namespace IPData
         Task<Threat> Threat(string ip);
 
         /// <summary>Fetch IP info for your IP.</summary>
-        /// <returns>The IP info <see cref="Models.IPInfo">.</returns>
+        /// <returns>The IP info <see cref="Models.IPLookupResult">.</returns>
         /// <exception cref="Exceptions.BadRequestException">
         /// Thrown when IP address is private or invalid.
         /// </exception>
@@ -129,11 +129,11 @@ namespace IPData
         /// <exception cref="Exceptions.ApiException">
         /// Thrown when unexpected case occurred.
         /// </exception>
-        Task<IPInfo> Lookup();
+        Task<IPLookupResult> Lookup();
 
         /// <summary>Fetch localized IP info for your IP.</summary>
         /// <param name="culture">The culture info.</param>
-        /// <returns>Localized IP info <see cref="IPInfo"/></returns>
+        /// <returns>Localized IP info <see cref="IPLookupResult"/></returns>
         /// <exception cref="Exceptions.BadRequestException">
         /// Thrown when IP address is private or invalid.
         /// </exception>
@@ -151,11 +151,11 @@ namespace IPData
         /// Lookup(CultureInfo.GetCultureInfo("zh-CN"));
         /// </code>
         /// </example>
-        Task<IPInfo> Lookup(CultureInfo culture);
+        Task<IPLookupResult> Lookup(CultureInfo culture);
 
         /// <summary>Fetch IP info for few IPs.</summary>
         /// <param name="ips">The list of IPv4 addresses.</param>
-        /// <returns>The list of IP info <see cref="IPInfo"/>.</returns>
+        /// <returns>The list of IP info <see cref="IPLookupResult"/>.</returns>
         /// <exception cref="Exceptions.BadRequestException">
         /// Thrown when IP address is private or invalid.
         /// </exception>
@@ -168,7 +168,7 @@ namespace IPData
         /// <exception cref="Exceptions.ApiException">
         /// Thrown when unexpected case occurred.
         /// </exception>
-        Task<IEnumerable<IPInfo>> Lookup(IReadOnlyCollection<string> ips);
+        Task<IEnumerable<IPLookupResult>> Lookup(IReadOnlyCollection<string> ips);
 
         /// <summary>Fetch IP info for IPv4 address.</summary>
         /// <param name="ip">The IPv4 Address.</param>
@@ -185,12 +185,12 @@ namespace IPData
         /// <exception cref="Exceptions.ApiException">
         /// Thrown when unexpected case occurred.
         /// </exception>
-        Task<IPInfo> Lookup(string ip);
+        Task<IPLookupResult> Lookup(string ip);
 
         /// <summary>Fetch localized IP info for IPv4 address.</summary>
         /// <param name="ip">The IPv4 address.</param>
         /// <param name="culture">The culture info.</param>
-        /// <returns>Localized IP info <see cref="IPInfo"/>.</returns>
+        /// <returns>Localized IP info <see cref="IPLookupResult"/>.</returns>
         /// <exception cref="Exceptions.BadRequestException">
         /// Thrown when IP address is private or invalid.
         /// </exception>
@@ -208,7 +208,7 @@ namespace IPData
         /// Lookup("8.8.8.8", CultureInfo.GetCultureInfo("zh-CN"));
         /// </code>
         /// </example>
-        Task<IPInfo> Lookup(string ip, CultureInfo culture);
+        Task<IPLookupResult> Lookup(string ip, CultureInfo culture);
 
         /// <summary>Fetch single IP info fields from IPv4 address.</summary>
         /// <param name="ip">The IPv4 address.</param>
@@ -231,7 +231,7 @@ namespace IPData
         /// Lookup("8.8.8.8", x => x.CountryName);
         /// </code>
         /// </example>
-        Task<string> Lookup(string ip, Expression<Func<IPInfo, object>> fieldSelector);
+        Task<string> Lookup(string ip, Expression<Func<IPLookupResult, object>> fieldSelector);
 
         /// <summary>Fetch multiple IP info fields from IPv4 address.</summary>
         /// <param name="ip">The IPv4 address.</param>
@@ -254,6 +254,6 @@ namespace IPData
         /// Lookup("8.8.8.8", x => x.CountryName, x => x.City);
         /// </code>
         /// </example>
-        Task<IPInfo> Lookup(string ip, params Expression<Func<IPInfo, object>>[] fieldSelectors);
+        Task<IPLookupResult> Lookup(string ip, params Expression<Func<IPLookupResult, object>>[] fieldSelectors);
     }
 }

@@ -11,18 +11,18 @@ namespace IPData.Tests.Http.Serializer
         private readonly JsonSerializer _sut = new JsonSerializer();
 
         [Theory]
-        [MemberData(nameof(TestDataSource.IPInfoData), MemberType = typeof(TestDataSource))]
-        public void Deserialize_WhenCalled_ReturnedIPInfo(string json)
+        [MemberData(nameof(TestDataSource.IPLookupResultData), MemberType = typeof(TestDataSource))]
+        public void Deserialize_WhenCalled_ReturnedIPLookupResult(string json)
         {
             // Act
-            var actual = _sut.Deserialize<IPInfo>(json);
+            var actual = _sut.Deserialize<IPLookupResult>(json);
 
             // Assert
             actual.Should().NotBeNull();
         }
 
         [Theory, AutoMoqData]
-        public void SerializeIPInfo_WhenCalled_ReturnedString(IPInfo ipInfo)
+        public void SerializeIPLookupResult_WhenCalled_ReturnedString(IPLookupResult ipInfo)
         {
             // Act
             var actual = _sut.Serialize(ipInfo);

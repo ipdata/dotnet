@@ -27,15 +27,15 @@ namespace IPData.Helpers
             return ApplyApiKey(new Uri(_base, relative), apiKey);
         }
 
-        public Uri Get(string apiKey, string ip, Expression<Func<IPInfo, object>> expression)
+        public Uri Get(string apiKey, string ip, Expression<Func<IPLookupResult, object>> expression)
         {
-            var field = IPInfo.FieldName(expression);
+            var field = IPLookupResult.FieldName(expression);
             return ApplyApiKey(new Uri(_base, $"{ip}/{field}"), apiKey);
         }
 
-        public Uri Get(string apiKey, string ip, params Expression<Func<IPInfo, object>>[] expressions)
+        public Uri Get(string apiKey, string ip, params Expression<Func<IPLookupResult, object>>[] expressions)
         {
-            var fields = string.Join(",", expressions.Select(IPInfo.FieldName));
+            var fields = string.Join(",", expressions.Select(IPLookupResult.FieldName));
             return ApplyApiKey(new Uri(_base, $"{ip}").AddParameter(nameof(fields), fields), apiKey);
         }
 

@@ -11,8 +11,8 @@ namespace IPData.Lookup
             var client = new IPDataClient("API_KEY");
 
             // Get IP data from my IP
-            var myIPInfo = await client.Lookup();
-            Console.WriteLine($"Country name for {myIPInfo.Ip} is {myIPInfo.CountryName}");
+            var myIPLookupResult = await client.Lookup();
+            Console.WriteLine($"Country name for {myIPLookupResult.Ip} is {myIPLookupResult.CountryName}");
 
             // Get IP data from IP
             var ipInfo = await client.Lookup("8.8.8.8");
