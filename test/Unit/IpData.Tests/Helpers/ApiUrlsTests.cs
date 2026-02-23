@@ -16,7 +16,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, CultureInfo.InvariantCulture);
+            var url = new ApiUrls().Get(apiKey, CultureInfo.InvariantCulture);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -29,7 +29,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{culture}?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, culture);
+            var url = new ApiUrls().Get(apiKey, culture);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -42,7 +42,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, ip, CultureInfo.InvariantCulture);
+            var url = new ApiUrls().Get(apiKey, ip, CultureInfo.InvariantCulture);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -56,7 +56,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/{culture}?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, ip, culture);
+            var url = new ApiUrls().Get(apiKey, ip, culture);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -69,7 +69,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/count?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, ip, x => x.Count);
+            var url = new ApiUrls().Get(apiKey, ip, x => x.Count);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -82,7 +82,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/continent_name?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Get(apiKey, ip, x => x.ContinentName);
+            var url = new ApiUrls().Get(apiKey, ip, x => x.ContinentName);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -95,7 +95,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = new Uri($"https://api.ipdata.co/{ip}?fields=country_name%2ccity&api-key={apiKey}");
 
             // Act
-            var url = ApiUrls.Get(apiKey, ip, x => x.CountryName, x => x.City);
+            var url = new ApiUrls().Get(apiKey, ip, x => x.CountryName, x => x.City);
 
             // Assert
             url.Should().BeEquivalentTo(expectedUrl);
@@ -105,7 +105,7 @@ namespace IpData.Tests.Helpers
         public void Get_WhenCalledWithInvalidProp_ReturnedUrl(string apiKey, string ip)
         {
             // Arrange
-            Func<Uri> act = () => ApiUrls.Get(apiKey, ip, x => new { prop = "name" });
+            Func<Uri> act = () => new ApiUrls().Get(apiKey, ip, x => new { prop = "name" });
 
             // Act/Assert
             act.Should()
@@ -120,7 +120,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/bulk?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Bulk(apiKey);
+            var url = new ApiUrls().Bulk(apiKey);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -133,7 +133,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/carrier?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Carrier(apiKey, ip);
+            var url = new ApiUrls().Carrier(apiKey, ip);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -146,7 +146,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/asn/{ip}?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Asn(apiKey, ip);
+            var url = new ApiUrls().Asn(apiKey, ip);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -159,7 +159,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/time_zone?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.TimeZone(apiKey, ip);
+            var url = new ApiUrls().TimeZone(apiKey, ip);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -172,7 +172,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/currency?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Currency(apiKey, ip);
+            var url = new ApiUrls().Currency(apiKey, ip);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -185,7 +185,7 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/threat?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Threat(apiKey, ip);
+            var url = new ApiUrls().Threat(apiKey, ip);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
@@ -198,10 +198,35 @@ namespace IpData.Tests.Helpers
             var expectedUrl = $"https://api.ipdata.co/{ip}/company?api-key={apiKey}";
 
             // Act
-            var url = ApiUrls.Company(apiKey, ip);
+            var url = new ApiUrls().Company(apiKey, ip);
 
             // Assert
             url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Theory, AutoMoqData]
+        public void Get_WhenCalledWithCustomBaseUrl_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var euBaseUrl = new Uri("https://eu-api.ipdata.co");
+            var expectedUrl = $"https://eu-api.ipdata.co/{ip}?api-key={apiKey}";
+
+            // Act
+            var url = new ApiUrls(euBaseUrl).Get(apiKey, ip, CultureInfo.InvariantCulture);
+
+            // Assert
+            url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Fact]
+        public void DefaultConstructor_UsesDefaultBaseUrl()
+        {
+            // Arrange/Act
+            var sut = new ApiUrls();
+            var url = sut.Bulk("test-key");
+
+            // Assert
+            url.AbsoluteUri.Should().StartWith("https://api.ipdata.co/");
         }
     }
 }

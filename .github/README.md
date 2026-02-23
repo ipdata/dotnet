@@ -11,10 +11,12 @@
   - [Basic](#basic)
   - [Bulk](#bulk)
   - [Carrier](#carrier)
+  - [Company](#company)
   - [Asn](#asn)
   - [Timezone](#timezone)
   - [Currency](#currency)
   - [Threat](#threat)
+- [EU Endpoint](#eu-endpoint)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [License](#license)
@@ -83,6 +85,15 @@ var carrierInfo = await client.Carrier("69.78.70.144");
 Console.WriteLine($"Carrier name: {carrierInfo.Name}");
 ```
 
+### Company
+
+```csharp
+var client = new IpDataClient("API_KEY");
+
+var companyInfo = await client.Company("69.78.70.144");
+Console.WriteLine($"Company name: {companyInfo.Name}");
+```
+
 ### ASN
 
 ```csharp
@@ -117,6 +128,16 @@ var client = new IpDataClient("API_KEY");
 
 var threatInfo = await client.Threat("69.78.70.144");
 Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
+```
+
+## EU Endpoint
+
+To ensure your data stays in the EU, use the EU endpoint by passing a custom base URL:
+
+```csharp
+var client = new IpDataClient("API_KEY", new Uri("https://eu-api.ipdata.co"));
+
+var ipInfo = await client.Lookup("8.8.8.8");
 ```
 
 ## Contributing
