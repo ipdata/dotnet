@@ -20,8 +20,8 @@
     <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <Version>3.0.0</Version>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <Version>3.0.1</Version>
+    <AssemblyVersion>3.0.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
