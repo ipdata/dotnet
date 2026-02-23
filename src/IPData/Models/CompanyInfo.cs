@@ -1,19 +1,19 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace IPData.Models
 {
     public class CompanyInfo
     {
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("domain", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("domain")]
         public string Domain { get; set; }
 
-        [JsonProperty("network", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("network")]
         public string Network { get; set; }
 
-        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
     }
 }

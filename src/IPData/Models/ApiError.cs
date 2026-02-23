@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace IPData.Models
 {
@@ -13,7 +13,7 @@ namespace IPData.Models
             Message = message;
         }
 
-        [JsonProperty("message")]
+        [JsonPropertyName("message")]
         public string Message { get; set; }
     }
 }

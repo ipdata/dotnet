@@ -1,17 +1,16 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace IPData.Models
 {
     public class CarrierInfo
     {
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("mcc", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("mcc")]
         public string Mcc { get; set; }
 
-        [JsonProperty("mnc", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("mnc")]
         public string Mnc { get; set; }
     }
-
 }

@@ -1,16 +1,16 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace IPData.Models
 {
     public class BlocklistInfo
     {
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("site", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("site")]
         public string Site { get; set; }
 
-        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
     }
 }

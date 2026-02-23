@@ -1,22 +1,22 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace IPData.Models
 {
     public class Currency
     {
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("code")]
         public string Code { get; set; }
 
-        [JsonProperty("symbol", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; }
 
-        [JsonProperty("native", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("native")]
         public string Native { get; set; }
 
-        [JsonProperty("plural", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("plural")]
         public string Plural { get; set; }
     }
 }
