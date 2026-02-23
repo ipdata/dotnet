@@ -15,6 +15,13 @@ namespace IPData.Tests.Exceptions
             yield return new object[] { new UnauthorizedException(), HttpStatusCode.Unauthorized };
         }
 
+        public static IEnumerable<object[]> ExceptionData()
+        {
+            yield return new object[] { new BadRequestException() };
+            yield return new object[] { new ForbiddenException() };
+            yield return new object[] { new UnauthorizedException() };
+        }
+
         [Theory]
         [MemberData(nameof(ExceptionStatusCodeData))]
         public void Exception_WhenCreate_ShouldReturnCorrectStatusCode(
@@ -24,9 +31,9 @@ namespace IPData.Tests.Exceptions
         }
 
         [Theory]
-        [MemberData(nameof(ExceptionStatusCodeData))]
+        [MemberData(nameof(ExceptionData))]
         public void Exception_WhenCreateWithoutParams_ShouldReturnApiError(
-            ApiException sut, HttpStatusCode _)
+            ApiException sut)
         {
             sut.ApiError.Should().NotBeNull();
         }
