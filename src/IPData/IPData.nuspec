@@ -7,13 +7,13 @@
     <owners>IPData Contributors</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
-    <projectUrl>https://github.com/alexkhil/IPData</projectUrl>
+    <projectUrl>https://github.com/ipdata/dotnet</projectUrl>
     <iconUrl>https://image.ibb.co/iDQdUS/ipdatalogo.png</iconUrl>
     <description>C# library to gather information for an IP using ipdata.co</description>
-    <releaseNotes>Release notes are at https://github.com/alexkhil/IPData/releases </releaseNotes>
+    <releaseNotes>Release notes are at https://github.com/ipdata/dotnet/releases </releaseNotes>
     <copyright>IPData Community</copyright>
     <tags>ip ipdata csharp</tags>
-    <repository type="git" url="https://github.com/alexkhil/IPData" />
+    <repository type="git" url="https://github.com/ipdata/dotnet" />
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="Newtonsoft.Json" version="12.0.2" exclude="Build,Analyzers" />
