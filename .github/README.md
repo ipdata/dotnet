@@ -1,6 +1,8 @@
 
-# ipdata 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IPData/blob/master/LICENSE) [![IPData](https://img.shields.io/nuget/v/IPData.svg)](https://www.nuget.org/packages/IPData/) [![Build Status](https://dev.azure.com/alexkhildev/IPData/_apis/build/status/outer-loop?branchName=master)](https://dev.azure.com/alexkhildev/IPData/_build/latest?definitionId=4?branchName=master) [![Coverage Status](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)](https://img.shields.io/azure-devops/coverage/alexkhildev/ipdata/4/master)
+# ipdata
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alexkhil/IPData/blob/master/LICENSE) [![IPData](https://img.shields.io/nuget/v/IPData.svg)](https://www.nuget.org/packages/IPData/)
+
+> **v3.0.0 Breaking Changes** — All public types have been renamed to follow .NET naming conventions for two-letter acronyms. See the [Migration Guide](#migrating-from-v2-to-v3) for details.
 
 [ipdata.co](https://ipdata.co/) is a fast, reliable and clean service that allows you to look up the location of an IP Address and other data.
 
@@ -17,6 +19,7 @@
   - [Currency](#currency)
   - [Threat](#threat)
 - [EU Endpoint](#eu-endpoint)
+- [Migrating from v2 to v3](#migrating-from-v2-to-v3)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [License](#license)
@@ -139,6 +142,47 @@ var client = new IPDataClient("API_KEY", new Uri("https://eu-api.ipdata.co"));
 
 var ipInfo = await client.Lookup("8.8.8.8");
 ```
+
+## Migrating from v2 to v3
+
+v3.0.0 renames all public types to follow [.NET naming conventions](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions) for two-letter acronyms. It also adds EU endpoint support and a `Company` lookup.
+
+### Renamed types
+
+| v2 | v3 |
+|---|---|
+| `IpDataClient` | `IPDataClient` |
+| `IIpDataClient` | `IIPDataClient` |
+| `IpInfo` | `IPInfo` |
+
+### Namespace change
+
+```diff
+- using IpData;
+- using IpData.Models;
++ using IPData;
++ using IPData.Models;
+```
+
+### NuGet package
+
+The package ID has changed from `IpData` to `IPData`:
+
+```bash
+dotnet remove package IpData
+dotnet add package IPData --version 3.0.0
+```
+
+### New features in v3
+
+- **EU endpoint** — Pass a custom base URL to route requests through EU servers:
+  ```csharp
+  var client = new IPDataClient("API_KEY", new Uri("https://eu-api.ipdata.co"));
+  ```
+- **Company lookup** — Fetch company info for an IP:
+  ```csharp
+  var companyInfo = await client.Company("8.8.8.8");
+  ```
 
 ## Contributing
 
