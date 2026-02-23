@@ -19,6 +19,7 @@
   - [Currency](#currency)
   - [Threat](#threat)
 - [EU Endpoint](#eu-endpoint)
+- [Dependency Injection](#dependency-injection)
 - [Migrating from v2 to v3](#migrating-from-v2-to-v3)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
@@ -141,6 +142,41 @@ To ensure your data stays in the EU, use the EU endpoint by passing a custom bas
 var client = new IPDataClient("API_KEY", new Uri("https://eu-api.ipdata.co"));
 
 var ipInfo = await client.Lookup("8.8.8.8");
+```
+
+## Dependency Injection
+
+If you're using ASP.NET Core, you can register `IPDataClient` with `IHttpClientFactory` to benefit from managed connection pooling and handler lifetimes:
+
+```csharp
+// In Program.cs or Startup.cs
+services.AddHttpClient("ipdata");
+services.AddSingleton<IIPDataClient>(sp =>
+{
+    var factory = sp.GetRequiredService<IHttpClientFactory>();
+    var httpClient = factory.CreateClient("ipdata");
+    return new IPDataClient("API_KEY", httpClient);
+});
+```
+
+Then inject `IIPDataClient` wherever you need it:
+
+```csharp
+public class MyService
+{
+    private readonly IIPDataClient _ipDataClient;
+
+    public MyService(IIPDataClient ipDataClient)
+    {
+        _ipDataClient = ipDataClient;
+    }
+
+    public async Task<string> GetCountry(string ip)
+    {
+        var result = await _ipDataClient.Lookup(ip);
+        return result.CountryName;
+    }
+}
 ```
 
 ## Migrating from v2 to v3
