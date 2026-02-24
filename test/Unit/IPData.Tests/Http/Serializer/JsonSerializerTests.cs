@@ -21,6 +21,32 @@ namespace IPData.Tests.Http.Serializer
             actual.Should().NotBeNull();
         }
 
+        [Fact]
+        public void Deserialize_CountAsString_ParsedCorrectly()
+        {
+            // Arrange - API returns count as a string (issue #35)
+            var json = "{\"count\": \"213586\"}";
+
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            actual.Count.Should().Be(213586);
+        }
+
+        [Fact]
+        public void Deserialize_CountAsNumber_ParsedCorrectly()
+        {
+            // Arrange
+            var json = "{\"count\": 213586}";
+
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            actual.Count.Should().Be(213586);
+        }
+
         [Theory, AutoMoqData]
         public void SerializeIPLookupResult_WhenCalled_ReturnedString(IPLookupResult ipInfo)
         {
