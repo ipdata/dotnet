@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 using IPData.Helpers.Extensions;
+using IPData.Http.Serializer;
 
 namespace IPData.Models
 {
@@ -88,6 +89,7 @@ namespace IPData.Models
         public int? Status { get; set; }
 
         [JsonPropertyName("count")]
+        [JsonConverter(typeof(IntJsonConverter))]
         public int Count { get; set; }
 
         internal static string FieldName(Expression<Func<IPLookupResult, object>> expression)
