@@ -134,6 +134,7 @@ var client = new IPDataClient("API_KEY");
 
 var threatInfo = await client.Threat("69.78.70.144");
 Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
+Console.WriteLine($"Threat is VPN: {threatInfo.IsVpn}, trust score: {threatInfo.Scores?.TrustScore}");
 ```
 
 ### Response fields
@@ -147,6 +148,8 @@ Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
 | `threat.blocklists[].first_seen` | `BlocklistInfo.FirstSeen` | First day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
 | `threat.blocklists[].last_seen` | `BlocklistInfo.LastSeen` | Last day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
 | `threat.blocklists[].days_seen` | `BlocklistInfo.DaysSeen` | Number of days the address was seen on that blocklist (`int?`); `null` when the feed does not report it. |
+| `threat.is_vpn` | `Threat.IsVpn` | `true` when the address is a VPN endpoint (`bool?`); `null` when the response does not include the key. |
+| `threat.scores` | `Threat.Scores` | A `ThreatScores` object with `VpnScore`, `ProxyScore`, `ThreatScore` and `TrustScore` (`int?`, from `vpn_score`, `proxy_score`, `threat_score` and `trust_score`). `Scores` is `null` when the response does not include the object, and a score is `null` when the object does not include it. |
 
 Both flags can be requested on their own or as part of a field selection:
 

@@ -175,6 +175,103 @@ namespace IPData.Tests.Http.Serializer
         }
 
         [Theory]
+        [MemberData(nameof(TestDataSource.VpnData), MemberType = typeof(TestDataSource))]
+        public void Deserialize_VpnResponse_ReadsIsVpnAndScores(string json)
+        {
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            actual.Threat.IsVpn.Should().BeTrue();
+            actual.Threat.Scores.Should().NotBeNull();
+            actual.Threat.Scores.VpnScore.Should().Be(100);
+            actual.Threat.Scores.ProxyScore.Should().Be(99);
+            actual.Threat.Scores.ThreatScore.Should().Be(100);
+            actual.Threat.Scores.TrustScore.Should().Be(0);
+        }
+
+        [Theory]
+        [MemberData(nameof(TestDataSource.SatelliteData), MemberType = typeof(TestDataSource))]
+        public void Deserialize_SatelliteResponse_ReadsIsVpnFalseAndScores(string json)
+        {
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            actual.Threat.IsVpn.Should().BeFalse();
+            actual.Threat.Scores.VpnScore.Should().Be(0);
+            actual.Threat.Scores.ProxyScore.Should().Be(1);
+            actual.Threat.Scores.ThreatScore.Should().Be(8);
+            actual.Threat.Scores.TrustScore.Should().Be(97);
+        }
+
+        [Theory]
+        [MemberData(nameof(TestDataSource.IPLookupResultData), MemberType = typeof(TestDataSource))]
+        public void Deserialize_WhenIsVpnAndScoresAbsent_ReadNull(string json)
+        {
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            actual.Threat.IsVpn.Should().BeNull();
+            actual.Threat.Scores.Should().BeNull();
+        }
+
+        [Fact]
+        public void Deserialize_WhenScoresPartiallyPresent_LeavesMissingScoresNull()
+        {
+            // Arrange
+            var json = "{\"threat\":{\"scores\":{\"trust_score\":42}}}";
+
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            actual.Threat.Scores.TrustScore.Should().Be(42);
+            actual.Threat.Scores.VpnScore.Should().BeNull();
+            actual.Threat.Scores.ProxyScore.Should().BeNull();
+            actual.Threat.Scores.ThreatScore.Should().BeNull();
+        }
+
+        [Fact]
+        public void Deserialize_ThreatResponse_ReadsIsVpnAndScores()
+        {
+            // Arrange: the body of a GET /{ip}/threat request
+            var json = "{\"is_tor\":false,\"is_vpn\":true,\"is_proxy\":false,\"is_threat\":true,\"blocklists\":[]," +
+                       "\"scores\":{\"vpn_score\":100,\"proxy_score\":99,\"threat_score\":100,\"trust_score\":0}}";
+
+            // Act
+            var actual = _sut.Deserialize<Threat>(json);
+
+            // Assert
+            actual.IsVpn.Should().BeTrue();
+            actual.IsThreat.Should().BeTrue();
+            actual.Blocklists.Should().BeEmpty();
+            actual.Scores.VpnScore.Should().Be(100);
+            actual.Scores.ProxyScore.Should().Be(99);
+            actual.Scores.ThreatScore.Should().Be(100);
+            actual.Scores.TrustScore.Should().Be(0);
+        }
+
+        [Fact]
+        public void SerializeThreat_WhenCalled_RoundTripsIsVpnAndScores()
+        {
+            // Arrange
+            var threat = new Threat
+            {
+                IsVpn = true,
+                Scores = new ThreatScores { VpnScore = 100, ProxyScore = 99, ThreatScore = 100, TrustScore = 0 }
+            };
+
+            // Act
+            var actual = _sut.Deserialize<Threat>(_sut.Serialize(threat));
+
+            // Assert
+            actual.IsVpn.Should().BeTrue();
+            actual.Scores.Should().BeEquivalentTo(threat.Scores);
+        }
+
+        [Theory]
         [MemberData(nameof(TestDataSource.BulkData), MemberType = typeof(TestDataSource))]
         public void Deserialize_BulkResponse_CarriesNewFieldsPerItem(string json)
         {
@@ -192,6 +289,10 @@ namespace IPData.Tests.Http.Serializer
             actual[2].IsSatellite.Should().BeFalse();
             actual[2].IsAnycast.Should().BeFalse();
             actual[2].Threat.Blocklists[2].DaysSeen.Should().BeNull();
+            actual[0].Threat.IsVpn.Should().BeFalse();
+            actual[0].Threat.Scores.TrustScore.Should().Be(97);
+            actual[2].Threat.IsVpn.Should().BeTrue();
+            actual[2].Threat.Scores.TrustScore.Should().Be(0);
         }
 
         [Fact]
