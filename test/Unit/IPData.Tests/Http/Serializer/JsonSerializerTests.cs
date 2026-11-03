@@ -23,6 +23,47 @@ namespace IPData.Tests.Http.Serializer
             actual.Should().NotBeNull();
         }
 
+        [Theory]
+        [MemberData(nameof(TestDataSource.IPLookupResultData), MemberType = typeof(TestDataSource))]
+        public void Deserialize_WhenCalled_ReadsLanguages(string json)
+        {
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            var language = actual.Languages.Should().ContainSingle().Which;
+            language.Name.Should().Be("Ukrainian");
+            language.Native.Should().Be("\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430");
+            language.Code.Should().Be("uk");
+        }
+
+        [Theory]
+        [MemberData(nameof(TestDataSource.AnycastData), MemberType = typeof(TestDataSource))]
+        public void Deserialize_AnycastResponse_ReadsLanguages(string json)
+        {
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            var language = actual.Languages.Should().ContainSingle().Which;
+            language.Name.Should().Be("English");
+            language.Native.Should().Be("English");
+            language.Code.Should().Be("en");
+        }
+
+        [Fact]
+        public void Deserialize_WhenLanguagesAbsent_ReadsEmptyList()
+        {
+            // Arrange
+            var json = "{\"ip\":\"1.1.1.1\"}";
+
+            // Act
+            var actual = _sut.Deserialize<IPLookupResult>(json);
+
+            // Assert
+            actual.Languages.Should().NotBeNull().And.BeEmpty();
+        }
+
         [Fact]
         public void Deserialize_CountAsString_ParsedCorrectly()
         {
@@ -147,6 +188,7 @@ namespace IPData.Tests.Http.Serializer
             actual[1].IsAnycast.Should().BeTrue();
             actual[1].IsSatellite.Should().BeFalse();
             actual[1].Threat.Blocklists[0].DaysSeen.Should().Be(1);
+            actual[1].Languages.Should().ContainSingle().Which.Code.Should().Be("en");
             actual[2].IsSatellite.Should().BeFalse();
             actual[2].IsAnycast.Should().BeFalse();
             actual[2].Threat.Blocklists[2].DaysSeen.Should().BeNull();

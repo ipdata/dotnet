@@ -78,8 +78,12 @@ namespace IPData.Models
         [JsonPropertyName("emoji_unicode")]
         public string EmojiUnicode { get; set; }
 
+        /// <summary>
+        /// The languages spoken where the address is located. The setter is public because
+        /// System.Text.Json does not populate collection properties that have a non-public setter.
+        /// </summary>
         [JsonPropertyName("languages")]
-        public List<Language> Languages { get; private set; } = new List<Language>();
+        public List<Language> Languages { get; set; } = new List<Language>();
 
         [JsonPropertyName("currency")]
         public Currency Currency { get; set; }
