@@ -25,6 +25,7 @@
 - [Migrating from v2 to v3](#migrating-from-v2-to-v3)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
+- [Releasing](#releasing)
 - [License](#license)
 
 ## Install
@@ -270,6 +271,10 @@ Please read [CONTRIBUTING.md][CONTRIBUTING] for details on our code of conduct, 
 ## Versioning
 
 We use [SemVer] for versioning. For the versions available, see the tags on this repository. 
+
+## Releasing
+
+Releases are cut by CI from the version in `src/IPData/IPData.csproj`. To ship a new version, bump `VersionPrefix` in a pull request and merge it: the CI run on `master` tags the merge commit `vX.Y.Z`, creates the GitHub release with generated notes and publishes the package to [NuGet](https://www.nuget.org/packages/IPData/). A merge whose version is already tagged publishes nothing.
 
 ## License
 
