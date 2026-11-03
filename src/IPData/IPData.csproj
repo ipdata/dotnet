@@ -12,16 +12,18 @@
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://image.ibb.co/iDQdUS/ipdatalogo.png</PackageIconUrl>
-    <ApplicationIcon>ipdata.ico</ApplicationIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <Copyright>IPData Community</Copyright>
-    <Win32Resource />
     <PackageReleaseNotes>Release notes are at https://github.com/ipdata/dotnet/releases</PackageReleaseNotes>
     <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <VersionPrefix>3.1.0</VersionPrefix>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <!-- System.Text.Json ships in the shared framework on net8.0; only the netstandard2.0 asset needs the package. -->
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
