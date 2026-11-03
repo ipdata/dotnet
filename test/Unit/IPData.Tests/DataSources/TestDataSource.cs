@@ -28,6 +28,33 @@ namespace IPData.Tests.DataSources
             yield return new object[] { ReadJsonFile("Company.json") };
         }
 
+        public static IEnumerable<object[]> SatelliteData()
+        {
+            yield return new object[] { ReadJsonFile("IPLookupResultSatellite.json") };
+        }
+
+        public static IEnumerable<object[]> AnycastData()
+        {
+            yield return new object[] { ReadJsonFile("IPLookupResultAnycast.json") };
+        }
+
+        public static IEnumerable<object[]> VpnData()
+        {
+            yield return new object[] { ReadJsonFile("IPLookupResultVpn.json") };
+        }
+
+        public static IEnumerable<object[]> BulkData()
+        {
+            var items = new[]
+            {
+                ReadJsonFile("IPLookupResultSatellite.json"),
+                ReadJsonFile("IPLookupResultAnycast.json"),
+                ReadJsonFile("IPLookupResultVpn.json")
+            };
+
+            yield return new object[] { "[" + string.Join(",", items) + "]" };
+        }
+
         private static string ReadJsonFile(string fileName)
         {
             var assembly = Assembly.GetExecutingAssembly();

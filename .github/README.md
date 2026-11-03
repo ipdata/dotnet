@@ -18,6 +18,7 @@
   - [Timezone](#timezone)
   - [Currency](#currency)
   - [Threat](#threat)
+  - [Response fields](#response-fields)
 - [Connection reuse and HTTP/2](#connection-reuse-and-http2)
 - [EU Endpoint](#eu-endpoint)
 - [Dependency Injection](#dependency-injection)
@@ -133,6 +134,25 @@ var client = new IPDataClient("API_KEY");
 
 var threatInfo = await client.Threat("69.78.70.144");
 Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
+```
+
+### Response fields
+
+`IPLookupResult` maps the JSON response one property per field (`is_eu` is `IsEu`, `country_name` is `CountryName`, and so on); nested objects such as `asn`, `threat` and `currency` have model classes of their own, and keys the library does not know are ignored. The most recent additions:
+
+| JSON field | Property | Description |
+|---|---|---|
+| `is_satellite` | `IPLookupResult.IsSatellite` | `true` for satellite ISPs. The API sends the key only when it is true; the property reads `false` otherwise. |
+| `is_anycast` | `IPLookupResult.IsAnycast` | `true` for anycast addresses. The API sends the key only when it is true; the property reads `false` otherwise. |
+| `threat.blocklists[].first_seen` | `BlocklistInfo.FirstSeen` | First day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
+| `threat.blocklists[].last_seen` | `BlocklistInfo.LastSeen` | Last day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
+| `threat.blocklists[].days_seen` | `BlocklistInfo.DaysSeen` | Number of days the address was seen on that blocklist (`int?`); `null` when the feed does not report it. |
+
+Both flags can be requested on their own or as part of a field selection:
+
+```csharp
+var isAnycast = await client.Lookup("8.8.8.8", x => x.IsAnycast);
+var flags = await client.Lookup("8.8.8.8", x => x.IsSatellite, x => x.IsAnycast);
 ```
 
 ## Connection reuse and HTTP/2
