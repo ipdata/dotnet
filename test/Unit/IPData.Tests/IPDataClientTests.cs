@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
@@ -81,6 +82,79 @@ namespace IPData.Tests
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
+
+        /// <summary>The package version of the library: its informational version without the "+commit" build metadata.</summary>
+        private static string ExpectedLibraryVersion
+        {
+            get
+            {
+                var version = typeof(IPDataClient).Assembly
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    .InformationalVersion;
+                var metadataStart = version.IndexOf('+');
+                return metadataStart < 0 ? version : version.Substring(0, metadataStart);
+            }
+        }
+
+        private static string ExpectedUserAgent => $"ipdata-dotnet/{ExpectedLibraryVersion}";
+
+        [Fact]
+        public void UserAgent_ShouldNameTheLibraryAndItsPackageVersion()
+        {
+            // Act
+            var userAgent = IPDataClient.UserAgent;
+
+            // Assert
+            userAgent.Product.Name.Should().Be("ipdata-dotnet");
+            userAgent.Product.Version.Should().Be(ExpectedLibraryVersion);
+            userAgent.Product.Version.Should().StartWith(typeof(IPDataClient).Assembly.GetName().Version.ToString(3));
+            userAgent.ToString().Should().Be(ExpectedUserAgent);
+        }
+
+        [Fact]
+        public async Task Lookup_WhenCalled_ShouldSendUserAgentAndAcceptHeaders()
+        {
+            // Arrange
+            var requests = new List<HttpRequestMessage>();
+            var httpClient = new Mock<IHttpClient>();
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .Callback<HttpRequestMessage>(requests.Add)
+                .Returns(() => Task.FromResult(OkJson(LookupJson)));
+
+            var sut = new IPDataClient("test-api-key", httpClient.Object);
+
+            // Act
+            await sut.Lookup("8.8.8.8").ConfigureAwait(false);
+
+            // Assert
+            var request = requests.Should().ContainSingle().Which;
+            request.Headers.UserAgent.ToString().Should().Be(ExpectedUserAgent);
+            request.Headers.Accept.Should().ContainSingle().Which.MediaType.Should().Be("application/json");
+        }
+
+        [Fact]
+        public async Task Lookup_WhenCalledWithIpList_ShouldSendUserAgentAndAcceptHeaders()
+        {
+            // Arrange
+            var requests = new List<HttpRequestMessage>();
+            var httpClient = new Mock<IHttpClient>();
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .Callback<HttpRequestMessage>(requests.Add)
+                .Returns(() => Task.FromResult(OkJson(BulkJson)));
+
+            var sut = new IPDataClient("test-api-key", httpClient.Object);
+
+            // Act
+            await sut.Lookup(new[] { "1.1.1.1", "2.2.2.2" }).ConfigureAwait(false);
+
+            // Assert
+            var request = requests.Should().ContainSingle().Which;
+            request.Method.Should().Be(HttpMethod.Post);
+            request.Headers.UserAgent.ToString().Should().Be(ExpectedUserAgent);
+            request.Headers.Accept.Should().ContainSingle().Which.MediaType.Should().Be("application/json");
+        }
 
         [Theory, AutoMoqData]
         public void IPDataClient_WhenCreatedWithHttpClientAndBaseUrl_ShouldCreateClient(
@@ -227,9 +301,12 @@ namespace IPData.Tests
                 await sut.Threat("8.8.8.8").ConfigureAwait(false);
 
                 // Assert
+                var expectedUserAgent = ExpectedUserAgent;
                 handler.Requests.Should().HaveCount(3);
                 handler.Requests.Should().OnlyContain(r => r.Version == HttpVersion.Version20);
                 handler.Requests.Should().OnlyContain(r => r.VersionPolicy == HttpVersionPolicy.RequestVersionOrLower);
+                handler.Requests.Should().OnlyContain(r => r.Headers.UserAgent.ToString() == expectedUserAgent);
+                handler.Requests.Should().OnlyContain(r => r.Headers.Accept.ToString() == "application/json");
             }
         }
 

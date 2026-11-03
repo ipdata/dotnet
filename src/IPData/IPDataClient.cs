@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +25,8 @@ namespace IPData
     /// client that lives as long as the process does and is never disposed; an <see cref="HttpClient"/> or
     /// <see cref="IHttpClient"/> passed in stays owned by the caller. The class holds no per-request state
     /// and is safe to use from several threads at once. On .NET 5 and later every request asks for HTTP/2
-    /// and falls back to HTTP/1.1 when the server does not negotiate it.
+    /// and falls back to HTTP/1.1 when the server does not negotiate it. Every request carries a
+    /// <c>User-Agent</c> header naming the library and its version and an <c>Accept: application/json</c> header.
     /// </remarks>
     public class IPDataClient : IIPDataClient
     {
@@ -31,6 +34,15 @@ namespace IPData
         private static readonly ISerializer _serializer = new JsonSerializer();
         /// <summary>The exception factory</summary>
         private static readonly IApiExceptionFactory _exceptionFactory = new ApiExceptionFactory();
+
+        /// <summary>The product token sent in the <c>User-Agent</c> header of every request.</summary>
+        internal const string UserAgentProduct = "ipdata-dotnet";
+
+        /// <summary>
+        /// The <c>User-Agent</c> value sent with every request, <c>ipdata-dotnet/&lt;version&gt;</c>, where the
+        /// version is the package version of this assembly. It is read once, when the type is initialized.
+        /// </summary>
+        internal static readonly ProductInfoHeaderValue UserAgent = CreateUserAgent();
 
         /// <summary>The HTTP client</summary>
         private readonly IHttpClient _httpClient;
@@ -215,6 +227,7 @@ namespace IPData
 
         /// <summary>Creates the request message for an API call.</summary>
         /// <remarks>
+        /// Every request carries the library's <c>User-Agent</c> and an <c>Accept: application/json</c> header.
         /// On .NET 5 and later the request asks for HTTP/2 and lets the handler fall back to HTTP/1.1
         /// (HttpVersionPolicy.RequestVersionOrLower). The .NET Standard 2.0 build leaves the default version
         /// alone, because .NET Framework rejects requests that ask for HTTP/2.
@@ -225,11 +238,41 @@ namespace IPData
         private static HttpRequestMessage CreateRequest(HttpMethod method, Uri url)
         {
             var request = new HttpRequestMessage(method, url);
+            request.Headers.UserAgent.Add(UserAgent);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 #if NET5_0_OR_GREATER
             request.Version = System.Net.HttpVersion.Version20;
             request.VersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
 #endif
             return request;
+        }
+
+        /// <summary>
+        /// Builds the <c>User-Agent</c> value from the assembly's informational version, which is the package
+        /// version without the <c>+commit</c> build metadata the SDK appends to it. Falls back to the assembly
+        /// version when the informational version is missing or is not a valid header token.
+        /// </summary>
+        /// <returns>The <c>ipdata-dotnet/&lt;version&gt;</c> product token.</returns>
+        private static ProductInfoHeaderValue CreateUserAgent()
+        {
+            var assembly = typeof(IPDataClient).Assembly;
+            var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+
+            if (!string.IsNullOrWhiteSpace(version))
+            {
+                var metadataStart = version.IndexOf('+');
+                if (metadataStart >= 0)
+                {
+                    version = version.Substring(0, metadataStart);
+                }
+
+                if (ProductInfoHeaderValue.TryParse($"{UserAgentProduct}/{version}", out var userAgent))
+                {
+                    return userAgent;
+                }
+            }
+
+            return new ProductInfoHeaderValue(UserAgentProduct, assembly.GetName().Version?.ToString(3) ?? "0.0.0");
         }
 
         /// <summary>Sends the request asynchronous and disposes the request and the response once the body has been read.</summary>
