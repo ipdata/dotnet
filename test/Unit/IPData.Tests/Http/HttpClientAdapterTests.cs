@@ -71,8 +71,8 @@ namespace IPData.Tests.Http
                 var sut = new HttpClientAdapter(httpClient);
 
                 // Act
-                using (var first = await sut.SendAsync(new HttpRequestMessage(HttpMethod.Get, "https://api.ipdata.co/8.8.8.8")).ConfigureAwait(false))
-                using (var second = await sut.SendAsync(new HttpRequestMessage(HttpMethod.Get, "https://api.ipdata.co/1.1.1.1")).ConfigureAwait(false))
+                using (var first = await sut.SendAsync(new HttpRequestMessage(HttpMethod.Get, "https://api.ipdata.co/8.8.8.8")))
+                using (var second = await sut.SendAsync(new HttpRequestMessage(HttpMethod.Get, "https://api.ipdata.co/1.1.1.1")))
                 {
                     // Assert
                     first.StatusCode.Should().Be(HttpStatusCode.OK);
