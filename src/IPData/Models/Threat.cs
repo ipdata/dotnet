@@ -8,6 +8,12 @@ namespace IPData.Models
         [JsonPropertyName("is_tor")]
         public bool? IsTor { get; set; }
 
+        /// <summary>
+        /// Whether the address is a VPN endpoint, or <c>null</c> when the response does not include the key.
+        /// </summary>
+        [JsonPropertyName("is_vpn")]
+        public bool? IsVpn { get; set; }
+
         [JsonPropertyName("is_proxy")]
         public bool? IsProxy { get; set; }
 
@@ -38,5 +44,12 @@ namespace IPData.Models
         /// </summary>
         [JsonPropertyName("blocklists")]
         public List<BlocklistInfo> Blocklists { get; set; } = new List<BlocklistInfo>();
+
+        /// <summary>
+        /// The scores the API reports for the address (<c>vpn_score</c>, <c>proxy_score</c>, <c>threat_score</c>
+        /// and <c>trust_score</c>), or <c>null</c> when the response does not include the <c>scores</c> object.
+        /// </summary>
+        [JsonPropertyName("scores")]
+        public ThreatScores Scores { get; set; }
     }
 }

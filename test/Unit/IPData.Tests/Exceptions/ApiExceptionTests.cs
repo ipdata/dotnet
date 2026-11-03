@@ -1,4 +1,8 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
+using System.Runtime.Serialization;
 using FluentAssertions;
 using IPData.Exceptions;
 using Xunit;
@@ -77,6 +81,33 @@ namespace IPData.Tests.Exceptions
 
             // Assert
             sut.Message.Should().Be(message);
+        }
+
+        public static IEnumerable<object[]> ExceptionTypes()
+        {
+            yield return new object[] { typeof(ApiException) };
+            yield return new object[] { typeof(BadRequestException) };
+            yield return new object[] { typeof(ForbiddenException) };
+            yield return new object[] { typeof(UnauthorizedException) };
+        }
+
+        [Theory]
+        [MemberData(nameof(ExceptionTypes))]
+        public void Exception_ShouldKeepTheProtectedSerializationConstructorAndMarkItObsolete(Type exceptionType)
+        {
+            // Act
+            var constructor = exceptionType.GetConstructor(
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                null,
+                new[] { typeof(SerializationInfo), typeof(StreamingContext) },
+                null);
+
+            // Assert
+            constructor.Should().NotBeNull();
+            constructor.IsFamily.Should().BeTrue();
+            var obsolete = constructor.GetCustomAttribute<ObsoleteAttribute>();
+            obsolete.Should().NotBeNull();
+            obsolete.DiagnosticId.Should().Be("SYSLIB0051");
         }
     }
 }

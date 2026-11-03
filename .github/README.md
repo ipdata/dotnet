@@ -134,6 +134,7 @@ var client = new IPDataClient("API_KEY");
 
 var threatInfo = await client.Threat("69.78.70.144");
 Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
+Console.WriteLine($"Threat is VPN: {threatInfo.IsVpn}, trust score: {threatInfo.Scores?.TrustScore}");
 ```
 
 ### Response fields
@@ -147,6 +148,8 @@ Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
 | `threat.blocklists[].first_seen` | `BlocklistInfo.FirstSeen` | First day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
 | `threat.blocklists[].last_seen` | `BlocklistInfo.LastSeen` | Last day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
 | `threat.blocklists[].days_seen` | `BlocklistInfo.DaysSeen` | Number of days the address was seen on that blocklist (`int?`); `null` when the feed does not report it. |
+| `threat.is_vpn` | `Threat.IsVpn` | `true` when the address is a VPN endpoint (`bool?`); `null` when the response does not include the key. |
+| `threat.scores` | `Threat.Scores` | A `ThreatScores` object with `VpnScore`, `ProxyScore`, `ThreatScore` and `TrustScore` (`int?`, from `vpn_score`, `proxy_score`, `threat_score` and `trust_score`). `Scores` is `null` when the response does not include the object, and a score is `null` when the object does not include it. |
 
 Both flags can be requested on their own or as part of a field selection:
 
@@ -163,6 +166,7 @@ An `IPDataClient` keeps a persistent HTTPS connection pool for as long as it liv
 - **Shared default pool.** Clients constructed without an `HttpClient` (`new IPDataClient("API_KEY")`, with or without a base URL) share one process-wide `HttpClient`. It lives for the lifetime of the process and is never disposed, so there is nothing to close. On .NET 8+ it keeps idle connections for 60 seconds, recycles every connection after 5 minutes and sends HTTP/2 keep-alive pings every 30 seconds.
 - **HTTP/2 on .NET 8+.** The `net8.0` build asks for HTTP/2 on every request (`HttpVersionPolicy.RequestVersionOrLower`) and falls back to HTTP/1.1 automatically when the server or a proxy does not negotiate it. The `netstandard2.0` build, used by .NET Framework and other .NET Standard consumers, never asks for HTTP/2 and relies on HTTP/1.1 keep-alive.
 - **Bring your own `HttpClient`.** Pass an `HttpClient` to send every request through it, for example one managed by `IHttpClientFactory` (see [Dependency Injection](#dependency-injection)). It can be combined with a custom base URL through the `IPDataClient(string apiKey, HttpClient httpClient, Uri baseUrl)` constructor. You own that client's lifetime; the library never disposes it. The same applies to a custom `IHttpClient` implementation.
+- **Request headers.** Every request carries `User-Agent: ipdata-dotnet/<version>` (the package version) and `Accept: application/json`.
 
 ```csharp
 // One client for the whole application; reuse it for every lookup.

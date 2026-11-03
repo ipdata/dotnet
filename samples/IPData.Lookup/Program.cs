@@ -45,6 +45,7 @@ namespace IPData.Lookup
             // Get threat info from IP
             var threatInfo = await client.Threat("69.78.70.144");
             Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
+            Console.WriteLine($"Threat is VPN: {threatInfo.IsVpn}, trust score: {threatInfo.Scores?.TrustScore}");
 
             // Get IP data for multiple IPs
             var ipInfoList = await client.Lookup(new[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" });

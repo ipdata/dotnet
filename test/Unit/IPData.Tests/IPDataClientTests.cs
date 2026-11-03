@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
@@ -82,6 +83,79 @@ namespace IPData.Tests
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
 
+        /// <summary>The package version of the library: its informational version without the "+commit" build metadata.</summary>
+        private static string ExpectedLibraryVersion
+        {
+            get
+            {
+                var version = typeof(IPDataClient).Assembly
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    .InformationalVersion;
+                var metadataStart = version.IndexOf('+');
+                return metadataStart < 0 ? version : version.Substring(0, metadataStart);
+            }
+        }
+
+        private static string ExpectedUserAgent => $"ipdata-dotnet/{ExpectedLibraryVersion}";
+
+        [Fact]
+        public void UserAgent_ShouldNameTheLibraryAndItsPackageVersion()
+        {
+            // Act
+            var userAgent = IPDataClient.UserAgent;
+
+            // Assert
+            userAgent.Product.Name.Should().Be("ipdata-dotnet");
+            userAgent.Product.Version.Should().Be(ExpectedLibraryVersion);
+            userAgent.Product.Version.Should().StartWith(typeof(IPDataClient).Assembly.GetName().Version.ToString(3));
+            userAgent.ToString().Should().Be(ExpectedUserAgent);
+        }
+
+        [Fact]
+        public async Task Lookup_WhenCalled_ShouldSendUserAgentAndAcceptHeaders()
+        {
+            // Arrange
+            var requests = new List<HttpRequestMessage>();
+            var httpClient = new Mock<IHttpClient>();
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .Callback<HttpRequestMessage>(requests.Add)
+                .Returns(() => Task.FromResult(OkJson(LookupJson)));
+
+            var sut = new IPDataClient("test-api-key", httpClient.Object);
+
+            // Act
+            await sut.Lookup("8.8.8.8");
+
+            // Assert
+            var request = requests.Should().ContainSingle().Which;
+            request.Headers.UserAgent.ToString().Should().Be(ExpectedUserAgent);
+            request.Headers.Accept.Should().ContainSingle().Which.MediaType.Should().Be("application/json");
+        }
+
+        [Fact]
+        public async Task Lookup_WhenCalledWithIpList_ShouldSendUserAgentAndAcceptHeaders()
+        {
+            // Arrange
+            var requests = new List<HttpRequestMessage>();
+            var httpClient = new Mock<IHttpClient>();
+            httpClient
+                .Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>()))
+                .Callback<HttpRequestMessage>(requests.Add)
+                .Returns(() => Task.FromResult(OkJson(BulkJson)));
+
+            var sut = new IPDataClient("test-api-key", httpClient.Object);
+
+            // Act
+            await sut.Lookup(new[] { "1.1.1.1", "2.2.2.2" });
+
+            // Assert
+            var request = requests.Should().ContainSingle().Which;
+            request.Method.Should().Be(HttpMethod.Post);
+            request.Headers.UserAgent.ToString().Should().Be(ExpectedUserAgent);
+            request.Headers.Accept.Should().ContainSingle().Which.MediaType.Should().Be("application/json");
+        }
+
         [Theory, AutoMoqData]
         public void IPDataClient_WhenCreatedWithHttpClientAndBaseUrl_ShouldCreateClient(
             string apiKey)
@@ -121,7 +195,7 @@ namespace IPData.Tests
                 var sut = new IPDataClient("test-api-key", httpClient, new Uri("https://eu-api.ipdata.co"));
 
                 // Act
-                var actual = await sut.Lookup("8.8.8.8").ConfigureAwait(false);
+                var actual = await sut.Lookup("8.8.8.8");
 
                 // Assert
                 actual.Ip.Should().Be("8.8.8.8");
@@ -144,7 +218,7 @@ namespace IPData.Tests
             var sut = new IPDataClient("test-api-key", httpClient.Object);
 
             // Act
-            var actual = await sut.Lookup("8.8.8.8").ConfigureAwait(false);
+            var actual = await sut.Lookup("8.8.8.8");
 
             // Assert
             actual.Ip.Should().Be("8.8.8.8");
@@ -174,7 +248,7 @@ namespace IPData.Tests
             var sut = new IPDataClient("test-api-key", httpClient.Object);
 
             // Act
-            var actual = await sut.Lookup(new[] { "1.1.1.1", "2.2.2.2" }).ConfigureAwait(false);
+            var actual = await sut.Lookup(new[] { "1.1.1.1", "2.2.2.2" });
 
             // Assert
             actual.Select(x => x.Ip).Should().Equal("1.1.1.1", "2.2.2.2");
@@ -200,7 +274,7 @@ namespace IPData.Tests
             var sut = new IPDataClient("test-api-key", httpClient.Object);
 
             // Act
-            var actual = await sut.Lookup(new[] { "1.1.1.1", "2.2.2.2" }).ConfigureAwait(false);
+            var actual = await sut.Lookup(new[] { "1.1.1.1", "2.2.2.2" });
 
             // Assert: the body was deserialized before anything was disposed...
             actual.Select(x => x.Ip).Should().Equal("1.1.1.1", "2.2.2.2");
@@ -208,8 +282,8 @@ namespace IPData.Tests
             // ...and both messages are disposed afterwards, so their content can no longer be read.
             Func<Task> readRequest = () => request.Content.ReadAsStringAsync();
             Func<Task> readResponse = () => response.Content.ReadAsStringAsync();
-            await readRequest.Should().ThrowAsync<ObjectDisposedException>().ConfigureAwait(false);
-            await readResponse.Should().ThrowAsync<ObjectDisposedException>().ConfigureAwait(false);
+            await readRequest.Should().ThrowAsync<ObjectDisposedException>();
+            await readResponse.Should().ThrowAsync<ObjectDisposedException>();
         }
 
         [Fact]
@@ -222,14 +296,17 @@ namespace IPData.Tests
                 var sut = new IPDataClient("test-api-key", httpClient);
 
                 // Act
-                await sut.Lookup().ConfigureAwait(false);
-                await sut.Lookup("8.8.8.8").ConfigureAwait(false);
-                await sut.Threat("8.8.8.8").ConfigureAwait(false);
+                await sut.Lookup();
+                await sut.Lookup("8.8.8.8");
+                await sut.Threat("8.8.8.8");
 
                 // Assert
+                var expectedUserAgent = ExpectedUserAgent;
                 handler.Requests.Should().HaveCount(3);
                 handler.Requests.Should().OnlyContain(r => r.Version == HttpVersion.Version20);
                 handler.Requests.Should().OnlyContain(r => r.VersionPolicy == HttpVersionPolicy.RequestVersionOrLower);
+                handler.Requests.Should().OnlyContain(r => r.Headers.UserAgent.ToString() == expectedUserAgent);
+                handler.Requests.Should().OnlyContain(r => r.Headers.Accept.ToString() == "application/json");
             }
         }
 
@@ -253,10 +330,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Lookup().ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Lookup(); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -272,10 +349,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Lookup("69.78.70.144").ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Lookup("69.78.70.144"); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -292,10 +369,10 @@ namespace IPData.Tests
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
             var ipList = new string[] { "1.1.1.1", "2.2.2.2", "3.3.3.3" };
-            Func<Task> act = async () => { await sut.Lookup(ipList).ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Lookup(ipList); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -311,10 +388,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Lookup("1.1.1.1", x => x.CountryName).ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Lookup("1.1.1.1", x => x.CountryName); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -330,10 +407,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Lookup("1.1.1.1", x => x.Asn, x => x.City).ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Lookup("1.1.1.1", x => x.Asn, x => x.City); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -349,10 +426,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Company("1.1.1.1").ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Company("1.1.1.1"); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -368,10 +445,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Carrier("1.1.1.1").ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Carrier("1.1.1.1"); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -387,10 +464,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Asn("1.1.1.1").ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Asn("1.1.1.1"); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -406,10 +483,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.TimeZone("1.1.1.1").ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.TimeZone("1.1.1.1"); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -425,10 +502,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Currency("1.1.1.1").ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Currency("1.1.1.1"); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
 
@@ -444,10 +521,10 @@ namespace IPData.Tests
                 .ReturnsAsync(new HttpResponseMessage(statusCode));
 
             var sut = new IPDataClient("test-api-key", httpClient.Object);
-            Func<Task> act = async () => { await sut.Threat("1.1.1.1").ConfigureAwait(false); };
+            Func<Task> act = async () => { await sut.Threat("1.1.1.1"); };
 
             // Act/Assert
-            (await act.Should().ThrowAsync<ApiException>().ConfigureAwait(false))
+            (await act.Should().ThrowAsync<ApiException>())
                 .And.Should().BeOfType(expectedExceptionType);
         }
     }

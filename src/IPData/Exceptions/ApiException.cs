@@ -10,6 +10,18 @@ namespace IPData.Exceptions
     [Serializable]
     public class ApiException : Exception
     {
+#if NET8_0_OR_GREATER
+        /// <summary>The message of the obsoletion that .NET 8 and later put on formatter-based serialization.</summary>
+        internal const string SerializationObsoleteMessage =
+            "This API supports obsolete formatter-based serialization. It should not be called or extended by application code.";
+
+        /// <summary>The diagnostic id of that obsoletion.</summary>
+        internal const string SerializationDiagnosticId = "SYSLIB0051";
+
+        /// <summary>The documentation link of that obsoletion.</summary>
+        internal const string SerializationUrlFormat = "https://aka.ms/dotnet-warnings/{0}";
+#endif
+
         private static readonly ISerializer _serializer = new JsonSerializer();
 
         [NonSerialized]
@@ -45,7 +57,15 @@ namespace IPData.Exceptions
             ApiError = apiError ?? throw new ArgumentNullException(nameof(apiError), "ApiError can't be null");
         }
 
+        /// <summary>Initializes a new instance of the <see cref="ApiException"/> class with serialized data.</summary>
+        /// <remarks>
+        /// Formatter-based serialization is obsolete on .NET 8 and later (SYSLIB0051). The constructor is kept on
+        /// every target so the type has the same shape everywhere, and carries that obsoletion on .NET 8 and later.
+        /// </remarks>
         [ExcludeFromCodeCoverage]
+#if NET8_0_OR_GREATER
+        [Obsolete(SerializationObsoleteMessage, DiagnosticId = SerializationDiagnosticId, UrlFormat = SerializationUrlFormat)]
+#endif
         protected ApiException(SerializationInfo serializationInfo, StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {
