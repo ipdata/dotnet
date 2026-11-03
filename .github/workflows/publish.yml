@@ -9,10 +9,19 @@ on:
         description: Release tag to publish, for example v3.1.0
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish, for example v3.1.0
+        required: true
+        type: string
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -40,5 +49,14 @@ jobs:
       - name: Pack
         run: dotnet pack src/IPData/IPData.csproj --configuration Release --no-build --output ./nupkg /p:Version=${{ steps.version.outputs.VERSION }}
 
+      # Exchanges the job's OpenID Connect token for a short-lived NuGet API key
+      # through the trusted publishing policy of the nuget.org user "ipdata";
+      # no long-lived API key is stored in the repository.
+      - name: Log in to NuGet
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ipdata
+
       - name: Publish to NuGet
-        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
