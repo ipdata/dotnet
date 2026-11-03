@@ -16,6 +16,15 @@ using IPData.Models;
 namespace IPData
 {
     /// <summary>Implementation of <see cref="IIPDataClient"/>.</summary>
+    /// <remarks>
+    /// Create one instance per process (or one per API key or endpoint) and reuse it for every lookup: the
+    /// instance keeps its HTTPS connections pooled and reuses them across requests instead of paying a TLS
+    /// handshake per call. Instances created without an <see cref="HttpClient"/> share one process-wide
+    /// client that lives as long as the process does and is never disposed; an <see cref="HttpClient"/> or
+    /// <see cref="IHttpClient"/> passed in stays owned by the caller. The class holds no per-request state
+    /// and is safe to use from several threads at once. On .NET 5 and later every request asks for HTTP/2
+    /// and falls back to HTTP/1.1 when the server does not negotiate it.
+    /// </remarks>
     public class IPDataClient : IIPDataClient
     {
         /// <summary>The serializer</summary>
@@ -63,6 +72,16 @@ namespace IPData
         {
         }
 
+        /// <summary>Initializes a new instance of the <see cref="IPDataClient"/> class with a caller-owned HTTP client and a custom base URL.</summary>
+        /// <param name="apiKey">The API key.</param>
+        /// <param name="httpClient">The HTTP client. The caller owns it and controls its lifetime.</param>
+        /// <param name="baseUrl">The base URL (e.g. https://eu-api.ipdata.co for the EU endpoint). Defaults to https://api.ipdata.co when null.</param>
+        /// <exception cref="ArgumentNullException">httpClient - The {nameof(httpClient)}</exception>
+        public IPDataClient(string apiKey, HttpClient httpClient, Uri baseUrl)
+            : this(apiKey, new HttpClientAdapter(httpClient), baseUrl)
+        {
+        }
+
         /// <summary>Initializes a new instance of the <see cref="IPDataClient"/> class.</summary>
         /// <param name="apiKey">The API key.</param>
         /// <param name="httpClient">The HTTP client.</param>
@@ -94,7 +113,7 @@ namespace IPData
         public async Task<IPLookupResult> Lookup(CultureInfo culture)
         {
             var url = _apiUrls.Get(ApiKey, culture);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IPLookupResult>(json);
         }
@@ -107,7 +126,7 @@ namespace IPData
         public async Task<IPLookupResult> Lookup(string ip, CultureInfo culture)
         {
             var url = _apiUrls.Get(ApiKey, ip, culture);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IPLookupResult>(json);
         }
@@ -116,7 +135,7 @@ namespace IPData
         public Task<string> Lookup(string ip, Expression<Func<IPLookupResult, object>> fieldSelector)
         {
             var url = _apiUrls.Get(ApiKey, ip, fieldSelector);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             return SendRequestAsync(_httpClient, request);
         }
         
@@ -124,7 +143,7 @@ namespace IPData
         public async Task<IPLookupResult> Lookup(string ip, params Expression<Func<IPLookupResult, object>>[] fieldSelectors)
         {
             var url = _apiUrls.Get(ApiKey, ip, fieldSelectors);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IPLookupResult>(json);
         }
@@ -133,10 +152,8 @@ namespace IPData
         public async Task<IEnumerable<IPLookupResult>> Lookup(IReadOnlyCollection<string> ips)
         {
             var url = _apiUrls.Bulk(ApiKey);
-            var request = new HttpRequestMessage(HttpMethod.Post, url)
-            {
-                Content = new StringContent(_serializer.Serialize(ips), Encoding.UTF8, "application/json")
-            };
+            var request = CreateRequest(HttpMethod.Post, url);
+            request.Content = new StringContent(_serializer.Serialize(ips), Encoding.UTF8, "application/json");
 
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<IEnumerable<IPLookupResult>>(json);
@@ -146,7 +163,7 @@ namespace IPData
         public async Task<CompanyInfo> Company(string ip)
         {
             var url = _apiUrls.Company(ApiKey, ip);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<CompanyInfo>(json);
         }
@@ -155,7 +172,7 @@ namespace IPData
         public async Task<CarrierInfo> Carrier(string ip)
         {
             var url = _apiUrls.Carrier(ApiKey, ip);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<CarrierInfo>(json);
         }
@@ -164,7 +181,7 @@ namespace IPData
         public async Task<AsnInfo> Asn(string ip)
         {
             var url = _apiUrls.Asn(ApiKey, ip);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<AsnInfo>(json);
         }
@@ -173,7 +190,7 @@ namespace IPData
         public async Task<Models.TimeZone> TimeZone(string ip)
         {
             var url = _apiUrls.TimeZone(ApiKey, ip);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<Models.TimeZone>(json);
         }
@@ -182,7 +199,7 @@ namespace IPData
         public async Task<Currency> Currency(string ip)
         {
             var url = _apiUrls.Currency(ApiKey, ip);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<Currency>(json);
         }
@@ -191,31 +208,53 @@ namespace IPData
         public async Task<Threat> Threat(string ip)
         {
             var url = _apiUrls.Threat(ApiKey, ip);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = CreateRequest(HttpMethod.Get, url);
             var json = await SendRequestAsync(_httpClient, request).ConfigureAwait(false);
             return _serializer.Deserialize<Threat>(json);
         }
 
-        /// <summary>Sends the request asynchronous.</summary>
+        /// <summary>Creates the request message for an API call.</summary>
+        /// <remarks>
+        /// On .NET 5 and later the request asks for HTTP/2 and lets the handler fall back to HTTP/1.1
+        /// (HttpVersionPolicy.RequestVersionOrLower). The .NET Standard 2.0 build leaves the default version
+        /// alone, because .NET Framework rejects requests that ask for HTTP/2.
+        /// </remarks>
+        /// <param name="method">The HTTP method.</param>
+        /// <param name="url">The request URL.</param>
+        /// <returns>The request message.</returns>
+        private static HttpRequestMessage CreateRequest(HttpMethod method, Uri url)
+        {
+            var request = new HttpRequestMessage(method, url);
+#if NET5_0_OR_GREATER
+            request.Version = System.Net.HttpVersion.Version20;
+            request.VersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
+#endif
+            return request;
+        }
+
+        /// <summary>Sends the request asynchronous and disposes the request and the response once the body has been read.</summary>
         /// <param name="httpClient">The HTTP client.</param>
         /// <param name="request">The request.</param>
-        /// <returns>The HTTP request body.</returns>
+        /// <returns>The HTTP response body.</returns>
         private static async Task<string> SendRequestAsync(IHttpClient httpClient, HttpRequestMessage request)
         {
-            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
-            var content = string.Empty;
-
-            if (response.Content != null)
+            using (request)
+            using (var response = await httpClient.SendAsync(request).ConfigureAwait(false))
             {
-                content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            }
+                var content = string.Empty;
 
-            if (response.IsSuccessStatusCode)
-            {
-                return content;
-            }
+                if (response.Content != null)
+                {
+                    content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                }
 
-            throw _exceptionFactory.Create(response.StatusCode, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return content;
+                }
+
+                throw _exceptionFactory.Create(response.StatusCode, content);
+            }
         }
     }
 }

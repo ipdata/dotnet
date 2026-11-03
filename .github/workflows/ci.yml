@@ -26,3 +26,6 @@ jobs:
 
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Pack
+        run: dotnet pack src/IPData/IPData.csproj --configuration Release --no-build

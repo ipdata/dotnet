@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace IPData.Http.Serializer
 {
@@ -6,7 +7,11 @@ namespace IPData.Http.Serializer
     {
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
+#if NET5_0_OR_GREATER
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+#else
             IgnoreNullValues = true
+#endif
         };
 
         public T Deserialize<T>(string json)
