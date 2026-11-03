@@ -16,6 +16,20 @@ namespace IPData.Models
         [JsonPropertyName("is_eu")]
         public bool? IsEu { get; set; }
 
+        /// <summary>
+        /// Whether the address belongs to a satellite ISP. The API sends the key only when it is true,
+        /// so this reads <c>false</c> when it is absent.
+        /// </summary>
+        [JsonPropertyName("is_satellite")]
+        public bool IsSatellite { get; set; }
+
+        /// <summary>
+        /// Whether the address is an anycast address. The API sends the key only when it is true,
+        /// so this reads <c>false</c> when it is absent.
+        /// </summary>
+        [JsonPropertyName("is_anycast")]
+        public bool IsAnycast { get; set; }
+
         [JsonPropertyName("city")]
         public string City { get; set; }
 

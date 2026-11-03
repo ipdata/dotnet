@@ -32,7 +32,11 @@ namespace IPData.Models
         [JsonPropertyName("is_datacenter")]
         public bool? IsDatacenter { get; set; }
 
+        /// <summary>
+        /// The blocklists the address appears on. The setter is public because System.Text.Json
+        /// does not populate collection properties that have a non-public setter.
+        /// </summary>
         [JsonPropertyName("blocklists")]
-        public List<BlocklistInfo> Blocklists { get; private set; } = new List<BlocklistInfo>();
+        public List<BlocklistInfo> Blocklists { get; set; } = new List<BlocklistInfo>();
     }
 }

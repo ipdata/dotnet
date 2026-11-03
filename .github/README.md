@@ -18,6 +18,8 @@
   - [Timezone](#timezone)
   - [Currency](#currency)
   - [Threat](#threat)
+  - [Response fields](#response-fields)
+- [Connection reuse and HTTP/2](#connection-reuse-and-http2)
 - [EU Endpoint](#eu-endpoint)
 - [Dependency Injection](#dependency-injection)
 - [Migrating from v2 to v3](#migrating-from-v2-to-v3)
@@ -132,6 +134,43 @@ var client = new IPDataClient("API_KEY");
 
 var threatInfo = await client.Threat("69.78.70.144");
 Console.WriteLine($"Threat is Tor: {threatInfo.IsTor}");
+```
+
+### Response fields
+
+`IPLookupResult` maps the JSON response one property per field (`is_eu` is `IsEu`, `country_name` is `CountryName`, and so on); nested objects such as `asn`, `threat` and `currency` have model classes of their own, and keys the library does not know are ignored. The most recent additions:
+
+| JSON field | Property | Description |
+|---|---|---|
+| `is_satellite` | `IPLookupResult.IsSatellite` | `true` for satellite ISPs. The API sends the key only when it is true; the property reads `false` otherwise. |
+| `is_anycast` | `IPLookupResult.IsAnycast` | `true` for anycast addresses. The API sends the key only when it is true; the property reads `false` otherwise. |
+| `threat.blocklists[].first_seen` | `BlocklistInfo.FirstSeen` | First day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
+| `threat.blocklists[].last_seen` | `BlocklistInfo.LastSeen` | Last day the address was seen on that blocklist, a `YYYY-MM-DD` (UTC) string; `null` when the feed does not report it. |
+| `threat.blocklists[].days_seen` | `BlocklistInfo.DaysSeen` | Number of days the address was seen on that blocklist (`int?`); `null` when the feed does not report it. |
+
+Both flags can be requested on their own or as part of a field selection:
+
+```csharp
+var isAnycast = await client.Lookup("8.8.8.8", x => x.IsAnycast);
+var flags = await client.Lookup("8.8.8.8", x => x.IsSatellite, x => x.IsAnycast);
+```
+
+## Connection reuse and HTTP/2
+
+An `IPDataClient` keeps a persistent HTTPS connection pool for as long as it lives. Create one client per process (or one per API key or endpoint), keep it, and reuse it for every lookup: a reused connection skips the TCP and TLS handshake that every new connection pays. Requests to api.ipdata.co are multiplexed over HTTP/2 when the platform negotiates it, and fall back to HTTP/1.1 keep-alive otherwise.
+
+- **Thread safety.** `IPDataClient` holds no per-request state; one instance can serve any number of concurrent lookups from any thread.
+- **Shared default pool.** Clients constructed without an `HttpClient` (`new IPDataClient("API_KEY")`, with or without a base URL) share one process-wide `HttpClient`. It lives for the lifetime of the process and is never disposed, so there is nothing to close. On .NET 8+ it keeps idle connections for 60 seconds, recycles every connection after 5 minutes and sends HTTP/2 keep-alive pings every 30 seconds.
+- **HTTP/2 on .NET 8+.** The `net8.0` build asks for HTTP/2 on every request (`HttpVersionPolicy.RequestVersionOrLower`) and falls back to HTTP/1.1 automatically when the server or a proxy does not negotiate it. The `netstandard2.0` build, used by .NET Framework and other .NET Standard consumers, never asks for HTTP/2 and relies on HTTP/1.1 keep-alive.
+- **Bring your own `HttpClient`.** Pass an `HttpClient` to send every request through it, for example one managed by `IHttpClientFactory` (see [Dependency Injection](#dependency-injection)). It can be combined with a custom base URL through the `IPDataClient(string apiKey, HttpClient httpClient, Uri baseUrl)` constructor. You own that client's lifetime; the library never disposes it. The same applies to a custom `IHttpClient` implementation.
+
+```csharp
+// One client for the whole application; reuse it for every lookup.
+var client = new IPDataClient("API_KEY");
+
+// Your own HttpClient, here combined with the EU endpoint; you dispose it at shutdown.
+var httpClient = new HttpClient();
+var euClient = new IPDataClient("API_KEY", httpClient, new Uri("https://eu-api.ipdata.co"));
 ```
 
 ## EU Endpoint

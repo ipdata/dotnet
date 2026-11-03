@@ -102,6 +102,45 @@ namespace IPData.Tests.Helpers
         }
 
         [Theory, AutoMoqData]
+        public void Get_WhenCalledWithIsSatellite_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var expectedUrl = $"https://api.ipdata.co/{ip}/is_satellite?api-key={apiKey}";
+
+            // Act
+            var url = new ApiUrls().Get(apiKey, ip, x => x.IsSatellite);
+
+            // Assert
+            url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Theory, AutoMoqData]
+        public void Get_WhenCalledWithIsAnycast_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var expectedUrl = $"https://api.ipdata.co/{ip}/is_anycast?api-key={apiKey}";
+
+            // Act
+            var url = new ApiUrls().Get(apiKey, ip, x => x.IsAnycast);
+
+            // Assert
+            url.AbsoluteUri.Should().Be(expectedUrl);
+        }
+
+        [Theory, AutoMoqData]
+        public void Get_WhenCalledWithIsSatelliteAndIsAnycast_ReturnedUrl(string apiKey, string ip)
+        {
+            // Arrange
+            var expectedUrl = new Uri($"https://api.ipdata.co/{ip}?fields=is_satellite%2cis_anycast&api-key={apiKey}");
+
+            // Act
+            var url = new ApiUrls().Get(apiKey, ip, x => x.IsSatellite, x => x.IsAnycast);
+
+            // Assert
+            url.Should().BeEquivalentTo(expectedUrl);
+        }
+
+        [Theory, AutoMoqData]
         public void Get_WhenCalledWithInvalidProp_ReturnedUrl(string apiKey, string ip)
         {
             // Arrange
